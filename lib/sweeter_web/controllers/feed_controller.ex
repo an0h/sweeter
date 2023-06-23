@@ -3,6 +3,7 @@ defmodule SweeterWeb.FeedController do
 
   alias Sweeter.API
   alias Sweeter.API.Feed
+  alias Sweeter.Content.Item
 
   action_fallback SweeterWeb.FallbackController
 
@@ -39,5 +40,20 @@ defmodule SweeterWeb.FeedController do
     with {:ok, %Feed{}} <- API.delete_feed(feed) do
       send_resp(conn, :no_content, "")
     end
+  end
+
+  def api_item_create(conn, %{"body" => body, "title" => title}) do
+    case Item.create_item(%{body: body, title: title, source: "api"}) do
+      {:ok, item} ->
+        render(conn, "item.json", item: item)
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        send_resp(conn, 404, "Item not created")
+    end
+  end
+
+  def api_item_list(conn, _) do
+    items = Item.get_all()
+    render(conn, "items.json", items: items)
   end
 end

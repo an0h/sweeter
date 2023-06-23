@@ -1,6 +1,8 @@
 defmodule Sweeter.Content.Item do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Sweeter.Repo
+  alias Sweeter.Content.Item
 
   schema "items" do
     field :body, :string
@@ -16,6 +18,17 @@ defmodule Sweeter.Content.Item do
   def changeset(item, attrs) do
     item
     |> cast(attrs, [:body, :title, :deleted, :format, :source])
-    |> validate_required([:body, :title, :deleted, :format, :source])
+    |> validate_required([:title])
+  end
+
+  def create_item(attrs \\ %{}) do
+    {:ok, item} = %Item{}
+    |> Item.changeset(attrs)
+    |> Repo.insert()
+    %Item{id: item_id} = item
+    # if attrs["ipfscids"] != "" do
+    #   Image.create_item_image(item_id, attrs["ipfscids"])
+    # end
+    {:ok, item}
   end
 end

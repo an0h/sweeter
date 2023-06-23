@@ -12,6 +12,7 @@ defmodule SweeterWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug SweeterWeb.APIaccess
   end
 
   scope "/", SweeterWeb do
@@ -24,8 +25,12 @@ defmodule SweeterWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  scope "/api", SweeterWeb do
+  scope "/", SweeterWeb do
     pipe_through :api
+
+    get "/api", FeedController, :index
+    get "/api/item/list", FeedController, :api_item_list
+    post "/api/item/create", FeedController, :api_item_create
 
     resources "/feeds", FeedController, except: [:new, :edit]
   end
