@@ -1,0 +1,22 @@
+<.simple_form :let={f} for={@changeset} action={@action}>
+  <.error :if={@changeset.action}>
+    Oops, something went wrong! Please check the errors below.
+  </.error>
+  <.input field={f[:body]} type="text" label="Body" />
+  <.input field={f[:title]} type="text" label="Title" />
+  <.input field={f[:deleted]} type="checkbox" label="Deleted" />
+  <.input field={f[:format]} options={[
+    {"Argument", "Argument"},
+    {"Breaking News", "Breaking News"},
+    {"Documentation", "Documentation"},
+    {"Explanation", "Explanation"},
+    {"Image", "Image"},
+    {"Joke", "Joke"},
+    {"Poem", "Poem"},
+    {"Story", "Story"},
+    {"Thought", "Thought"}]} type="select" label="Format" />
+  <.input field={f[:source]} type="text" label="Source" />
+  <:actions>
+    <.button>Save Item</.button>
+  </:actions>
+</.simple_form>

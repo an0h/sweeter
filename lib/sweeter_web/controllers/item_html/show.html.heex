@@ -1,0 +1,19 @@
+<.header>
+  Item <%= @item.id %>
+  <:subtitle>This is a item record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/items/#{@item}/edit"}>
+      <.button>Edit item</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Body"><%= @item.body %></:item>
+  <:item title="Title"><%= @item.title %></:item>
+  <:item title="Deleted"><%= @item.deleted %></:item>
+  <:item title="Format"><%= @item.format %></:item>
+  <:item title="Source"><%= @item.source %></:item>
+</.list>
+
+<.back navigate={~p"/items"}>Back to items</.back>
