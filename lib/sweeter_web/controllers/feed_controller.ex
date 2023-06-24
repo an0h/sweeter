@@ -54,6 +54,7 @@ defmodule SweeterWeb.FeedController do
 
   def api_item_list(conn, _) do
     items = Item.get_all()
+    IO.inspect items
     render(conn, "items.json", items: items)
   end
 end

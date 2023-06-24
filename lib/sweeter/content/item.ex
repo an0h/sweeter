@@ -1,6 +1,7 @@
 defmodule Sweeter.Content.Item do
   use Ecto.Schema
   import Ecto.Changeset
+  import Ecto.Query
   alias Sweeter.Repo
   alias Sweeter.Content.Item
   alias Sweeter.Content.Image
@@ -33,5 +34,27 @@ defmodule Sweeter.Content.Item do
       Image.create_item_image(item_id, attrs["ipfscids"])
     end
     {:ok, item}
+  end
+
+
+  def get_all do
+    Repo.all(
+      from i in "items",
+        where: i.deleted != true,
+        select: [i.id, i.body, i.title, i.deleted]
+    )
+    |> item_list_struct_converter
+  end
+
+  defp item_list_struct_converter(item_list) do
+    Enum.map(
+      item_list,
+      fn item ->
+        [:id, :body, :title]
+        |> Enum.zip(item)
+        |> Map.new()
+        |> Map.merge(%Item{}, fn _k, i, _empty -> i end)
+      end
+    )
   end
 end

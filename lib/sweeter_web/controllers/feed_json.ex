@@ -17,6 +17,13 @@ defmodule SweeterWeb.FeedJSON do
   end
 
   @doc """
+  Renders a list of feeds.
+  """
+  def items(%{items: items}) do
+    %{data: for(item <- items, do: itemize(item))}
+  end
+
+  @doc """
   Renders a single item.
   """
   def item(%{item: item}) do
