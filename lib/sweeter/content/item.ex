@@ -27,18 +27,14 @@ defmodule Sweeter.Content.Item do
   end
 
   def create_item(attrs \\ %{}) do
-    alt = attrs["imagealt"]
-    attrs = Map.delete(attrs, "imagealt")
     {:ok, item} = %Item{}
-    |> Item.changeset(attrs)
-    |> Repo.insert()
-    %Item{id: item_id} = item
+      |> Item.changeset(attrs)
+      |> Repo.insert()
     if attrs["ipfscids"] != nil do
-      Image.create_item_image(item_id, attrs["ipfscids"], alt)
+      Image.create_item_image(item.id, attrs["ipfscids"], attrs["imagealt"])
     end
     {:ok, item}
   end
-
 
   def get_all do
     Repo.all(
