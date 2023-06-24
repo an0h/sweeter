@@ -19,3 +19,5 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
   
 https://elixirschool.com/en/lessons/misc/guardian
+
+`insert into api_credentials (key, inserted_at, updated_at) VALUES ('test', NOW(), NOW());`

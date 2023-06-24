@@ -40,7 +40,9 @@ defmodule SweeterWeb.FeedJSON do
   defp itemize(%Item{} = item) do
     %{
       title: item.title,
-      body: item.body
+      body: item.body,
+      format: item.format,
+      source: item.source
     }
   end
 end

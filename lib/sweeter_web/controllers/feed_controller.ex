@@ -42,8 +42,10 @@ defmodule SweeterWeb.FeedController do
     end
   end
 
-  def api_item_create(conn, %{"body" => body, "title" => title}) do
-    case Item.create_item(%{body: body, title: title, source: "api"}) do
+  def api_item_create(conn, attrs) do
+    IO.inspect attrs
+    new = Map.merge(attrs, %{"body" => "", "imagealt" => "", "format" => "", "source" => "api"})
+    case Item.create_item(new) do
       {:ok, item} ->
         render(conn, "item.json", item: item)
 
