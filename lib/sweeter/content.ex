@@ -38,24 +38,6 @@ defmodule Sweeter.Content do
   def get_item!(id), do: Repo.get!(Item, id)
 
   @doc """
-  Creates a item.
-
-  ## Examples
-
-      iex> create_item(%{field: value})
-      {:ok, %Item{}}
-
-      iex> create_item(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def create_item(attrs \\ %{}) do
-    %Item{}
-    |> Item.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  @doc """
   Updates a item.
 
   ## Examples

@@ -19,9 +19,9 @@ defmodule Sweeter.Content.Image do
     |> validate_required([:ipfscid])
   end
 
-  def create_item_image(item_id, ipfscid) do
+  def create_item_image(item_id, ipfscid, alt) do
     %Image{}
-    |> Image.changeset(%{ipfscid: ipfscid, item_id: item_id})
+    |> Image.changeset(%{ipfscid: ipfscid, item_id: item_id, alt: alt})
     |> Repo.insert()
   end
 end

@@ -12,6 +12,7 @@ defmodule Sweeter.Content.Item do
     field :format, :string
     field :source, :string
     field :title, :string
+    field :imagealt, :string
     has_many :images, Sweeter.Content.Image
     belongs_to :user, Sweeter.People.User
 
@@ -21,18 +22,19 @@ defmodule Sweeter.Content.Item do
   @doc false
   def changeset(item, attrs) do
     item
-    |> cast(attrs, [:body, :title, :deleted, :format, :source, :user_id])
+    |> cast(attrs, [:body, :title, :deleted, :format, :source, :user_id, :imagealt])
     |> validate_required([:title])
   end
 
   def create_item(attrs \\ %{}) do
+    alt = attrs["imagealt"]
+    attrs = Map.delete(attrs, "imagealt")
     {:ok, item} = %Item{}
     |> Item.changeset(attrs)
     |> Repo.insert()
     %Item{id: item_id} = item
     if attrs["ipfscids"] != nil do
-      IO.inspect "in the ipfscids"
-      Image.create_item_image(item_id, attrs["ipfscids"])
+      Image.create_item_image(item_id, attrs["ipfscids"], alt)
     end
     {:ok, item}
   end
