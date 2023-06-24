@@ -3,6 +3,7 @@ defmodule Sweeter.Content.Item do
   import Ecto.Changeset
   alias Sweeter.Repo
   alias Sweeter.Content.Item
+  alias Sweeter.Content.Image
 
   schema "items" do
     field :body, :string
@@ -10,6 +11,7 @@ defmodule Sweeter.Content.Item do
     field :format, :string
     field :source, :string
     field :title, :string
+    has_many :images, Sweeter.Content.Image
 
     timestamps()
   end
@@ -26,9 +28,12 @@ defmodule Sweeter.Content.Item do
     |> Item.changeset(attrs)
     |> Repo.insert()
     %Item{id: item_id} = item
-    # if attrs["ipfscids"] != "" do
-    #   Image.create_item_image(item_id, attrs["ipfscids"])
-    # end
+    IO.inspect attrs["ipfscids"]
+    IO.puts "after ipfscids"
+    if attrs["ipfscids"] != nil do
+      IO.inspect "in the ipfscids"
+      Image.create_item_image(item_id, attrs["ipfscids"])
+    end
     {:ok, item}
   end
 end

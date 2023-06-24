@@ -15,7 +15,7 @@ defmodule SweeterWeb.ItemController do
   end
 
   def create(conn, %{"item" => item_params}) do
-    case Content.create_item(item_params) do
+    case Item.create_item(item_params) do
       {:ok, item} ->
         conn
         |> put_flash(:info, "Item created successfully.")
