@@ -3,8 +3,8 @@ import Config
 # Configure your database
 config :sweeter, Sweeter.Repo,
   username: "postgres",
-  password: "c0f33isyummy",
-  hostname: "localhost",
+  password: "lfjCz9exZA",
+  hostname: "127.0.0.1",
   database: "sweeter_dev",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
