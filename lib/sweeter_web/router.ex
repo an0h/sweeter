@@ -15,10 +15,23 @@ defmodule SweeterWeb.Router do
     plug SweeterWeb.APIaccess
   end
 
+  pipeline :maybe_browser_auth do
+    plug(Guardian.Plug.VerifySession)
+    plug(Guardian.Plug.VerifyHeader, realm: "Bearer")
+    plug(Guardian.Plug.LoadResource)
+  end
+
+  pipeline :ensure_authed_access do
+    plug(Guardian.Plug.EnsureAuthenticated, %{"typ" => "access", handler: Sweeter.HttpErrorHandler})
+  end
+
   scope "/", SweeterWeb do
     pipe_through :browser
 
     get "/", PageController, :home
+
+    get "/login", UserController, :login
+    post "/create_session", UserController, :create_session
 
     resources "/items", ItemController
     resources "/users", UserController

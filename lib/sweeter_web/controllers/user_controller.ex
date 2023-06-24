@@ -59,4 +59,15 @@ defmodule SweeterWeb.UserController do
     |> put_flash(:info, "User deleted successfully.")
     |> redirect(to: ~p"/users")
   end
+
+  def login(conn, %{}) do
+    changeset = People.change_user(%User{})
+    render(conn, :login, changeset: changeset)
+  end
+
+  def create_session(conn, attrs) do
+    %{"user" => %{"username" => username, "password" => password}} = attrs
+    conn
+    |> redirect(to: ~p"/users")
+  end
 end

@@ -14,7 +14,6 @@
   <:col :let={user} label="Password"><%= user.password %></:col>
   <:col :let={user} label="Handle"><%= user.handle %></:col>
   <:col :let={user} label="Address"><%= user.address %></:col>
-  <:col :let={user} label="Reset token"><%= user.reset_token %></:col>
   <:action :let={user}>
     <div class="sr-only">
       <.link navigate={~p"/users/#{user}"}>Show</.link>
