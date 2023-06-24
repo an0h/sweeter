@@ -1,6 +1,7 @@
 defmodule SweeterWeb.ItemController do
   use SweeterWeb, :controller
 
+  alias Sweeter.Repo
   alias Sweeter.Content
   alias Sweeter.Content.Item
 
@@ -27,7 +28,7 @@ defmodule SweeterWeb.ItemController do
   end
 
   def show(conn, %{"id" => id}) do
-    item = Content.get_item!(id)
+    item = Content.get_item!(id) |> Repo.preload(:images)
     render(conn, :show, item: item)
   end
 

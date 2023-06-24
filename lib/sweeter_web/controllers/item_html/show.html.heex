@@ -16,4 +16,10 @@
   <:item title="Source"><%= @item.source %></:item>
 </.list>
 
+<%= if @item.images do %>
+  <%= for image <- @item.images do %>
+  <img src={"https://sweetipfs.herokuapp.com/read?ipfscid=#{image.ipfscid}"} />
+  <%= end %>
+<%= end %>
+
 <.back navigate={~p"/items"}>Back to items</.back>

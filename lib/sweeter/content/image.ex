@@ -20,7 +20,6 @@ defmodule Sweeter.Content.Image do
   end
 
   def create_item_image(item_id, ipfscid) do
-    IO.puts "all the way to create image"
     %Image{}
     |> Image.changeset(%{ipfscid: ipfscid, item_id: item_id})
     |> Repo.insert()

@@ -28,8 +28,6 @@ defmodule Sweeter.Content.Item do
     |> Item.changeset(attrs)
     |> Repo.insert()
     %Item{id: item_id} = item
-    IO.inspect attrs["ipfscids"]
-    IO.puts "after ipfscids"
     if attrs["ipfscids"] != nil do
       IO.inspect "in the ipfscids"
       Image.create_item_image(item_id, attrs["ipfscids"])
