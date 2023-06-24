@@ -1,0 +1,9 @@
+<%= for item <- @items do %>
+    <a href={"/item/display/#{item.id}"}><%= item.title %> <span class="smol">see more</span></a>
+    <%= item.body %>
+    <%= if item.images do %>
+    <%= for image <- @item.images do %>
+    <img src={"https://sweetipfs.herokuapp.com/read?ipfscid=#{image.ipfscid}"} />
+    <% end %>
+    <% end %>
+<% end %>

@@ -10,6 +10,7 @@ defmodule Sweeter.People.User do
     field :name, :string
     field :password, :string
     field :reset_token, :string
+    has_many :items, Sweeter.Content.Item
 
     timestamps()
   end

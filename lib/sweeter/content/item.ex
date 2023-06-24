@@ -13,6 +13,7 @@ defmodule Sweeter.Content.Item do
     field :source, :string
     field :title, :string
     has_many :images, Sweeter.Content.Image
+    belongs_to :user, Sweeter.People.User
 
     timestamps()
   end
@@ -20,7 +21,7 @@ defmodule Sweeter.Content.Item do
   @doc false
   def changeset(item, attrs) do
     item
-    |> cast(attrs, [:body, :title, :deleted, :format, :source])
+    |> cast(attrs, [:body, :title, :deleted, :format, :source, :user_id])
     |> validate_required([:title])
   end
 
