@@ -101,4 +101,47 @@ defmodule Sweeter.People do
   def change_user(%User{} = user, attrs \\ %{}) do
     User.changeset(user, attrs)
   end
+
+  def get_cosmos_by_address() do
+    url = "http://0.0.0.0:1317/cosmos/auth/v1beta1/accounts/cosmos1vn7lpkxjkjvz26vntmn0h3l56us3hy40nau8ds"
+    headers = [{"Content-type", "application/json"}, {"accept", "application/json"}]
+
+    IO.puts "in this cosmos"
+    try do
+      {status, response} =
+        HTTPoison.get(
+          url,
+          '',
+          headers
+        )
+        IO.inspect status
+        IO.inspect response
+    rescue
+      e in HTTPoison.Error ->
+        IO.inspect(e)
+    end
+  end
+
+  def add_spicy_token(value) do
+    headers = [
+      {"accept", "application/json"},
+      {"Content-Type", "application/json"}
+    ]
+
+    body = %{
+      "address" => "cosmos1vn7lpkxjkjvz26vntmn0h3l56us3hy40nau8ds",
+      "coins" => [value]
+    }
+
+    response = HTTPoison.post!("http://0.0.0.0:4500/", Poison.encode!(body), headers)
+
+    # Access the response status code, headers, and body
+    status_code = response.status_code
+    response_headers = response.headers
+    response_body = Poison.decode!(response.body)
+
+    IO.inspect(status_code)
+    IO.inspect(response_headers)
+    IO.inspect(response_body)
+  end
 end
