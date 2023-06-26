@@ -102,6 +102,26 @@ defmodule Sweeter.People do
     User.changeset(user, attrs)
   end
 
+  def get_a_mnemonic() do
+    url = "http://localhost:3333/"
+    headers = []
+
+    IO.puts "in this get a mnemonic"
+    try do
+      {status, response} =
+        HTTPoison.get(
+          url,
+          '',
+          headers
+        )
+        IO.inspect status
+        IO.inspect response
+    rescue
+      e in HTTPoison.Error ->
+        IO.inspect(e)
+    end
+  end
+
   def get_cosmos_by_address() do
     url = "http://0.0.0.0:1317/cosmos/auth/v1beta1/accounts/cosmos1vn7lpkxjkjvz26vntmn0h3l56us3hy40nau8ds"
     headers = [{"Content-type", "application/json"}, {"accept", "application/json"}]

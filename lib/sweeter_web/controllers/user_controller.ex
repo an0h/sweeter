@@ -27,7 +27,7 @@ defmodule SweeterWeb.UserController do
   end
 
   def show(conn, %{"id" => id}) do
-    People.add_spicy_token("10token")
+    People.get_a_mnemonic()
     user = People.get_user!(id)
     render(conn, :show, user: user)
   end
