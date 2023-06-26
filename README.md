@@ -19,5 +19,9 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
   
 https://elixirschool.com/en/lessons/misc/guardian
+https://favicon.io/favicon-generator/
 
 `insert into api_credentials (key, inserted_at, updated_at) VALUES ('test', NOW(), NOW());`
+
+`docker run --name postgres  -e POSTGRES_PASSWORD=c0f33isyummy  -p 5432:5432 -d --rm postgres`
+`docker exec -it 5993373cff98 psql -U postgres`

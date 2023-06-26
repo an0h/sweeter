@@ -4,8 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content={get_csrf_token()} />
-    <.live_title suffix=" · Phoenix Framework">
-      <%= assigns[:page_title] || "Sweeter" %>
+    <meta name="description" content="social network with an API 4 u" />
+    <meta name="author" content="you? the Internet? be an author here!" />
+    <.live_title suffix=" : sweeter socials">
+      <%= assigns[:page_title] || "internetstate.city" %>
     </.live_title>
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
