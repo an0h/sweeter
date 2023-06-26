@@ -1,4 +1,3 @@
-<.item_list items={@items} />
 <.header>
   Listing Items
   <:actions>
@@ -8,21 +7,4 @@
   </:actions>
 </.header>
 
-<.table id="items" rows={@items} row_click={&JS.navigate(~p"/items/#{&1}")}>
-  <:col :let={item} label="Body"><%= item.body %></:col>
-  <:col :let={item} label="Title"><%= item.title %></:col>
-  <:col :let={item} label="Deleted"><%= item.deleted %></:col>
-  <:col :let={item} label="Format"><%= item.format %></:col>
-  <:col :let={item} label="Source"><%= item.source %></:col>
-  <:action :let={item}>
-    <div class="sr-only">
-      <.link navigate={~p"/items/#{item}"}>Show</.link>
-    </div>
-    <.link navigate={~p"/items/#{item}/edit"}>Edit</.link>
-  </:action>
-  <:action :let={item}>
-    <.link href={~p"/items/#{item}"} method="delete" data-confirm="Are you sure?">
-      Delete
-    </.link>
-  </:action>
-</.table>
+<.item_list items={@items} />
