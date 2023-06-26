@@ -53,8 +53,8 @@ defmodule SweeterWeb.FeedController do
     case Item.create_item(new) do
       {:ok, item} ->
         render(conn, "item.json", item: item)
-      {:error, %Ecto.Changeset{} = changeset} ->
-        send_resp(conn, 404, "Item not created")
+      {:error, %Ecto.Changeset{} = _changeset} ->
+        send_resp(conn, "error.json", "Item not created")
     end
   end
 

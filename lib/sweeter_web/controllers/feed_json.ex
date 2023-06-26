@@ -30,6 +30,13 @@ defmodule SweeterWeb.FeedJSON do
     %{item: itemize(item)}
   end
 
+  @doc """
+  Renders a single item.
+  """
+  def error() do
+    %{error: "not created"}
+  end
+
   defp data(%Feed{} = feed) do
     %{
       id: feed.id,
