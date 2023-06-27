@@ -20,6 +20,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   
 https://elixirschool.com/en/lessons/misc/guardian
 https://favicon.io/favicon-generator/
+https://fullstackphoenix.com/tutorials/bootstrap-5-and-phoenix-liveview
 
 `insert into api_credentials (key, inserted_at, updated_at) VALUES ('test', NOW(), NOW());`
 
