@@ -33,6 +33,11 @@ config :sweeter, SweeterWeb.Endpoint,
     }
   ]
 
+# in each environment config file you should overwrite this if it's external
+config :sweeter, Sweeter.People.Guardian,
+issuer: "sweeter",
+secret_key: "ql/2ck/RXJ7zOVVnBgMkoh7E1H+P73iWtNr9HIg9qfWlR4e+pJ/rIxcuhYVbMNiR"
+
 # ## SSL Support
 #
 # In order to use HTTPS in development, a self-signed

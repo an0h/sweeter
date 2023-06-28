@@ -19,7 +19,7 @@ defmodule Sweeter.MixProject do
   def application do
     [
       mod: {Sweeter.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:guardian,:logger, :runtime_tools]
     ]
   end
 
@@ -52,6 +52,7 @@ defmodule Sweeter.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:guardian, "~> 2.3"},
+      {:guardian_phoenix, "~> 2.0"},
       {:argon2_elixir, "~> 3.1"},
       {:hackney, "~> 1.18"},
       {:httpoison, "~> 2.1"},

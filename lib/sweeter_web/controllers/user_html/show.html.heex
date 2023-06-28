@@ -8,6 +8,12 @@
   </:actions>
 </.header>
 
+<.simple_form :let={f} for={@conn} action={@subscribe_link}}>
+  <:actions>
+    <.button>Subscribe</.button>
+  </:actions>
+</.simple_form>
+
 <.list>
   <:item title="Age"><%= @user.age %></:item>
   <:item title="Name"><%= @user.name %></:item>

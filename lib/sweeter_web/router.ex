@@ -34,6 +34,8 @@ defmodule SweeterWeb.Router do
     post "/create_session", UserController, :create_session
 
     resources "/items", ItemController
+
+    post "/users/subscribe/:id", UserController, :subscribe
     resources "/users", UserController
   end
 

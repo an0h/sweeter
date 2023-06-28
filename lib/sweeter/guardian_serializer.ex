@@ -1,5 +1,5 @@
 defmodule Sweeter.GuardianSerializer do
-  @behaviour Guardian.Serializer
+  @behaviour Sweeter.People.Guardian.Serializer
 
   alias Sweeter.Repo
   alias Sweeter.People.User

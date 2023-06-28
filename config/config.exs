@@ -55,11 +55,15 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-# Guardian Authentication library
 config :guardian, Guardian,
+  allowed_algos: ["HS512"], # optional
+  verify_module: Guardian.JWT,  # optional
   issuer: "Sweeter",
-  secret_key: Mix.env(),
-  serializer: Sweeter.GuardianSerializer
+  ttl: { 30, :days },
+  allowed_drift: 2000,
+  verify_issuer: true, # optional
+  secret_key: "NZ1dKSZSjB45GYkPGSmWgBQoNtTFnP9pS13TeIzYZ6EqvNokTJf5DFXfIOXzc1M7",
+  serializer: Sweeter.People.GuardianSerializer
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

@@ -7,7 +7,7 @@ defmodule Sweeter.Content.Image do
   schema "images" do
     field :alt, :string
     field :ipfscid, :string
-    field :item_id, :integer
+    belongs_to :item, Sweeter.Content.Item
 
     timestamps()
   end

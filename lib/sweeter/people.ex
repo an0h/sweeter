@@ -6,6 +6,7 @@ defmodule Sweeter.People do
   import Ecto.Query, warn: false
   alias Sweeter.Repo
 
+  alias Sweeter.People.Guardian
   alias Sweeter.People.User
 
   @doc """
@@ -102,6 +103,31 @@ defmodule Sweeter.People do
     User.changeset(user, attrs)
   end
 
+  def authenticate_user(handle, password) do
+    query = from u in User, where: u.handle == ^handle
+
+    case Repo.one(query) do
+      nil ->
+        {:error, :invalid_credentials}
+
+      user ->
+        if Argon2.verify_pass(password, user.password) do
+          # this creates a token and puts claims
+
+          if user.is_admin == true do
+            _claims = %{role: "admin"}
+          else
+            _claims = %{}
+          end
+          {:ok, jwt, _claims} = Guardian.encode_and_sign(user)
+          {:ok, user, jwt}
+        else
+          {:error, :invalid_credentials}
+        end
+    end
+  end
+
+  @spec get_a_mnemonic :: any
   def get_a_mnemonic() do
     url = "http://localhost:3333/"
     headers = []

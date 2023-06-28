@@ -5,6 +5,7 @@ defmodule Sweeter.Content.Links do
   schema "links" do
     field :type, :string
     field :url, :string
+    belongs_to :item, Sweeter.Content.Item
 
     timestamps()
   end
@@ -12,7 +13,7 @@ defmodule Sweeter.Content.Links do
   @doc false
   def changeset(links, attrs) do
     links
-    |> cast(attrs, [:url, :type])
+    |> cast(attrs, [:url, :type, :item_id])
     |> validate_required([:url, :type])
   end
 end
