@@ -65,17 +65,6 @@ defmodule SweeterWeb.UserController do
     |> redirect(to: ~p"/users")
   end
 
-  def login(conn, %{}) do
-    changeset = People.change_user(%User{})
-    render(conn, :login, changeset: changeset)
-  end
-
-  def create_session(conn, attrs) do
-    %{"user" => %{"username" => username, "password" => password}} = attrs
-    conn
-    |> redirect(to: ~p"/users")
-  end
-
   def subscribe(conn, %{"id" => id}) do
     IO.inspect id
     IO.puts "idabove"
@@ -93,13 +82,46 @@ defmodule SweeterWeb.UserController do
           IO.puts "in the ok"
           conn
           |> put_flash(:info, "You were subscribed")
-          |> redirect(to: ~p"/users/#{id}")
+          |> redirect(to: "/users/#{id}")
         {:error, %{}} ->
           IO.puts "in the error"
           conn
           |> put_flash(:info, "you were NOT subscribed")
-          |> redirect(to: ~p"/users/#{id}")
+          |> redirect(to: "/users/#{id}")
       end
     end
+  end
+
+  def login(conn, %{}) do
+    loggedin_user = Guardian.Plug.current_resource(conn)
+    if loggedin_user in [nil] do
+      changeset = People.change_user(%User{})
+      render(conn, "login.html", changeset: changeset)
+    else
+      conn
+      |> put_flash(:info, "Hello welcome back good to see you.")
+      |> redirect(to: ~p"/users/#{loggedin_user}")
+    end
+  end
+
+  def create_session(conn, %{
+    "_csrf_token" => _token,
+    "user" => %{"username" => handle, "password" => password}
+      }) do
+    People.authenticate_user(handle, password)
+    |> login_reply(conn)
+  end
+
+  defp login_reply({:ok, user, _jwt}, conn) do
+    conn
+    |> put_flash(:info, "Hello welcome back good to see you.")
+    |> Guardian.Plug.sign_in(user)
+    |> redirect(to: ~p"/users/#{user}")
+  end
+
+  defp login_reply({:error, :invalid_credentials}, conn) do
+    conn
+    |> put_flash(:error, "Unkown Login")
+    |> new(%{})
   end
 end
