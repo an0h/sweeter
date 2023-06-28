@@ -45,6 +45,9 @@ defmodule SweeterWeb.FeedController do
   def api_item_create(conn, attrs) do
     {:ok, body, _} = Plug.Conn.read_body(conn)
     ipfscid = upload_image(body)
+    if attrs["media"] do
+      associate_links(attrs["media"])
+    end
     new = Map.merge(attrs,
       %{"body" => "", "imagealt" => "", "format" => "", "source" => "api", "ipfscids" => ipfscid},
       fn _k, v1, v2 ->
@@ -64,7 +67,7 @@ defmodule SweeterWeb.FeedController do
     render(conn, "items.json", items: items)
   end
 
-  def upload_image(image) do
+  defp upload_image(image) do
     if image == "" do
       nil
     else
@@ -73,5 +76,15 @@ defmodule SweeterWeb.FeedController do
       {:ok, response} = HTTPoison.post(url, image, headers)
       response.body
     end
+  end
+
+  defp associate_links(urls) do
+    IO.inspect urls
+    # Enum.map(
+    #   urls,
+    #   fn link ->
+    #     IO.inspect link
+    #   end
+    # )
   end
 end

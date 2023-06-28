@@ -3,7 +3,7 @@ defmodule Sweeter.Repo.Migrations.CreateItems do
 
   def change do
     create table(:items) do
-      add :body, :string
+      add :body, :text
       add :title, :string
       add :deleted, :boolean, default: false, null: false
       add :format, :string

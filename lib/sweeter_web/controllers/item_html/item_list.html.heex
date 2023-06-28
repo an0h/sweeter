@@ -1,7 +1,7 @@
 <%= for item <- @items do %>
     <div class="card">
         <div class="card-header"><a href={"/items/#{item.id}"}><%= item.title %></a></div>
-        <div class="card-body"><pre><%= item.body %></pre></div>
+        <div class="card-body"><%= item.body %></div>
     <%= if item.images do %>
     <%= for image <- item.images do %>
     <img src={"https://sweetipfs.herokuapp.com/read?ipfscid=#{image.ipfscid}"} />

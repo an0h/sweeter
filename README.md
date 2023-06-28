@@ -1,4 +1,4 @@
-# Sweeter
+#### Sweeter: I want to thank Stack Overflow and all of you who ever wrote blog posts about your experience developing and running the glorious Internet.
 
 To start your Phoenix server:
 
