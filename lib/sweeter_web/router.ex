@@ -16,7 +16,7 @@ defmodule SweeterWeb.Router do
   end
 
   pipeline :fetchuser do
-    plug SweetWeb.Fetchuser
+    plug SweeterWeb.Fetchuser
   end
 
   pipeline :maybe_browser_auth do
@@ -28,7 +28,7 @@ defmodule SweeterWeb.Router do
   end
 
   scope "/", SweeterWeb do
-    pipe_through [:browser, :maybe_browser_auth]
+    pipe_through [:browser, :fetchuser, :maybe_browser_auth]
 
     get "/", PageController, :home
 

@@ -1,10 +1,27 @@
-<.header>
-  New Item
-  <:subtitle>Use this form to manage item records in your database.</:subtitle>
-</.header>
-
+<div class="container-xl px-4 mt-n10">
+    <div class="row">
+        <div class="col-lg-9">
+            <!-- Default Bootstrap Form Controls-->
+            <div id="default">
+                <div class="card mb-4">
+                    <div class="card-header">Default Bootstrap Form Controls</div>
+                    <div class="card-body">
+                        <!-- Component Preview-->
+                        <div class="sbp-preview">
+                            <div class="sbp-preview-content">
 <.item_form changeset={@changeset} action={~p"/items"} />
+<.file_upload />
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        <div>
+    </div>
+</div>
+</div>
+
 
 <.back navigate={~p"/items"}>Back to items</.back>
 
-<.file_upload />

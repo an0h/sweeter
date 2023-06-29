@@ -1,8 +1,26 @@
-<header class="px-4 sm:px-6 lg:px-8">
-</header>
-<main class="px-4 py-20 sm:px-6 lg:px-8">
-  <div class="mx-auto max-w-2xl">
-    <.flash_group flash={@flash} />
-    <%= @inner_content %>
-  </div>
-</main>
+<div class="container-xl px-4 mt-n10">
+    <div class="row">
+        <div class="col-lg-9">
+            <!-- Default Bootstrap Form Controls-->
+            <div id="default">
+                <div class="card mb-4">
+                    <div class="card-header"><.flash_group flash={@flash} /></div>
+                    <div class="card-body">
+                        <!-- Component Preview-->
+                        <div class="sbp-preview">
+                            <div class="sbp-preview-content">
+<%= @inner_content %>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        <div>
+    </div>
+</div>
+</div>
+
+
+<.back navigate={~p"/items"}>Back to items</.back>
+
