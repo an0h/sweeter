@@ -1,8 +1,7 @@
 defmodule SweeterWeb.UserController do
   use SweeterWeb, :controller
 
-  alias Phoenix.PubSub
-  alias Sweeter.Content.PublerSubler
+  alias Sweeter.Content.PublerSubser
   alias Sweeter.People
   alias Sweeter.People.User
   alias Sweeter.People.Guardian
@@ -32,6 +31,8 @@ defmodule SweeterWeb.UserController do
   def show(conn, %{"id" => id}) do
     # People.get_a_mnemonic()
     loggedin_user = Guardian.Plug.current_resource(conn)
+    IO.inspect loggedin_user
+    IO.puts "loggedinuser show"
     user = People.get_user!(id)
     render(conn, :show, user: user, loggedin_user: loggedin_user, subscribe_link: "/users/subscribe/#{id}")
   end
@@ -112,16 +113,23 @@ defmodule SweeterWeb.UserController do
     |> login_reply(conn)
   end
 
-  defp login_reply({:ok, user, _jwt}, conn) do
+  def logout(conn, _) do
     conn
-    |> put_flash(:info, "Hello welcome back good to see you.")
+    |> Guardian.Plug.sign_out()
+    |> put_flash(:info, "Youre logged out, bye.")
+    |> redirect(to: "/login")
+  end
+
+  defp login_reply({:ok, user}, conn) do
+    conn
+    |> put_flash(:info, "Welcome back!")
     |> Guardian.Plug.sign_in(user)
     |> redirect(to: ~p"/users/#{user}")
   end
 
-  defp login_reply({:error, :invalid_credentials}, conn) do
+  defp login_reply({:error, reason}, conn) do
     conn
-    |> put_flash(:error, "Unkown Login")
+    |> put_flash(:error, to_string(reason))
     |> new(%{})
   end
 end

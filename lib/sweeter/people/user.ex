@@ -10,6 +10,7 @@ defmodule Sweeter.People.User do
     field :name, :string
     field :password, :string
     field :reset_token, :string
+    field :is_admin, :boolean
     has_many :items, Sweeter.Content.Item
 
     timestamps()
@@ -18,7 +19,7 @@ defmodule Sweeter.People.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:age, :name, :email, :password, :handle, :address, :reset_token])
+    |> cast(attrs, [:age, :name, :email, :password, :handle, :address, :is_admin, :reset_token])
     |> validate_required([:age, :name, :email, :password, :handle])
     |> validate_password()
     |> put_password_hash()

@@ -1,10 +1,11 @@
 defmodule Sweeter.People.Guardian do
-  use Guardian, otp_app: :sweet
+  use Guardian, otp_app: :sweeter
 
   alias Sweeter.People
 
   def subject_for_token(user, _claims) do
     user_id = to_string(user.id)
+    IO.inspect("is this subject thing called")
     {:ok, user_id}
   end
 

@@ -1,6 +1,6 @@
 defmodule SweeterWeb.FeedController do
   use SweeterWeb, :controller
-  alias Swoosh.ApiClient.Hackney
+
   alias Sweeter.API
   alias Sweeter.API.Feed
   alias Sweeter.Content.Item
@@ -50,7 +50,7 @@ defmodule SweeterWeb.FeedController do
     end
     new = Map.merge(attrs,
       %{"body" => "", "imagealt" => "", "format" => "", "source" => "api", "ipfscids" => ipfscid},
-      fn _k, v1, v2 ->
+      fn _k, v1, _v2 ->
         v1
       end)
     case Item.create_item(new) do

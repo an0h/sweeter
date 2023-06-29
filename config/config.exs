@@ -63,7 +63,7 @@ config :guardian, Guardian,
   allowed_drift: 2000,
   verify_issuer: true, # optional
   secret_key: "NZ1dKSZSjB45GYkPGSmWgBQoNtTFnP9pS13TeIzYZ6EqvNokTJf5DFXfIOXzc1M7",
-  serializer: Sweeter.People.GuardianSerializer
+  serializer: Guardian.GuardianSerializer
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

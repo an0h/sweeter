@@ -106,6 +106,7 @@ defmodule Sweeter.People do
   def authenticate_user(handle, password) do
     query = from u in User, where: u.handle == ^handle
 
+    IO.puts "in authenticate user"
     case Repo.one(query) do
       nil ->
         {:error, :invalid_credentials}
@@ -114,13 +115,14 @@ defmodule Sweeter.People do
         if Argon2.verify_pass(password, user.password) do
           # this creates a token and puts claims
 
-          if user.is_admin == true do
-            _claims = %{role: "admin"}
-          else
-            _claims = %{}
-          end
+          # if user.is_admin == true do
+          #   _claims = %{role: "admin"}
+          # else
+          #   _claims = %{}
+          # end
+          IO.puts "password verified"
           {:ok, jwt, _claims} = Guardian.encode_and_sign(user)
-          {:ok, user, jwt}
+          {:ok, user}
         else
           {:error, :invalid_credentials}
         end

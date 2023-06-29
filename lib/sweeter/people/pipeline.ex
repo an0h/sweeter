@@ -1,6 +1,6 @@
 defmodule Sweeter.People.Pipeline do
   use Guardian.Plug.Pipeline,
-    otp_app: :sweet,
+    otp_app: :sweeter,
     error_handler: Sweeter.People.ErrorHandler,
     module: Sweeter.People.Guardian
 

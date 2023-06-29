@@ -31,6 +31,7 @@ defmodule SweeterWeb.Router do
     get "/", PageController, :home
 
     get "/login", UserController, :login
+    get "/logout", UserController, :logout
     post "/create_session", UserController, :create_session
 
     resources "/items", ItemController
