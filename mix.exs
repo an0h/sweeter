@@ -19,7 +19,7 @@ defmodule Sweeter.MixProject do
   def application do
     [
       mod: {Sweeter.Application, []},
-      extra_applications: [:guardian,:logger, :runtime_tools]
+      extra_applications: [:guardian, :logger, :runtime_tools]
     ]
   end
 

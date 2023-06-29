@@ -16,17 +16,15 @@ defmodule SweeterWeb.Router do
   end
 
   pipeline :maybe_browser_auth do
-    plug(Guardian.Plug.VerifySession)
-    plug(Guardian.Plug.VerifyHeader, realm: "Bearer")
-    plug(Guardian.Plug.LoadResource)
+    plug Sweeter.People.Pipeline
   end
 
   pipeline :ensure_authed_access do
-    plug(Guardian.Plug.EnsureAuthenticated, %{"typ" => "access", handler: Sweeter.HttpErrorHandler})
+    plug Guardian.Plug.EnsureAuthenticated
   end
 
   scope "/", SweeterWeb do
-    pipe_through :browser
+    pipe_through [:browser, :maybe_browser_auth]
 
     get "/", PageController, :home
 

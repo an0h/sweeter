@@ -21,6 +21,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 https://elixirschool.com/en/lessons/misc/guardian
 https://favicon.io/favicon-generator/
 https://fullstackphoenix.com/tutorials/bootstrap-5-and-phoenix-liveview
+https://elixirforum.com/t/call-a-liveview-phoenix-component-dynamically/53945
 
 `insert into api_credentials (key, inserted_at, updated_at) VALUES ('test', NOW(), NOW());`
 

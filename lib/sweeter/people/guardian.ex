@@ -9,10 +9,6 @@ defmodule Sweeter.People.Guardian do
     {:ok, user_id}
   end
 
-  def subject_for_token(_, _) do
-    {:error, :not_authenticated}
-  end
-
   def resource_from_claims(claims) do
     id = claims["sub"]
 

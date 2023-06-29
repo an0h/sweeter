@@ -29,7 +29,7 @@ defmodule SweeterWeb.UserController do
   end
 
   def show(conn, %{"id" => id}) do
-    # People.get_a_mnemonic()
+    People.get_a_mnemonic()
     loggedin_user = Guardian.Plug.current_resource(conn)
     IO.inspect loggedin_user
     IO.puts "loggedinuser show"
