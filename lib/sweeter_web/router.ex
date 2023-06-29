@@ -15,6 +15,10 @@ defmodule SweeterWeb.Router do
     plug SweeterWeb.APIaccess
   end
 
+  pipeline :fetchuser do
+    plug SweetWeb.Fetchuser
+  end
+
   pipeline :maybe_browser_auth do
     plug Sweeter.People.Pipeline
   end
