@@ -4,7 +4,7 @@ defmodule SweeterWeb.ItemController do
   alias Sweeter.Repo
   alias Sweeter.Content
   alias Sweeter.Content.Item
-  alias ReactionsComponent
+  alias Sweeter.Content.Reactions
 
   def index(conn, _params) do
     items = Item.get_all() |> Repo.preload(:images)
@@ -30,6 +30,8 @@ defmodule SweeterWeb.ItemController do
 
   def show(conn, %{"id" => id}) do
     item = Content.get_item!(id) |> Repo.preload(:images)
+    reactions = Reactions.get_reactions_for_item(id)
+    item = %{item | reactions: reactions}
     render(conn, :show, item: item)
   end
 

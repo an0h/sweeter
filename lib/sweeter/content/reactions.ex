@@ -36,7 +36,8 @@ defmodule Sweeter.Content.Reactions do
     |> Repo.insert()
   end
 
-  def get_reactions_for_item(item_id) do
+  def get_reactions_for_item(id) do
+    {item_id, _} = Integer.parse(id)
     Repo.all(
       from r in "reactions",
         where: r.item_id == ^item_id,

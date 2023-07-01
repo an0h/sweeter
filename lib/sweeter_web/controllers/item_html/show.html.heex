@@ -16,6 +16,13 @@
   <.live_component module={ReactionsComponent} id={@item.id} content={@item.body} />
 </.list>
 
+<%= if @item.reactions do %>
+<ul>
+<%= for reaction <- @item.reactions do %>
+<li><%= reaction.emoji %><%= reaction.count %></li>
+<% end %>
+</ul>
+<% end %>
 <h3>Add you Reaction</h3>
 <div id="emoji-trigger">☀️your reactions🌑</div>
 <input type="hidden" id="item_id" value={@item.id}>
