@@ -16,6 +16,7 @@ defmodule Sweeter.Content.Item do
     field :imagealt, :string
     has_many :images, Sweeter.Content.Image
     has_many :links, Sweeter.Content.Links
+    has_many :reactions, Sweeter.Content.Reactions
     belongs_to :user, Sweeter.People.User
 
     timestamps()

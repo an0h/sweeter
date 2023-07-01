@@ -13,10 +13,14 @@
   <:item title="Body"><pre><%= @item.body %></pre></:item>
   <:item title="Format"><%= @item.format %></:item>
   <:item title="Source"><%= @item.source %></:item>
+  <pre>
+  <.live_component module={ReactionsComponent} id={@item.id} content={@item.body} />
+  </pre>
 </.list>
 
+<h3>Add you Reaction</h3>
 <div id="emoji-trigger">☀️your reactions🌑</div>
-<input type="hidden" id="item_id" value="{@item.id}">
+<input type="hidden" id="item_id" value={@item.id}>
 <div id="reactions">
   <div id="add-reaction"></div>
 </div>
