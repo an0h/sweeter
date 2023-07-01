@@ -4,6 +4,7 @@ defmodule SweeterWeb.ItemController do
   alias Sweeter.Repo
   alias Sweeter.Content
   alias Sweeter.Content.Item
+  alias ReactionsComponent
 
   def index(conn, _params) do
     items = Item.get_all() |> Repo.preload(:images)

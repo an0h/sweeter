@@ -8,7 +8,7 @@ defmodule Sweeter.Content.Reactions do
 
   schema "reactions" do
     field :emoji, :string
-    belongs_to :item, Sweeter.People.Item
+    belongs_to :item, Sweeter.Content.Item
 
     timestamps()
   end

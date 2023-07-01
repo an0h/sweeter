@@ -6,7 +6,6 @@ defmodule Sweeter.People do
   import Ecto.Query, warn: false
   alias Sweeter.Repo
 
-  alias Sweeter.People.Guardian
   alias Sweeter.People.User
 
   @doc """

@@ -13,9 +13,7 @@
   <:item title="Body"><pre><%= @item.body %></pre></:item>
   <:item title="Format"><%= @item.format %></:item>
   <:item title="Source"><%= @item.source %></:item>
-  <pre>
   <.live_component module={ReactionsComponent} id={@item.id} content={@item.body} />
-  </pre>
 </.list>
 
 <h3>Add you Reaction</h3>

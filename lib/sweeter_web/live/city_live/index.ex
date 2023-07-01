@@ -7,7 +7,6 @@ defmodule SweeterWeb.CityLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    items = Item.get_all()
     {:ok, stream(socket, :items, Item.get_all())}
   end
 

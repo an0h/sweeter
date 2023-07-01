@@ -32,8 +32,6 @@ defmodule SweeterWeb.CoolerChannel do
   @impl true
   def handle_in("react", payload, socket) do
     broadcast(socket, "react", payload)
-    IO.inspect payload
-    IO.puts "her hanlde react"
     %{"item_id" => item_id, "emoji" => emoji, "description" => description} = payload
     Reactions.create_item_reaction(%{emoji: emoji, description: description}, item_id)
     {:noreply, socket}
