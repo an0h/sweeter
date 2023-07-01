@@ -26,7 +26,7 @@ erl_crash.dump
 sweeter-*.tar
 
 # Ignore assets that are produced by build tools.
-# /priv/static/assets/
+/priv/static/assets/
 
 # Ignore digested assets cache.
 /priv/static/cache_manifest.json
@@ -36,3 +36,5 @@ npm-debug.log
 /assets/node_modules/
 
 /rel/
+
+assets/js/node_modules/

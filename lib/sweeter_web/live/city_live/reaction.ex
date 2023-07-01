@@ -3,7 +3,7 @@ defmodule ReactionsComponent do
 
   def render(assigns) do
     ~H"""
-    <div class="reactions">😇😈<%= @content %></div>
+    <div id="reaction">😇😈<%= @content %></div>
     """
   end
 end
