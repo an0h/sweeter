@@ -21,16 +21,19 @@ import "phoenix_html"
 import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
-import { createPicker } from "./node_modules/picmo";
+import Reactions from "./reactions"
 
-// The picker must have a root element to insert itself into
-const rootElement = document.querySelector('#reaction');
-// Create the picker
-const picker = createPicker({ rootElement });
-// The picker emits an event when an emoji is selected. Do with it as you will!
-picker.addEventListener('emoji:select', event => {
-  console.log('Emoji selected:', event.emoji);
-});
+// import { createPicker } from "./node_modules/picmo";
+
+// move the picker from item to item on click of the emojis
+// // The picker must have a root element to insert itself into
+// const rootElement = document.querySelector('#reaction');
+// // Create the picker
+// const picker = createPicker({ rootElement });
+// // The picker emits an event when an emoji is selected. Do with it as you will!
+// picker.addEventListener('emoji:select', event => {
+//   console.log('Emoji selected:', event.emoji);
+// });
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}})

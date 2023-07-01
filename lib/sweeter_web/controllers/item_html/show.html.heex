@@ -15,6 +15,12 @@
   <:item title="Source"><%= @item.source %></:item>
 </.list>
 
+<div id="emoji-trigger">☀️your reactions🌑</div>
+<input type="hidden" id="item_id" value="{item.id}">
+<div id="reactions">
+  <div id="add-reaction"></div>
+</div>
+
 <%= if @item.images do %>
   <%= for image <- @item.images do %>
   <img src={"https://sweetipfs.herokuapp.com/read?ipfscid=#{image.ipfscid}"} />
