@@ -8,8 +8,9 @@
   },
   "author": "",
   "license": "ISC",
-  "devDependencies": {
+  "dependencies": {
     "@popperjs/core": "^2.11.8",
-    "bootstrap": "^5.3.0"
+    "bootstrap": "^5.3.0",
+    "picmo": "^5.8.5"
   }
 }

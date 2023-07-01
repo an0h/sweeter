@@ -40,6 +40,12 @@ defmodule SweeterWeb.Router do
 
     post "/users/subscribe/:id", UserController, :subscribe
     resources "/users", UserController
+
+    live "/cities", CityLive.Index, :index
+    live "/cities/new", CityLive.Index, :new
+    live "/cities/:id/edit", CityLive.Index, :edit
+    live "/cities/:id", CityLive.Show, :show
+    live "/cities/:id/show/edit", CityLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

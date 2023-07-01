@@ -21,4 +21,18 @@ defmodule Sweeter.ContentFixtures do
 
     item
   end
+
+  @doc """
+  Generate a city.
+  """
+  def city_fixture(attrs \\ %{}) do
+    {:ok, city} =
+      attrs
+      |> Enum.into(%{
+        name: "some name"
+      })
+      |> Sweeter.Content.create_city()
+
+    city
+  end
 end

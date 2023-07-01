@@ -1,0 +1,34 @@
+<.header>
+  Listing Cities
+  <:actions>
+    <.link patch={~p"/cities/new"}>
+      <.button>New City</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="items"
+  rows={@streams.items}
+>
+  <:col :let={{_id, item}} label="Title"><%= item.title %>
+  <pre>
+  <.live_component module={ReactionsComponent} id={item.id} content={item.body} />
+  </pre>
+  </:col>
+  <:action :let={{_id, item}}>
+    <div class="sr-only">
+      <.link navigate={~p"/cities/#{item}"}>Show</.link>
+    </div>
+    <.link patch={~p"/cities/#{item}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, item}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: item.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+

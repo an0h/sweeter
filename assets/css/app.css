@@ -19624,3 +19624,7 @@ pre[class*=language-] {
 .token.variable {
   color: #ff6666;
 }
+
+pre {
+  white-space: pre-wrap;
+}
