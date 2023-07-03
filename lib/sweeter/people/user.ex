@@ -12,6 +12,7 @@ defmodule Sweeter.People.User do
     field :reset_token, :string
     field :is_admin, :boolean
     has_many :items, Sweeter.Content.Item
+    has_many :api_credentials, Sweeter.API.Credential
 
     timestamps()
   end

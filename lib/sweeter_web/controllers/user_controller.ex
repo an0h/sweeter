@@ -2,9 +2,11 @@ defmodule SweeterWeb.UserController do
   use SweeterWeb, :controller
 
   alias Sweeter.Content.PublerSubser
+  alias Sweeter.API.Credential
   alias Sweeter.People
   alias Sweeter.People.User
   alias Sweeter.People.Guardian
+  alias Sweeter.Repo
 
   def index(conn, _params) do
     users = People.list_users()
@@ -29,11 +31,10 @@ defmodule SweeterWeb.UserController do
   end
 
   def show(conn, %{"id" => id}) do
-    People.get_a_mnemonic()
+    # People.get_a_mnemonic()
     loggedin_user = Guardian.Plug.current_resource(conn)
-    IO.inspect loggedin_user
-    IO.puts "loggedinuser show"
     user = People.get_user!(id)
+    user = user |> Repo.preload(:api_credentials)
     render(conn, :show, user: user, loggedin_user: loggedin_user, subscribe_link: "/users/subscribe/#{id}")
   end
 
@@ -90,6 +91,25 @@ defmodule SweeterWeb.UserController do
           |> put_flash(:info, "you were NOT subscribed")
           |> redirect(to: "/users/#{id}")
       end
+    end
+  end
+
+  def request_api_cred(conn, %{}) do
+    loggedin_user = Guardian.Plug.current_resource(conn)
+    user_id = loggedin_user.id
+    if loggedin_user == nil do
+      conn
+      |> put_flash(:info, "Login to create api key")
+      |> redirect(to: "/login")
+    end
+    case Credential.create_credential(user_id) do
+      {:ok, _cred} ->
+        conn
+        |> redirect(to: "/users/#{user_id}")
+      {:error, %{}} ->
+        conn
+        |> put_flash(:info, "no api key for you")
+        |> redirect(to: "/users/#{user_id}")
     end
   end
 

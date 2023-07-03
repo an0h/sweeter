@@ -22,4 +22,10 @@
   <:item title="Address"><%= @user.address %></:item>
 </.list>
 
+<a href="/requestapicred">GET AN API KEY</a>
+<ul>
+<%= for cred <- @user.api_credentials do %>
+  <li><%= cred.key %></li>
+<% end %>
+</ul>
 <.back navigate={~p"/users"}>Back to users</.back>

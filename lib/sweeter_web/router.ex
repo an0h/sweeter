@@ -39,6 +39,7 @@ defmodule SweeterWeb.Router do
     resources "/items", ItemController
 
     post "/users/subscribe/:id", UserController, :subscribe
+    get "/requestapicred", UserController, :request_api_cred
     resources "/users", UserController
 
     live "/cities", CityLive.Index, :index

@@ -5,6 +5,7 @@ defmodule Sweeter.Content.Item do
   alias Sweeter.Repo
   alias Sweeter.Content.Item
   alias Sweeter.Content.Image
+  alias Sweeter.Content.Tag
   alias Sweeter.Content.PublerSubser
 
   schema "items" do
@@ -17,6 +18,7 @@ defmodule Sweeter.Content.Item do
     has_many :images, Sweeter.Content.Image
     has_many :links, Sweeter.Content.Links
     has_many :reactions, Sweeter.Content.Reactions
+    has_many :tags, Sweeter.Content.Tag
     belongs_to :user, Sweeter.People.User
 
     timestamps()
