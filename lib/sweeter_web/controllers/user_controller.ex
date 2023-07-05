@@ -20,7 +20,9 @@ defmodule SweeterWeb.UserController do
 
   def create(conn, %{"user" => user_params}) do
     try do
-      creatable = People.get_new_user_address(user_params["handle"])
+      IO.inspect(user_params["mnemonic"])
+      %{"address" => address, "key" => _key, "mnemonic" => _mnemonic} = People.get_new_user_address(user_params["handle"])
+      creatable = Map.merge(user_params, %{"address" => address})
       IO.inspect creatable
       case People.create_user(creatable) do
         {:ok, user} ->
