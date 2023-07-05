@@ -119,8 +119,10 @@ defmodule Sweeter.People do
     end
   end
 
-  def get_new_user_address(handle) do
-    url = "http://cosmos:5555/?name=#{handle}"
+  def get_new_user_address(user_params) do
+    IO.inspect(user_params["handle"])
+
+    url = "http://cosmos:5555/?name=#{user_params["handle"]}"
     headers = []
 
     IO.puts "in get new user address"
@@ -131,8 +133,12 @@ defmodule Sweeter.People do
           '',
           headers
         )
-        Poison.decode!(response.body)
-    rescue
+
+        %{"address" => address, "key" => _key, "mnemonic" => _mnemonic} = Poison.decode!(response.body)
+        creatable = Map.merge(user_params, %{"address" => address})
+        IO.inspect creatable
+        creatable
+      rescue
       e in HTTPoison.Error ->
         IO.inspect(e)
     end
