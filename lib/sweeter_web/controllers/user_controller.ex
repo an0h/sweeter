@@ -19,22 +19,28 @@ defmodule SweeterWeb.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    case People.create_user(user_params) do
-      {:ok, user} ->
-        conn
-        |> put_flash(:info, "User created successfully.")
-        |> redirect(to: ~p"/users/#{user}")
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :new, changeset: changeset)
+    try do
+      creatable = People.get_new_user_address(user_params["handle"])
+      IO.inspect creatable
+      case People.create_user(creatable) do
+        {:ok, user} ->
+          conn
+          |> put_flash(:info, "User created successfully.")
+          |> redirect(to: ~p"/users/#{user}")
+        {:error, %Ecto.Changeset{} = changeset} ->
+          render(conn, :new, changeset: changeset)
+      end
+    rescue
+      _e ->
+      conn
+      |> put_flash(:info, "Your user was not created.")
+      |> redirect(to: "/users/new")
     end
   end
 
   def show(conn, %{"id" => id}) do
-    # People.get_a_mnemonic()
     loggedin_user = Guardian.Plug.current_resource(conn)
-    user = People.get_user!(id)
-    user = user |> Repo.preload(:api_credentials)
+    user = People.get_user!(id) |> Repo.preload(:api_credentials)
     render(conn, :show, user: user, loggedin_user: loggedin_user, subscribe_link: "/users/subscribe/#{id}")
   end
 
@@ -68,25 +74,18 @@ defmodule SweeterWeb.UserController do
   end
 
   def subscribe(conn, %{"id" => id}) do
-    IO.inspect id
-    IO.puts "idabove"
     loggedin_user = Guardian.Plug.current_resource(conn)
-    IO.inspect loggedin_user
-    IO.puts "loggedinuser"
     if loggedin_user == nil do
-      IO.puts "why not here"
       conn
       |> put_flash(:info, "Login to create subscriptions")
       |> redirect(to: "/users/#{id}")
     else
       case PublerSubser.subser(id, loggedin_user.id) do
         {:ok, _pubsub} ->
-          IO.puts "in the ok"
           conn
           |> put_flash(:info, "You were subscribed")
           |> redirect(to: "/users/#{id}")
         {:error, %{}} ->
-          IO.puts "in the error"
           conn
           |> put_flash(:info, "you were NOT subscribed")
           |> redirect(to: "/users/#{id}")

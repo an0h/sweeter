@@ -18,8 +18,9 @@ defmodule Sweeter.Content.Item do
     has_many :images, Sweeter.Content.Image
     has_many :links, Sweeter.Content.Links
     has_many :reactions, Sweeter.Content.Reactions
-    has_many :tags, Sweeter.Content.Tag
     belongs_to :user, Sweeter.People.User
+    many_to_many :tags, Sweeter.Content.Tag,
+      join_through: "tag_items"
 
     timestamps()
   end

@@ -119,6 +119,25 @@ defmodule Sweeter.People do
     end
   end
 
+  def get_new_user_address(handle) do
+    url = "http://cosmos:5555/?name=#{handle}"
+    headers = []
+
+    IO.puts "in get new user address"
+    try do
+      {status, response} =
+        HTTPoison.get(
+          url,
+          '',
+          headers
+        )
+        Poison.decode!(response.body)
+    rescue
+      e in HTTPoison.Error ->
+        IO.inspect(e)
+    end
+  end
+
   @spec get_a_mnemonic :: any
   def get_a_mnemonic() do
     url = "http://localhost:3333/"

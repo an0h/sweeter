@@ -4,12 +4,13 @@ defmodule SweeterWeb.Fetchuser do
 
   def init(default), do: default
 
-  def call(conn,_default) do
-    loggedin_user = Guardian.Plug.current_resource(conn)
-    if loggedin_user != nil do
-      assign(conn, :loggedin_user, loggedin_user)
+  def call(conn, _default) do
+    loggedin_user = Guardian.Plug.authenticated?(conn)
+    IO.inspect loggedin_user
+    if loggedin_user == false do
+      assign(conn, :plug_user_loggedin, false)
     else
-      assign(conn, :loggedin_user, nil)
+      assign(conn, :plug_user_loggedin, true)
     end
   end
 end

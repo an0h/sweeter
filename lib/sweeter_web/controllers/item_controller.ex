@@ -5,8 +5,11 @@ defmodule SweeterWeb.ItemController do
   alias Sweeter.Content
   alias Sweeter.Content.Item
   alias Sweeter.Content.Reactions
+  alias Sweeter.People.Guardian
 
   def index(conn, _params) do
+    loggedin_user = Guardian.Plug.authenticated?(conn)
+    IO.inspect loggedin_user
     items = Item.get_all() |> Repo.preload(:images)
     render(conn, :index, items: items)
   end

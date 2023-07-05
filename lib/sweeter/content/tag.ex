@@ -4,6 +4,8 @@ defmodule Sweeter.Content.Tag do
 
   schema "tags" do
     field :name, :string
+    many_to_many :items, Sweeter.Content.Item,
+      join_through: "tag_items"
 
     timestamps()
   end

@@ -8,6 +8,7 @@ defmodule SweeterWeb.Router do
     plug :put_root_layout, html: {SweeterWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug SweeterWeb.Fetchuser
   end
 
   pipeline :api do
@@ -16,7 +17,6 @@ defmodule SweeterWeb.Router do
   end
 
   pipeline :fetchuser do
-    plug SweeterWeb.Fetchuser
   end
 
   pipeline :maybe_browser_auth do

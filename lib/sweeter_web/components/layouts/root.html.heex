@@ -56,7 +56,7 @@
                             <div class="sidenav-menu-heading">Feed</div>
                               <a class="nav-link" href="/items">Items</a>
                               <a class="nav-link" href="/users">People</a>
-                              <%= if @loggedin_user == nil do %>
+                              <%= if @plug_user_loggedin == false do %>
                               <a class="nav-link" href="/users/new">Sign Up</a>
                               <a class="nav-link" href="/login">Login</a>
                               <%= else  %>
@@ -67,8 +67,7 @@
                     <!-- Sidenav Footer-->
                     <div class="sidenav-footer">
                         <div class="sidenav-footer-content">
-                            <div class="sidenav-footer-subtitle">Logged in as:</div>
-                            <div class="sidenav-footer-title">Valerie Luna</div>
+                            <div class="sidenav-footer-subtitle">Coin Count</div>
                         </div>
                     </div>
                 </nav>

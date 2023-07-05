@@ -24,6 +24,8 @@ https://fullstackphoenix.com/tutorials/bootstrap-5-and-phoenix-liveview
 https://elixirforum.com/t/call-a-liveview-phoenix-component-dynamically/53945
 https://fullstackphoenix.com/tutorials/setup-a-has-many-belongs-to-in-phoenix
 https://elixirforum.com/t/bootstrap-5-and-scss-usage-in-phoenix-1-6/42602/3
+https://www.youtube.com/watch?v=q-B6QIiJpUY
+https://hexdocs.pm/ecto/polymorphic-associations-with-many-to-many.html
 
 `insert into api_credentials (key, inserted_at, updated_at) VALUES ('test', NOW(), NOW());`
 

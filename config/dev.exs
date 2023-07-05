@@ -4,7 +4,7 @@ import Config
 config :sweeter, Sweeter.Repo,
   username: "postgres",
   password: "c0f33isyummy",
-  hostname: "127.0.0.1",
+  hostname: "0.0.0.0",
   database: "sweeter_dev",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
