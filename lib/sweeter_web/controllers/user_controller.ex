@@ -1,6 +1,7 @@
 defmodule SweeterWeb.UserController do
   use SweeterWeb, :controller
 
+  alias Sweeter.CreditDebit
   alias Sweeter.Content.PublerSubser
   alias Sweeter.API.Credential
   alias Sweeter.People
@@ -20,11 +21,12 @@ defmodule SweeterWeb.UserController do
 
   def create(conn, %{"user" => user_params}) do
     try do
-      creatable = People.get_new_user_address(user_params)
+      %{creatable: creatable, mnemonic: mnemonic} = People.get_new_user_address(user_params)
       case People.create_user(creatable) do
         {:ok, user} ->
+          CreditDebit.increment_interaction(creatable["address"])
           conn
-          |> put_flash(:info, "User created successfully.")
+          |> put_flash(:info, "User created successfully. \n \n  only time you see this, your mnemonic, from me: \n \n  #{mnemonic} \n \nIf you supplied it, sorry i told you again but now i'm forgetting it. Now you have an address.")
           |> redirect(to: ~p"/users/#{user}")
         {:error, %Ecto.Changeset{} = changeset} ->
           render(conn, :new, changeset: changeset)

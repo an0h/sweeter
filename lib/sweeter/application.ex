@@ -8,7 +8,7 @@ defmodule Sweeter.Application do
   @impl true
   def start(_type, _args) do
     # create ets table
-    :ets.new(:user_procs, [:named_table, :public])
+    :ets.new(:user_interactions, [:named_table, :public])
 
     children = [
       # Start the Telemetry supervisor

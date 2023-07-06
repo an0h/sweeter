@@ -120,9 +120,7 @@ defmodule Sweeter.People do
   end
 
   def get_new_user_address(user_params) do
-    IO.inspect(user_params["handle"])
-
-    url = "http://cosmos:5555/?name=#{user_params["handle"]}"
+    url = buildurl(user_params)
     headers = []
 
     IO.puts "in get new user address"
@@ -134,32 +132,11 @@ defmodule Sweeter.People do
           headers
         )
 
-        %{"address" => address, "key" => _key, "mnemonic" => _mnemonic} = Poison.decode!(response.body)
+        %{"address" => address, "key" => _key, "mnemonic" => mnemonic} = Poison.decode!(response.body)
         creatable = Map.merge(user_params, %{"address" => address})
         IO.inspect creatable
-        creatable
+        %{creatable: creatable, mnemonic: mnemonic}
       rescue
-      e in HTTPoison.Error ->
-        IO.inspect(e)
-    end
-  end
-
-  @spec get_a_mnemonic :: any
-  def get_a_mnemonic() do
-    url = "http://localhost:3333/"
-    headers = []
-
-    IO.puts "in this get a mnemonic"
-    try do
-      {status, response} =
-        HTTPoison.get(
-          url,
-          '',
-          headers
-        )
-        IO.inspect status
-        IO.inspect response
-    rescue
       e in HTTPoison.Error ->
         IO.inspect(e)
     end
@@ -185,18 +162,18 @@ defmodule Sweeter.People do
     end
   end
 
-  def add_spicy_token(value) do
+  def add_spicy_token(address, value) do
     headers = [
       {"accept", "application/json"},
       {"Content-Type", "application/json"}
     ]
 
     body = %{
-      "address" => "cosmos1mwynzu6umfkhz2p2z6fxyj3m94fw3hfe9yy4he",
+      "address" => address,
       "coins" => [value]
     }
 
-    response = HTTPoison.post!("http://0.0.0.0:4500/", Poison.encode!(body), headers)
+    response = HTTPoison.post!("http://cosmos:4500/", Poison.encode!(body), headers)
 
     # Access the response status code, headers, and body
     status_code = response.status_code
@@ -206,5 +183,13 @@ defmodule Sweeter.People do
     IO.inspect(status_code)
     IO.inspect(response_headers)
     IO.inspect(response_body)
+  end
+
+  defp buildurl(params) do
+    if params["mnemonic"] == nil or params["mnemonic"] == "" do
+      URI.encode("http://cosmos:5555/?name=#{params["handle"]}")
+    else
+      URI.encode("http://cosmos:5555/?name=#{params["handle"]}&mnemonic=#{params["mnemonic"]}")
+    end
   end
 end
