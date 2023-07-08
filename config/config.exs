@@ -12,13 +12,15 @@ config :sweeter,
 
 # Configures the endpoint
 config :sweeter, SweeterWeb.Endpoint,
-  url: [host: "localhost"],
+  url: [host: "0.0.0.0:4000"],
+  check_origin: ["//0.0.0.0:4000", "//localhost:4000", "//sweeter:4000", "//0.0.0.0", "//localhost", "//sweeter"],
   render_errors: [
     formats: [html: SweeterWeb.ErrorHTML, json: SweeterWeb.ErrorJSON],
     layout: false
   ],
   pubsub_server: Sweeter.PubSub,
-  live_view: [signing_salt: "YNCNoZBN"]
+  live_view: [signing_salt: "YNCNoZBN"],
+  server: true
 
 # Configures the mailer
 #

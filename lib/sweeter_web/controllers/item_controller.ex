@@ -32,10 +32,12 @@ defmodule SweeterWeb.ItemController do
   end
 
   def show(conn, %{"id" => id}) do
+    loggedin_user = Guardian.Plug.current_resource(conn)
+    IO.inspect(loggedin_user)
     item = Content.get_item!(id) |> Repo.preload(:images)
     reactions = Reactions.get_reactions_for_item(id)
     item = %{item | reactions: reactions}
-    render(conn, :show, item: item)
+    render(conn, :show, item: item, loggedin_user: loggedin_user)
   end
 
   def edit(conn, %{"id" => id}) do

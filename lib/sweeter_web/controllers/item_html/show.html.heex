@@ -26,6 +26,12 @@
 <h3>Add you Reaction</h3>
 <div id="emoji-trigger">☀️your reactions🌑</div>
 <input type="hidden" id="item_id" value={@item.id}>
+
+<%= if @loggedin_user != nil do %>
+<input type="hidden" id="address" value={@loggedin_user.address}>
+<%= else %>
+<input type="hidden" id="address" value="1">
+<% end %>
 <div id="reactions">
   <div id="add-reaction"></div>
 </div>

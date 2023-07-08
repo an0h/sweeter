@@ -53,6 +53,8 @@ defmodule Sweeter.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:comeonin, "~> 5.3"},
       {:guardian, "~> 2.3"},
+      # {:guardian_db, "~> 2.1"},
+      # {:guardian_phoenix, "~> 2.0"},
       {:argon2_elixir, "~> 3.1"},
       {:hackney, "~> 1.18"},
       {:httpoison, "~> 2.1"},

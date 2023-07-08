@@ -88,4 +88,6 @@ COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/sweeter ./
 
 USER nobody
 
+EXPOSE 4000
+
 CMD ["/app/bin/server"]
