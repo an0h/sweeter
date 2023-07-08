@@ -1,4 +1,5 @@
 defmodule SweeterWeb.Router do
+  alias SweeterWeb.FeedController
   use SweeterWeb, :router
 
   pipeline :browser do
@@ -57,6 +58,7 @@ defmodule SweeterWeb.Router do
     get "/api/item/list", FeedController, :api_item_list
     post "/api/item/create", FeedController, :api_item_create
 
+    get "/api/feeds/:feed", FeedController, :index
     resources "/feeds", FeedController, except: [:new, :edit]
   end
 

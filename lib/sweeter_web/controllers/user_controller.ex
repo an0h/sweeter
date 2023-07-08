@@ -25,6 +25,7 @@ defmodule SweeterWeb.UserController do
       case People.create_user(creatable) do
         {:ok, user} ->
           CreditDebit.increment_interaction(creatable["address"])
+          IO.puts "the happy path create "
           conn
           |> put_flash(:info, "User created successfully. \n \n  only time you see this, your mnemonic, from me: \n \n  #{mnemonic} \n \nIf you supplied it, sorry i told you again but now i'm forgetting it. Now you have an address.")
           |> redirect(to: ~p"/users/#{user}")
@@ -32,10 +33,19 @@ defmodule SweeterWeb.UserController do
           render(conn, :new, changeset: changeset)
       end
     rescue
-      _e ->
-      conn
-      |> put_flash(:info, "Your user was not created.")
-      |> redirect(to: "/users/new")
+      e ->
+        IO.inspect e
+        IO.puts "an error on registration"
+        case People.create_user(user_params) do
+          {:ok, user} ->
+            conn
+            |> put_flash(:info, "User created, but without an address. \n \n you can't do anything token")
+            |> redirect(to: ~p"/users/#{user}")
+          {:error, %Ecto.Changeset{} = changeset} ->
+            conn
+            |> put_flash(:info, "Your user was not created.")
+            |> redirect(to: "/users/new")
+        end
     end
   end
 

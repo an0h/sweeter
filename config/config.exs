@@ -19,8 +19,7 @@ config :sweeter, SweeterWeb.Endpoint,
     layout: false
   ],
   pubsub_server: Sweeter.PubSub,
-  live_view: [signing_salt: "YNCNoZBN"],
-  server: true
+  live_view: [signing_salt: "YNCNoZBN"]
 
 # Configures the mailer
 #

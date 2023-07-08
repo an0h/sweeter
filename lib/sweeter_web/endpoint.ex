@@ -15,8 +15,8 @@ defmodule SweeterWeb.Endpoint do
 
   socket "/socket", SweeterWeb.UserSocket,
     websocket: true,
-    longpoll: false,
-    check_origin: false
+    longpoll: false
+    # check_origin: false
 
   # Serve at "/" the static files from "priv/static" directory.
   #
