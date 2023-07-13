@@ -21,7 +21,8 @@ import "phoenix_html"
 import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
-import { createPicker } from "../node_modules/picmo";
+import socket from "./user_socket"
+import Reactions from "./reactions"
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}})
@@ -41,11 +42,5 @@ liveSocket.connect()
 window.liveSocket = liveSocket
 
 if (document.getElementById('emoji-trigger')) {
-    const rootElement = document.querySelector('#emoji-trigger');
-    const picker = createPicker({ rootElement });
-    picker.addEventListener('emoji:select', event => {
-        console.log(event)
-        // handle the selected emoji here
-        
-    })
+    Reactions.init(socket)
 }

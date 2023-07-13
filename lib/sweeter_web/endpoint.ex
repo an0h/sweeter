@@ -49,4 +49,8 @@ defmodule SweeterWeb.Endpoint do
   plug Plug.Session, @session_options
   plug Pow.Plug.Session, otp_app: :sweeter
   plug SweeterWeb.Router
+
+  socket "/socket", SweeterWeb.UserSocket,
+    websocket: true,
+    longpoll: false
 end

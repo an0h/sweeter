@@ -19,11 +19,12 @@ defmodule Sweeter.Content.Reactions do
   def changeset(reaction, attrs) do
     reaction
     |> cast(attrs, [:emoji, :description, :alt_text, :item_id])
-    |> validate_required([:emoji, :description, :alt_text, :item_id])
+    |> validate_required([:emoji, :item_id])
   end
+
   def create_item_reaction(reaction, item_id) do
     r = Map.put(reaction, :item_id, item_id)
-
+    IO.inspect("in the create item reaction func")
     %Reactions{}
     |> Reactions.changeset(r)
     |> Repo.insert()
@@ -32,6 +33,7 @@ defmodule Sweeter.Content.Reactions do
   def create_item_reaction(reaction, item_id, user_id) do
     r = Map.put(reaction, :item_id, item_id) |> Map.put(:user_id, user_id)
 
+    IO.inspect("in the create item reaction func")
     %Reactions{}
     |> Reactions.changeset(r)
     |> Repo.insert()
