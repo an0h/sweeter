@@ -11,6 +11,7 @@ defmodule Sweeter.Content.Item do
     field :deleted, :boolean, default: false
     field :source, :string
     field :title, :string
+    has_many :reactions, Sweeter.Content.Reactions
 
     timestamps()
   end

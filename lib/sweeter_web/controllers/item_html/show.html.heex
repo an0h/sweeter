@@ -19,6 +19,9 @@
 
 <%!-- <%= live_component "SweeterWeb.ReactionComponents" %> --%>
  
+<%= for reaction <- @item.reactions do %>
+<li><%= reaction.emoji %><%= reaction.count %></li>
+<% end %>
 <div id="emoji-trigger">☀️your reactions🌑</div>
 <input type="hidden" id="item_id" value={@item.id}>
 <input type="hidden" id="address" value="todo">
