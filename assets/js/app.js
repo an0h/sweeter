@@ -43,4 +43,9 @@ window.liveSocket = liveSocket
 if (document.getElementById('emoji-trigger')) {
     const rootElement = document.querySelector('#emoji-trigger');
     const picker = createPicker({ rootElement });
+    picker.addEventListener('emoji:select', event => {
+        console.log(event)
+        // handle the selected emoji here
+        
+    })
 }
