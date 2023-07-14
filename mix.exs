@@ -52,7 +52,8 @@ defmodule Sweeter.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:pow, "~> 1.0"},
       {:httpoison, "~> 2.1"},
-      {:poison, "~> 5.0"}
+      {:poison, "~> 5.0"},
+      {:argon2_elixir, "~> 3.1"}
     ]
   end
 

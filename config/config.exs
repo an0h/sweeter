@@ -15,7 +15,8 @@ config :sweeter,
 
 # Configures the endpoint
 config :sweeter, SweeterWeb.Endpoint,
-  url: [host: "localhost"],
+  url: [host: "0.0.0.0"],
+  check_origin: ["//0.0.0.0:4000", "//localhost:4000", "//sweeter:4000", "//0.0.0.0", "//localhost", "//sweeter"],
   render_errors: [
     formats: [html: SweeterWeb.ErrorHTML, json: SweeterWeb.ErrorJSON],
     layout: false
@@ -63,9 +64,13 @@ config :logger, :console,
 config :phoenix, :json_library, Jason
 
 config :sweeter, :pow,
+  web_mailer_module: SweeterWeb,
   web_module: SweeterWeb,
   user: Sweeter.Users.User,
-  repo: Sweeter.Repo
+  repo: Sweeter.Repo,
+  extensions: [PowResetPassword, PowEmailConfirmation],
+  controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks,
+  mailer_backend: SweeterWeb.Pow.Mailer
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

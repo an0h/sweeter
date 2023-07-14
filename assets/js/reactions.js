@@ -1,4 +1,4 @@
-import { createPicker } from "../node_modules/picmo";
+import { createPicker } from "../vendor/picmo";
 
 let Reactions = {
     init(socket) {

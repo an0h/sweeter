@@ -1,6 +1,8 @@
 defmodule SweeterWeb.Router do
   use SweeterWeb, :router
   use Pow.Phoenix.Router
+  use Pow.Extension.Phoenix.Router,
+    extensions: [PowResetPassword, PowEmailConfirmation]
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -18,8 +20,12 @@ defmodule SweeterWeb.Router do
   scope "/" do
     pipe_through :browser
 
+    get "/mnemonic", SweeterWeb.SpicyController, :get_mnemonic
+    post "/show_mnemonic", SweeterWeb.SpicyController, :show_mnemonic
     resources "/items", SweeterWeb.ItemController
+
     pow_routes()
+    pow_extension_routes()
   end
 
   scope "/", SweeterWeb do
