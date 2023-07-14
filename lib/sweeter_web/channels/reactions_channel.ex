@@ -2,6 +2,7 @@ defmodule SweeterWeb.ReactionsChannel do
   use SweeterWeb, :channel
 
   alias Sweeter.Content.Reactions
+  alias Sweeter.CreditDebit
 
   @impl true
   def join("reactions:lobby", payload, socket) do
@@ -36,11 +37,11 @@ defmodule SweeterWeb.ReactionsChannel do
     # IO.puts("user handle_in react")
     # {:error, newsocketoldsocket} = current_user(socket)
     broadcast(socket, "react", payload)
-    %{"item_id" => item_id, "emoji" => emoji, "description" => description} = payload
+    %{"item_id" => item_id, "emoji" => emoji, "description" => description, "address" => address} = payload
     # IO.inspect address
     response = Reactions.create_item_reaction(%{emoji: emoji, description: description}, item_id)
     IO.inspect response
-    # CreditDebit.increment_interaction(address)
+    CreditDebit.increment_interaction(address)
     {:noreply, socket}
   end
 

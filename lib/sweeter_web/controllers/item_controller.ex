@@ -32,7 +32,17 @@ defmodule SweeterWeb.ItemController do
     item = Content.get_item!(id) #|> Repo.preload(:images)
     reactions = Reactions.get_reactions_for_item(id)
     item = %{item | reactions: reactions}
-    render(conn, :show, item: item)
+
+    with {:ok, user} <- Pow.Plug.current_user(conn) do
+      conn
+      |> render(:show, item: item, address: user.address)
+    end
+    |> case do
+      {:ok, result} -> result
+      _ ->
+        conn
+        |> render(:show, item: item, address: "")
+    end
   end
 
   def edit(conn, %{"id" => id}) do
