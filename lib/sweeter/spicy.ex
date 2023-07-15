@@ -1,7 +1,7 @@
 defmodule Sweeter.Spicy do
 
   def get_new_user_address_fake(email, mnemonic) do
-    {:ok, address: "someaddress", mnemonic: "damne"}
+    {:ok, address: "cosmos172czkdwsdefzzrxlsu4epkzx2ujj0jz3h8q8jm", mnemonic: "damne"}
   end
 
   def get_new_user_address(email, mnemonic) do
