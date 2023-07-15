@@ -3,3 +3,21 @@
 @import "tailwindcss/utilities";
 
 /* This file is for your main application CSS */
+
+.reactions {
+    max-width: 376px;
+}
+
+.reactions ul li{
+    list-style: none;
+    float: left;
+    padding-right: 10px;
+}
+
+.reaction-count {
+    font-size: 8px;
+}
+
+.add-reactions {
+    clear:both
+}

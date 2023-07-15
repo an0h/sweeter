@@ -9,8 +9,5 @@
   "author": "",
   "dependencies": {
     "picmo": "^5.8.5"
-  },
-  "devDependencies": {
-    "tailwind-scrollbar": "^3.0.4"
   }
 }
