@@ -44,3 +44,33 @@ window.liveSocket = liveSocket
 if (document.getElementById('emoji-trigger')) {
     Reactions.init(socket)
 }
+
+
+if (document.getElementById('file-form')) {
+    let url = "https://sweetipfs.herokuapp.com/"
+    document.getElementById('file-form').onsubmit = function(event) {
+        event.preventDefault()
+        let formData = new FormData()
+        formData.append("upload", document.getElementById("upload").files[0])
+
+        let xhr = new XMLHttpRequest()
+        xhr.open("POST", url + "create", true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                console.log("Image uploaded successfully.")
+                let ipfscid = xhr.responseText
+                console.log("The file was upload to ipfscid " + ipfscid)
+                if (document.getElementById('item_ipfscids')) {
+                    document.getElementById('item_ipfscids').value = ipfscid
+                }
+                if (document.getElementById('user_ipfscids')) {
+                    document.getElementById('user_ipfscids').value = ipfscid
+                }
+                var image = document.createElement("img");
+                image.setAttribute("src", url + "/read?ipfscid=" + ipfscid);
+                document.getElementById('imageholder').appendChild(image)
+            }
+        }
+        xhr.send(formData)
+    }
+}
