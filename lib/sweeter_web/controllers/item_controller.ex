@@ -17,7 +17,7 @@ defmodule SweeterWeb.ItemController do
   end
 
   def create(conn, %{"item" => item_params}) do
-    case Content.create_item(item_params) do
+    case Item.create_item(item_params) do
       {:ok, item} ->
         conn
         |> put_flash(:info, "Item created successfully.")
@@ -29,7 +29,7 @@ defmodule SweeterWeb.ItemController do
   end
 
   def show(conn, %{"id" => id}) do
-    item = Content.get_item!(id) #|> Repo.preload(:images)
+    item = Content.get_item!(id) |> Repo.preload(:images)
     reactions = Reactions.get_reactions_for_item(id)
     item = %{item | reactions: reactions}
 

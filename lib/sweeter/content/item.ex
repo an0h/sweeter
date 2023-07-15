@@ -5,6 +5,7 @@ defmodule Sweeter.Content.Item do
   alias Sweeter.Repo
 
   alias Sweeter.Content.Item
+  alias Sweeter.Content.Image
 
   schema "items" do
     field :body, :string
@@ -12,6 +13,7 @@ defmodule Sweeter.Content.Item do
     field :source, :string
     field :title, :string
     has_many :reactions, Sweeter.Content.Reactions
+    has_many :images, Sweeter.Content.Image
 
     timestamps()
   end
@@ -42,5 +44,16 @@ defmodule Sweeter.Content.Item do
         |> Map.merge(%Item{}, fn _k, i, _empty -> i end)
       end
     )
+  end
+
+  def create_item(attrs \\ %{}) do
+    IO.inspect attrs
+    {:ok, item} = %Item{}
+      |> Item.changeset(attrs)
+      |> Repo.insert()
+    if attrs["ipfscids"] != nil do
+      Image.create_item_image(item.id, attrs["ipfscids"], attrs["imagealt"])
+    end
+    {:ok, item}
   end
 end

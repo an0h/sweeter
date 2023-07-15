@@ -8,6 +8,11 @@
   </:actions>
 </.header>
 
+<%= if @item.images do %>
+  <%= for image <- @item.images do %>
+  <img src={"https://sweetipfs.herokuapp.com/read?ipfscid=#{image.ipfscid}"} />
+  <%= end %>
+<%= end %>
 <.list>
   <:item title="Body"><%= @item.body %></:item>
   <:item title="Deleted"><%= @item.deleted %></:item>
