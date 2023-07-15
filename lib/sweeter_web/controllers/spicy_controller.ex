@@ -31,14 +31,4 @@ defmodule SweeterWeb.SpicyController do
     end
   end
 
-
-  # def set_user_address(user, address) do
-  #   # user = Map.put(user, :address, address)
-  #   IO.inspect user
-  #   IO.puts " in set address"
-  #   IO.puts address
-  #   user
-  #   |> User.changeset(%{address: address})
-  #   |> Repo.update()
-  # end
 end

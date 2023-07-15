@@ -14,6 +14,7 @@ defmodule Sweeter.Users.User do
     field :handle, :string
     field :name, :string
     field :is_admin, :boolean
+    field :timeout_until, :utc_datetime
     has_many :items, Sweeter.Content.Item
 
     timestamps()

@@ -33,10 +33,14 @@ defmodule SweeterWeb.ItemController do
     reactions = Reactions.get_reactions_for_item(id)
     item = %{item | reactions: reactions}
 
-    with user <- Pow.Plug.current_user(conn) do
-      conn
-      |> render(:show, item: item, address: user.address)
-    else
+    case Pow.Plug.current_user(conn) do
+      nil ->
+        conn
+        |> render(:show, item: item, address: "")
+      user ->
+        IO.inspect user
+        conn
+        |> render(:show, item: item, address: user.address)
       _ ->
         conn
         |> render(:show, item: item, address: "")
