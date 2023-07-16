@@ -6,7 +6,7 @@ defmodule SweeterWeb.SpicyController do
   alias Sweeter.Spicy
   alias Sweeter.Repo
 
-  def get_mnemonic(conn, params) do
+  def get_mnemonic(conn, _params) do
     changeset = %{}
     render(conn, :get, changeset: changeset, action: ~p"/show_mnemonic/")
   end

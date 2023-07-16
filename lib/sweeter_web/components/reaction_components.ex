@@ -2,7 +2,7 @@ defmodule SweeterWeb.ReactionComponents do
   use Phoenix.LiveComponent
 
   # Include the picmo library in your JavaScript assets
-  def mount(%{root: root} = _params, _session, socket) do
+  def mount(%{root: _root} = _params, _session, socket) do
     {:ok, socket}
   end
 

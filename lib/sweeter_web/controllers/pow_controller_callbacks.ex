@@ -1,6 +1,5 @@
 defmodule SweeterWeb.Pow.ControllerCallbacks do
   alias Pow.Extension.Phoenix.ControllerCallbacks
-  alias Sweeter.Spicy
 
   # def before_respond(Pow.Phoenix.SessionController, :create, {:ok, user, conn}, config) do
   #   IO.puts "before respond"

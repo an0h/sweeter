@@ -5,7 +5,7 @@ defmodule Sweeter.Repo.Migrations.CreateImages do
     create table(:images) do
       add :alt, :string
       add :ipfscid, :string
-      add :item_id, :integer
+      add :item_id, references(:items)
 
       timestamps()
     end

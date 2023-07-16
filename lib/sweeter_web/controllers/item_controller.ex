@@ -40,9 +40,6 @@ defmodule SweeterWeb.ItemController do
       user ->
         conn
         |> render(:show, item: item, address: user.address)
-      _ ->
-        conn
-        |> render(:show, item: item, address: "")
     end
   end
 

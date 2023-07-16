@@ -13,6 +13,7 @@ defmodule Sweeter.Content.Item do
     field :source, :string
     field :title, :string
     field :search_suppressed, :boolean, default: false
+    belongs_to :users, Sweeter.Users.User
     has_many :reactions, Sweeter.Content.Reactions
     has_many :images, Sweeter.Content.Image
 
@@ -22,8 +23,9 @@ defmodule Sweeter.Content.Item do
   @doc false
   def changeset(item, attrs) do
     item
-    |> cast(attrs, [:body, :deleted, :source, :title])
-    |> validate_required([:body, :deleted, :source, :title])
+    |> cast(attrs, [:body, :deleted, :source, :title, :search_suppressed, :user_id])
+    |> cast_assoc(:users)
+    |> validate_required([:body, :source, :title])
   end
 
   def get_all do

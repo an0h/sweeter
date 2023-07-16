@@ -6,7 +6,7 @@ defmodule Sweeter.Repo.Migrations.CreateReactions do
       add :emoji, :string
       add :description, :string
       add :alt_text, :string
-      add :item_id, :integer
+      add :item_id, references(:items)
 
       timestamps()
     end

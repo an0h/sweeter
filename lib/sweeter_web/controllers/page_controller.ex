@@ -17,9 +17,6 @@ defmodule SweeterWeb.PageController do
           conn
           |> render(:home, layout: false)
         end
-      _ ->
-        conn
-        |> render(:home, layout: false)
     end
 
   end

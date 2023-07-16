@@ -3,5 +3,5 @@ defmodule SweeterWeb.Pow.Routes do
   use SweeterWeb, :verified_routes
 
   @impl true
-  def after_registration_path(conn), do: ~p"/login"
+  def after_registration_path(_conn), do: ~p"/session/new"
 end
