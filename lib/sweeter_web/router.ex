@@ -1,4 +1,5 @@
 defmodule SweeterWeb.Router do
+  alias SweeterWeb.ItemController
   use SweeterWeb, :router
   use Pow.Phoenix.Router
   use Pow.Extension.Phoenix.Router,
@@ -11,10 +12,16 @@ defmodule SweeterWeb.Router do
     plug :put_root_layout, html: {SweeterWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug Pow.Plug.Session, otp_app: :sweeter
   end
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug SweeterWeb.APIAuthPlug, otp_app: :sweeter
+  end
+
+  pipeline :api_protected do
+    plug Pow.Plug.RequireAuthenticated, error_handler: SweeterWeb.APIAuthErrorHandler
   end
 
   scope "/" do
@@ -34,10 +41,19 @@ defmodule SweeterWeb.Router do
     get "/", PageController, :home
   end
 
+  scope "/api/v1", SweeterWeb.API.V1, as: :api_v1 do
+    pipe_through :api
+
+    resources "/session", SessionController, singleton: true, only: [:create, :delete]
+    post "/session/renew", SessionController, :renew
+  end
+
   # Other scopes may use custom stacks.
-  # scope "/api", SweeterWeb do
-  #   pipe_through :api
-  # end
+  scope "/api/v1", SweeterWeb.API.V1, as: :api_v1 do
+    pipe_through [:api, :api_protected]
+
+    get "/get_items", APIController, :search
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:sweeter, :dev_routes) do

@@ -46,7 +46,6 @@ defmodule SweeterWeb.ItemController do
         |> render(:show, item: item, address: "")
     end
   end
-
   def edit(conn, %{"id" => id}) do
     item = Content.get_item!(id)
     changeset = Content.change_item(item)
