@@ -53,6 +53,7 @@ defmodule SweeterWeb.Router do
     pipe_through [:api, :api_protected]
 
     get "/get_items", APIController, :search
+    post "/create_item", APIController, :api_item_create
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

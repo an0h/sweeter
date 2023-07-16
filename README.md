@@ -16,3 +16,9 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   * Docs: https://hexdocs.pm/phoenix
   * Forum: https://elixirforum.com/c/phoenix-forum
   * Source: https://github.com/phoenixframework/phoenix
+
+```
+curl -X POST -d 'user[email]=sc@rib.e&user[password]=dapaSS!2' http://localhost:4000/api/v1/session
+
+curl -H "Authorization: fillout" http://localhost:4000/api/v1/get_items?query=#match
+```
