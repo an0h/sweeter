@@ -3,14 +3,19 @@ defmodule SweeterWeb.API.V1.APIController do
 
   alias Sweeter.Content
   alias Sweeter.Content.Item
+  alias Sweeter.CreditDebit
 
   action_fallback SweeterWeb.FallbackController
 
   def search(conn, %{}) do
-    IO.puts "in search"
     items = Content.list_items()
     conn
     |> render("items.json", items: items)
+  end
+
+  def api_item_list(conn, _) do
+    items = Item.get_all()
+    render(conn, "items.json", items: items)
   end
 
   def api_item_create(conn, attrs) do
@@ -26,16 +31,16 @@ defmodule SweeterWeb.API.V1.APIController do
       end)
     case Item.create_item(new) do
       {:ok, item} ->
+        case Pow.Plug.current_user(conn) do
+          nil ->
+            IO.puts "no user credited for api item"
+          user ->
+            CreditDebit.increment_api(user.address)
+        end
         render(conn, "item.json", item: item)
       {:error, %Ecto.Changeset{} = _changeset} ->
         send_resp(conn, "error.json", "Item not created")
     end
-  end
-
-  def api_item_list(conn, _) do
-    items = Item.get_all()
-    IO.inspect items
-    render(conn, "items.json", items: items)
   end
 
   defp upload_image(image) do
