@@ -8,6 +8,7 @@ defmodule Sweeter.Repo.Migrations.UserAdditionalFields do
       add :handle, :string
       add :name, :string
       add :is_admin, :boolean
+      add :timeout_until, :utc_datetime
     end
   end
 end

@@ -12,6 +12,7 @@ defmodule Sweeter.Content.Item do
     field :deleted, :boolean, default: false
     field :source, :string
     field :title, :string
+    field :search_suppressed, :boolean, default: false
     has_many :reactions, Sweeter.Content.Reactions
     has_many :images, Sweeter.Content.Image
 
