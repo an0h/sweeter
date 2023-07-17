@@ -6,6 +6,7 @@ defmodule Sweeter.Content.Item do
 
   alias Sweeter.Content.Item
   alias Sweeter.Content.Image
+  alias Sweeter.Content.PublerSubser
 
   schema "items" do
     field :body, :string
@@ -58,5 +59,15 @@ defmodule Sweeter.Content.Item do
       Image.create_item_image(item.id, attrs["ipfscids"], attrs["imagealt"])
     end
     {:ok, item}
+  end
+
+  def subscription_feed(subser_id) do
+    publers = PublerSubser.publer_id_list(subser_id)
+    Repo.all(
+      from i in "items",
+        where: i.user_id in ^publers,
+        select: [i.id, i.body, i.title, i.deleted]
+    )
+    |> item_list_struct_converter
   end
 end
