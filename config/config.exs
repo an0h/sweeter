@@ -9,9 +9,9 @@ import Config
 
 config :sweeter,
   ecto_repos: [Sweeter.Repo],
-  api_console: "http://cosmos:1317",
-  faucet: "http://cosmos:4500",
-  assigner: "http://cosmos:5555"
+  api1317: "http://spicy:1317",
+  faucet4500: "http://spicy:4500",
+  assigner5555: "http://spicy:5555"
 
 # Configures the endpoint
 config :sweeter, SweeterWeb.Endpoint,

@@ -7,7 +7,6 @@ defmodule Sweeter.Spicy do
   def get_new_user_address(email, mnemonic) do
     IO.puts "in get new user address"
     url = buildurl(email, mnemonic)
-    IO.inspect url
     headers = []
 
     try do
@@ -17,13 +16,7 @@ defmodule Sweeter.Spicy do
           '',
           headers
         )
-
-        IO.inspect response
         %{"address" => address, "key" => _key, "mnemonic" => mnemonic} = Poison.decode!(response.body)
-        IO.inspect address
-        IO.inspect "hello"
-        # creatable = Map.merge(user_params, %{"address" => address})
-        # IO.inspect creatable
         {:ok, address: address, mnemonic: mnemonic}
       rescue
       e in HTTPoison.Error ->
@@ -33,7 +26,8 @@ defmodule Sweeter.Spicy do
   end
 
   def get_cosmos_by_address(address) do
-    url = "http://cosmos:1317/cosmos/auth/v1beta1/accounts/#{address}"
+    api_service = fetchSpicy1317()
+    url = "http://#{api_service}/cosmos/auth/v1beta1/accounts/#{address}"
     headers = [{"Content-type", "application/json"}, {"accept", "application/json"}]
 
     IO.puts "in this get cosmos by address"
@@ -62,24 +56,34 @@ defmodule Sweeter.Spicy do
       "address" => address,
       "coins" => [value]
     }
+    faucet = fetchSpicy4500()
 
-    response = HTTPoison.post!("http://cosmos:4500/", Poison.encode!(body), headers)
+    response = HTTPoison.post!(faucet, Poison.encode!(body), headers)
 
     # Access the response status code, headers, and body
     status_code = response.status_code
     response_headers = response.headers
     response_body = Poison.decode!(response.body)
-
-    IO.inspect(status_code)
-    IO.inspect(response_headers)
-    IO.inspect(response_body)
   end
 
   defp buildurl(email, mnemonic) do
+    spicy_service = fetchSpicy5555()
     if mnemonic == nil or mnemonic == "" do
-      URI.encode("http://cosmos:5555/?name=#{email}")
+      URI.encode("#{spicy_service}/?name=#{email}")
     else
-      URI.encode("http://cosmos:5555/?name=#{email}&mnemonic=#{mnemonic}")
+      URI.encode("#{spicy_service}/?name=#{email}&mnemonic=#{mnemonic}")
     end
+  end
+
+  defp fetchSpicy1317() do
+    Application.get_env(:sweeter, :api1317)
+  end
+
+  defp fetchSpicy4500() do
+    Application.get_env(:sweeter, :faucet4500)
+  end
+
+  defp fetchSpicy5555() do
+    Application.get_env(:sweeter, :assigner5555)
   end
 end

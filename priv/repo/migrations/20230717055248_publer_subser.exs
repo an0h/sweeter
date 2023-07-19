@@ -3,8 +3,8 @@ defmodule Sweeter.Repo.Migrations.CreatePublerSubser do
 
   def change do
     create table(:publer_subser) do
-      add :publer_id, :integer
-      add :subser_id, :integer
+      add :publer_id, references(:users)
+      add :subser_id, references(:users)
 
       timestamps()
     end
