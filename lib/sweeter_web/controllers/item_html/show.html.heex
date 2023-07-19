@@ -22,8 +22,7 @@
 
 <.back navigate={~p"/items"}>Back to items</.back>
 
-<%!-- <%= live_component "SweeterWeb.ReactionComponents" %> --%>
-
+<div id="your-reaction"></div>
 <div class="reactions">
 <ul> 
 <%= for reaction <- @item.reactions do %>

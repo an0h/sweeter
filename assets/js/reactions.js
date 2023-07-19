@@ -13,7 +13,10 @@ let Reactions = {
 
         picker.addEventListener('emoji:select', event => {
             console.log(event)
-            // handle the selected emoji here
+            
+            const yourreaction = document.getElementById('your-reaction');          
+            yourreaction.innerHTML = event.emoji;
+            
             let item_id = document.getElementById('item_id').value
             let address = document.getElementById('address').value
             channel.push('react', {

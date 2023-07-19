@@ -24,7 +24,7 @@ defmodule Sweeter.Content.Item do
   @doc false
   def changeset(item, attrs) do
     item
-    |> cast(attrs, [:body, :deleted, :source, :title, :search_suppressed, :user_id])
+    |> cast(attrs, [:body, :deleted, :source, :title, :search_suppressed, :users_id])
     |> cast_assoc(:users)
     |> validate_required([:body, :source, :title])
   end
