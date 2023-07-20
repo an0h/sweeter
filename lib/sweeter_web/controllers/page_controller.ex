@@ -8,7 +8,6 @@ defmodule SweeterWeb.PageController do
         conn
         |> render(:home, layout: false)
       user ->
-        IO.inspect user
         if user.address == nil do
           conn
           |> put_flash(:info, "Get an address! for the blockchain fun game part.")
@@ -22,22 +21,22 @@ defmodule SweeterWeb.PageController do
 
   def about_api(conn, _params) do
     conn
-    |> render(:about_api, layout: false)
+    |> render(:about_api)
   end
 
   def about_anon(conn, _params) do
     conn
-    |> render(:about_anon, layout: false)
+    |> render(:about_anon)
   end
 
   def energy(conn, _params) do
     conn
-    |> render(:energy, layout: false)
+    |> render(:energy)
   end
 
   def privacy(conn, _params) do
     conn
-    |> render(:privacy, layout: false)
+    |> render(:privacy)
   end
 
   def subscribe(conn, %{"id" => id}) do
@@ -47,7 +46,7 @@ defmodule SweeterWeb.PageController do
         |> put_flash(:info, "Login to create subscriptions")
         |> redirect(to: "/users/#{id}")
       user ->
-        case PublerSubser.subser(id, loggedin_user.id) do
+        case PublerSubser.subser(id, user.id) do
           {:ok, _pubsub} ->
             conn
             |> put_flash(:info, "You were subscribed")

@@ -73,9 +73,8 @@ config :sweeter, :pow,
   mailer_backend: SweeterWeb.Pow.Mailer
 
 config :sweeter,
-  mailgun_domain: "https://api.mailgun.net/v3/sandbox86492a110e704c0b8b67b29ea0907e3e.mailgun.org",
-  mailgun_key: ""
-  # i will rotate this please dont use my quota up
+  mailgun_domain: System.get_env("MAILGUN_URL"),
+  mailgun_key:  System.get_env("MAILGUN_KEY")
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

@@ -4,6 +4,7 @@
 </div>
 <div class="px-4 py-10 sm:px-6 sm:py-28 lg:px-8 xl:px-28 xl:py-32">
   <div class="mx-auto max-w-xl lg:mx-0">
+    <p><a href="/items">Item listing</a></p>
     <p>This is just a development prototype fun game kind of thing, ok? no guarantees about persistance...</p>
     <p class="text-[2rem] mt-4 font-semibold leading-10 tracking-tighter text-zinc-900">
       <.link navigate={Pow.Phoenix.Routes.path_for(@conn, Pow.Phoenix.SessionController, :new)} class="font-semibold text-brand hover:underline">
@@ -18,9 +19,9 @@
     <p>
     <.link href={~p"/session"} method="delete">Logout</.link> 
     </p>
-    <p></p>
-    <p></p>
     <p>
+    <br /><br />
+    <hr />
     Help build internetstate.city! Check out the Elixir repo: <a href="https://github.com/an0h/sweeter" target="_blank">https://github.com/an0h/sweeter</a>
     </p>
   </div>
