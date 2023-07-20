@@ -26,10 +26,6 @@ defmodule SweeterWeb.Router do
   scope "/" do
     pipe_through :browser
 
-    get "/mnemonic", SweeterWeb.SpicyController, :get_mnemonic
-    post "/show_mnemonic", SweeterWeb.SpicyController, :show_mnemonic
-    resources "/items", SweeterWeb.ItemController
-
     pow_routes()
     pow_extension_routes()
   end
@@ -38,6 +34,11 @@ defmodule SweeterWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    get "/mnemonic", SpicyController, :get_mnemonic
+    get "/profile/:id", ProfileController, :show_profile
+    post "/show_mnemonic", SpicyController, :show_mnemonic
+
+    resources "/items", ItemController
   end
 
   scope "/api/v1", SweeterWeb.API.V1, as: :api_v1 do

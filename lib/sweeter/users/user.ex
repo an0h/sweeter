@@ -6,6 +6,9 @@ defmodule Sweeter.Users.User do
   use Pow.Extension.Ecto.Schema,
     extensions: [PowResetPassword, PowEmailConfirmation]
 
+  alias Sweeter.Repo
+  alias Sweeter.Users.User
+
   schema "users" do
     pow_user_fields()
 
@@ -15,6 +18,9 @@ defmodule Sweeter.Users.User do
     field :name, :string
     field :is_admin, :boolean
     field :timeout_until, :utc_datetime
+    field :profile_pic_cid, :string
+    field :blurb, :string
+    field :location, :string
     has_many :items, Sweeter.Content.Item
 
     timestamps()
@@ -30,5 +36,9 @@ defmodule Sweeter.Users.User do
     user
     |> Ecto.Changeset.change()
     |> Ecto.Changeset.put_change(:address, address)
+  end
+
+  def get_profile(id) do
+    Repo.get!(User, id)
   end
 end
