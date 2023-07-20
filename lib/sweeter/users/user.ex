@@ -32,7 +32,11 @@ defmodule Sweeter.Users.User do
     |> pow_extension_changeset(attrs)
   end
 
-  def change_address(user, address) do
+  def change_user(%User{} = user, attrs \\ %{}) do
+    User.changeset(user, attrs)
+  end
+
+  def change_user_address(user, address) do
     user
     |> Ecto.Changeset.change()
     |> Ecto.Changeset.put_change(:address, address)

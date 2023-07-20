@@ -20,6 +20,26 @@ defmodule SweeterWeb.PageController do
     end
   end
 
+  def about_api(conn, _params) do
+    conn
+    |> render(:about_api, layout: false)
+  end
+
+  def about_anon(conn, _params) do
+    conn
+    |> render(:about_anon, layout: false)
+  end
+
+  def energy(conn, _params) do
+    conn
+    |> render(:energy, layout: false)
+  end
+
+  def privacy(conn, _params) do
+    conn
+    |> render(:privacy, layout: false)
+  end
+
   def subscribe(conn, %{"id" => id}) do
     case Pow.Plug.current_user(conn) do
       nil ->
@@ -27,7 +47,7 @@ defmodule SweeterWeb.PageController do
         |> put_flash(:info, "Login to create subscriptions")
         |> redirect(to: "/users/#{id}")
       user ->
-        case PublerSubser.subser(id, user.id) do
+        case PublerSubser.subser(id, loggedin_user.id) do
           {:ok, _pubsub} ->
             conn
             |> put_flash(:info, "You were subscribed")

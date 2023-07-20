@@ -11,6 +11,7 @@ defmodule SweeterWeb.Pow.Mailer do
   def process(email) do
     # Send email
 
+    IO.inspect(email)
     Logger.debug("E-mail sent: #{inspect email}")
   end
 end

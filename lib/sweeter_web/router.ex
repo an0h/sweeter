@@ -34,8 +34,16 @@ defmodule SweeterWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    get "/about_api", PageController, :about_api
+    get "/about_anon", PageController, :about_anon
+    get "/energy", PageController, :energy
+    get "/privacy", PageController, :privacy
     get "/mnemonic", SpicyController, :get_mnemonic
+
     get "/profile/:id", ProfileController, :show_profile
+    get "/edit_profile/:id", ProfileController, :edit_profile
+    post "/update_profile/:id", ProfileController, :update_profile
+
     post "/show_mnemonic", SpicyController, :show_mnemonic
 
     resources "/items", ItemController

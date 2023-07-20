@@ -9,14 +9,14 @@ import Config
 
 config :sweeter,
   ecto_repos: [Sweeter.Repo],
-  api1317: "http://spicy:1317",
-  faucet4500: "http://spicy:4500",
-  assigner5555: "http://spicy:5555"
+  api1317: "http://10.104.0.19:1317",
+  faucet4500: "http://10.104.0.19:4500",
+  assigner5555: "http://10.104.0.19:5555"
 
 # Configures the endpoint
 config :sweeter, SweeterWeb.Endpoint,
   url: [host: "0.0.0.0"],
-  check_origin: ["//0.0.0.0:4000", "//localhost:4000", "//sweeter:4000", "//0.0.0.0", "//localhost", "//sweeter"],
+  check_origin: ["//0.0.0.0:4000", "//localhost:4000", "//sweeter:4000", "//0.0.0.0", "//localhost", "//sweeter", "//cherry.internetstate.city"],
   render_errors: [
     formats: [html: SweeterWeb.ErrorHTML, json: SweeterWeb.ErrorJSON],
     layout: false
@@ -71,6 +71,11 @@ config :sweeter, :pow,
   extensions: [PowResetPassword, PowEmailConfirmation],
   controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks,
   mailer_backend: SweeterWeb.Pow.Mailer
+
+config :sweeter,
+  mailgun_domain: "https://api.mailgun.net/v3/sandbox86492a110e704c0b8b67b29ea0907e3e.mailgun.org",
+  mailgun_key: ""
+  # i will rotate this please dont use my quota up
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
