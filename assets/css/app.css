@@ -19,5 +19,9 @@
 }
 
 .add-reactions {
-    clear:both
+    clear:both;
+}
+
+.smol {
+    font-size: smaller;
 }
