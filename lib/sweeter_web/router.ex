@@ -42,7 +42,7 @@ defmodule SweeterWeb.Router do
 
     get "/profile/:id", ProfileController, :show_profile
     get "/edit_profile/:id", ProfileController, :edit_profile
-    post "/update_profile/:id", ProfileController, :update_profile
+    put "/update_profile", ProfileController, :update_profile
 
     post "/show_mnemonic", SpicyController, :show_mnemonic
 

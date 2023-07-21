@@ -10,17 +10,37 @@ defmodule SweeterWeb.ProfileController do
   end
 
   def edit_profile(conn, %{"id" => id}) do
-    user = User.get_profile(id)
-    changeset = User.change_user(user)
-    conn
-    |> render(:edit, user: user, changeset: changeset)
+    authed_user = Pow.Plug.current_user(conn)
+    {user_id, _} = Integer.parse(id)
+    if authed_user.id == user_id do
+      user = User.get_profile(id)
+      changeset = User.change_user(user)
+      conn
+      |> render(:edit, user: user, changeset: changeset)
+    else
+      # @TODO debit a toke
+      conn
+      |> put_flash(:info, "Naughty.")
+      |> redirect(to: "/")
+    end
   end
 
-  def update_profile(conn, params) do
-    IO.inspect params
-    # changeset = Content.change_item(item)
-    conn
-    |> put_flash(:info, "Updated")
-    |> redirect(to: "/users/#{params.id}")
+  def update_profile(conn, %{"user" => params}) do
+    authed_user = Pow.Plug.current_user(conn)
+    {user_id, _} = Integer.parse(params["id"])
+    if authed_user.id == user_id do
+      user = User.get_profile(user_id)
+      result = User.change_user_profile(user, params)
+      IO.inspect result
+      IO.puts "change result"
+      conn
+      |> put_flash(:info, "Updated")
+      |> redirect(to: "/profile/#{params["id"]}")
+    else
+      # @TODO debit a toke
+      conn
+      |> put_flash(:info, "Naughty.")
+      |> redirect(to: "/")
+    end
   end
 end

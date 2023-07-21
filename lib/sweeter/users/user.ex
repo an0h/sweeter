@@ -32,8 +32,24 @@ defmodule Sweeter.Users.User do
     |> pow_extension_changeset(attrs)
   end
 
+  def profile_changeset(user, attrs) do
+    {age, _} = Integer.parse(attrs["age"])
+    user
+    |> Ecto.Changeset.change()
+    |> Ecto.Changeset.put_change(:age, age)
+    |> Ecto.Changeset.put_change(:blurb, attrs["blurb"])
+    |> Ecto.Changeset.put_change(:handle, attrs["handle"])
+    |> Ecto.Changeset.put_change(:location, attrs["location"])
+    |> Ecto.Changeset.put_change(:name, attrs["name"])
+  end
+
   def change_user(%User{} = user, attrs \\ %{}) do
     User.changeset(user, attrs)
+  end
+
+  def change_user_profile(%User{} = user, attrs \\ %{}) do
+    User.profile_changeset(user, attrs)
+    |> Repo.update()
   end
 
   def change_user_address(user, address) do

@@ -2,8 +2,8 @@
   <.error :if={@changeset.action}>
     Oops, something went wrong! Please check the errors below.
   </.error>
-  <.input field={f[:address]} type="text" label="address" />
-  <.input field={f[:age]} type="text" label="age" />
+  <.input field={f[:id]} type="hidden" />
+  <.input field={f[:age]} type="number" label="age" />
   <.input field={f[:handle]} type="text" label="handle" />
   <.input field={f[:blurb]} type="text" label="blurb" />
   <.input field={f[:location]} type="text" label="location" />
