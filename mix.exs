@@ -43,7 +43,6 @@ defmodule Sweeter.MixProject do
       {:phoenix_live_dashboard, "~> 0.8.0"},
       {:esbuild, "~> 0.7", runtime: Mix.env() == :dev},
       {:tailwind, "~> 0.2.0", runtime: Mix.env() == :dev},
-      {:swoosh, "~> 1.3"},
       {:finch, "~> 0.13"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
@@ -53,7 +52,8 @@ defmodule Sweeter.MixProject do
       {:pow, "~> 1.0"},
       {:httpoison, "~> 2.1"},
       {:poison, "~> 5.0"},
-      {:argon2_elixir, "~> 3.1"}
+      {:argon2_elixir, "~> 3.1"},
+      {:swoosh, "~> 1.6"}
     ]
   end
 

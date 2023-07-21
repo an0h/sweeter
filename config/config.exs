@@ -9,9 +9,9 @@ import Config
 
 config :sweeter,
   ecto_repos: [Sweeter.Repo],
-  api1317: "http://10.104.0.19:1317",
-  faucet4500: "http://10.104.0.19:4500",
-  assigner5555: "http://10.104.0.19:5555"
+  api1317: "http://10.108.7.86:1317",
+  faucet4500: "http://10.108.7.86:4500",
+  assigner5555: "http://10.108.7.86:5555"
 
 # Configures the endpoint
 config :sweeter, SweeterWeb.Endpoint,
@@ -72,9 +72,11 @@ config :sweeter, :pow,
   controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks,
   mailer_backend: SweeterWeb.Pow.Mailer
 
-config :sweeter,
-  mailgun_domain: System.get_env("MAILGUN_URL"),
-  mailgun_key:  System.get_env("MAILGUN_KEY")
+config :sweeter, Sweeter.Mailer,
+  adapter: Swoosh.Adapters.Mailgun,
+  # mailgun_domain: System.get_env("MAILGUN_URL"),
+  # mailgun_key:  System.get_env("MAILGUN_KEY")
+  # sory please dont take my keys
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

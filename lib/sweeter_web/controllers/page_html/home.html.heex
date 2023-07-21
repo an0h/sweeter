@@ -4,9 +4,11 @@
 </div>
 <div class="px-4 py-10 sm:px-6 sm:py-28 lg:px-8 xl:px-28 xl:py-32">
   <div class="mx-auto max-w-xl lg:mx-0">
-    <p><a href="/items">Item listing</a></p>
-    <p>This is just a development prototype fun game kind of thing, ok? no guarantees about persistance...</p>
-    <p class="text-[2rem] mt-4 font-semibold leading-10 tracking-tighter text-zinc-900">
+    <p class="text-[2rem] mt-4 font-semibold leading-10 tracking-tighter">
+      <.link href={"/items"}  class="font-semibold text-brand hover:underline">See Item listing</.link>
+    </p>
+    <p><br />This is just a development prototype fun game kind of thing, ok? no guarantees about persistance...</p>
+    <p class="mt-4 text-base leading-7 text-zinc-600">
       <.link navigate={Pow.Phoenix.Routes.path_for(@conn, Pow.Phoenix.SessionController, :new)} class="font-semibold text-brand hover:underline">
         Sign in
       </.link> now.
@@ -16,7 +18,7 @@
         Sign up
       </.link> now.
     </p>
-    <p>
+    <p class="mt-4 text-base leading-7 text-zinc-600">
     <.link href={~p"/session"} method="delete">Logout</.link> 
     </p>
     <p>
