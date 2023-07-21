@@ -3,7 +3,7 @@ defmodule Sweeter.Repo.Migrations.CreateImages do
 
   def change do
     create table(:images) do
-      add :alt, :string
+      add :alt_text, :text
       add :ipfscid, :string
       add :item_id, references(:items)
 

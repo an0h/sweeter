@@ -5,7 +5,7 @@ defmodule Sweeter.Content.Image do
   alias Sweeter.Content.Image
 
   schema "images" do
-    field :alt, :string
+    field :alt_text, :string
     field :ipfscid, :string
     field :item_id, :integer
 

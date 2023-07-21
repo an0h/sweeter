@@ -41,6 +41,7 @@ defmodule Sweeter.Users.User do
     |> Ecto.Changeset.put_change(:handle, attrs["handle"])
     |> Ecto.Changeset.put_change(:location, attrs["location"])
     |> Ecto.Changeset.put_change(:name, attrs["name"])
+    |> Ecto.Changeset.put_change(:profile_pic_cid, attrs["profile_pic_cid"])
   end
 
   def change_user(%User{} = user, attrs \\ %{}) do

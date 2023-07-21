@@ -63,8 +63,8 @@ if (document.getElementById('file-form')) {
                 if (document.getElementById('item_ipfscids')) {
                     document.getElementById('item_ipfscids').value = ipfscid
                 }
-                if (document.getElementById('user_ipfscids')) {
-                    document.getElementById('user_ipfscids').value = ipfscid
+                if (document.getElementById('user_profile_pic_cid')) {
+                    document.getElementById('user_profile_pic_cid').value = ipfscid
                 }
                 var image = document.createElement("img");
                 image.setAttribute("src", url + "/read?ipfscid=" + ipfscid);

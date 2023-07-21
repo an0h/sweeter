@@ -19,6 +19,10 @@ defmodule SweeterWeb.Router do
     plug SweeterWeb.APIAuthPlug, otp_app: :sweeter
   end
 
+  pipeline :protected do
+    plug Pow.Plug.RequireAuthenticated, error_handler: SweeterWeb.AuthErrorHandler
+  end
+
   pipeline :api_protected do
     plug Pow.Plug.RequireAuthenticated, error_handler: SweeterWeb.APIAuthErrorHandler
   end
@@ -30,6 +34,14 @@ defmodule SweeterWeb.Router do
     pow_extension_routes()
   end
 
+  scope "/" do
+    pipe_through [:browser, :protected]
+
+    get "/profile/:id", SweeterWeb.ProfileController, :show_profile
+    get "/edit_profile/:id", SweeterWeb.ProfileController, :edit_profile
+    put "/update_profile", SweeterWeb.ProfileController, :update_profile
+  end
+
   scope "/", SweeterWeb do
     pipe_through :browser
 
@@ -39,10 +51,6 @@ defmodule SweeterWeb.Router do
     get "/energy", PageController, :energy
     get "/privacy", PageController, :privacy
     get "/mnemonic", SpicyController, :get_mnemonic
-
-    get "/profile/:id", ProfileController, :show_profile
-    get "/edit_profile/:id", ProfileController, :edit_profile
-    put "/update_profile", ProfileController, :update_profile
 
     post "/show_mnemonic", SpicyController, :show_mnemonic
 
