@@ -8,7 +8,7 @@ defmodule SweeterWeb.Pow.Mailer do
   def cast(%{user: user, subject: subject, text: text, html: html}) do
     new_email(
       to: user.email,
-      from: "anoh@decisived.com",
+      from: "no-reply@cherry.internetstate.city",
       subject: subject,
       html_body: html,
       text_body: text

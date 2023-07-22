@@ -24,22 +24,27 @@ defmodule SweeterWeb.API.V1.APIController do
     if attrs["media"] do
       associate_links(attrs["media"])
     end
+    {:ok, {user_id, user_address}} = user_id_address(conn)
     new = Map.merge(attrs,
-      %{"body" => "", "imagealt" => "", "format" => "", "source" => "api", "ipfscids" => ipfscid},
+      %{"body" => "", "imagealt" => "", "format" => "", "source" => "api", "ipfscids" => ipfscid, "users_id" => user_id},
       fn _k, v1, _v2 ->
         v1
       end)
     case Item.create_item(new) do
       {:ok, item} ->
-        case Pow.Plug.current_user(conn) do
-          nil ->
-            IO.puts "no user credited for api item"
-          user ->
-            CreditDebit.increment_api(user.address)
-        end
+        CreditDebit.increment_api(user_address)
         render(conn, "item.json", item: item)
       {:error, %Ecto.Changeset{} = _changeset} ->
         send_resp(conn, "error.json", "Item not created")
+    end
+  end
+
+  defp user_id_address(conn) do
+    case Pow.Plug.current_user(conn) do
+      nil ->
+        {:error}
+      user ->
+        {:ok, {user.id, user.address}}
     end
   end
 

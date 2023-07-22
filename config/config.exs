@@ -9,9 +9,9 @@ import Config
 
 config :sweeter,
   ecto_repos: [Sweeter.Repo],
-  api1317: "http://10.104.0.13:1317",
-  faucet4500: "http://10.104.0.13:4500",
-  assigner5555: "http://10.104.0.13:5555"
+  api1317: "http://spicy-svc.default.svc.cluster.local:1317",
+  faucet4500: "http://spicy-svc.default.svc.cluster.local:4500",
+  assigner5555: "http://spicy-svc.default.svc.cluster.local:5555"
 
 # Configures the endpoint
 config :sweeter, SweeterWeb.Endpoint,
@@ -74,7 +74,7 @@ config :sweeter, :pow,
 
 config :sweeter, SweeterWeb.Pow.Mailer,
   adapter: Bamboo.MandrillAdapter,
-  api_key: "",
+  api_key: System.get_env("MANDARILL_KEY"),
   hackney_opts: [
     recv_timeout: :timer.minutes(1)
   ]
