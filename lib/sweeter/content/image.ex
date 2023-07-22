@@ -15,7 +15,7 @@ defmodule Sweeter.Content.Image do
   @doc false
   def changeset(image, attrs) do
     image
-    |> cast(attrs, [:alt, :ipfscid, :item_id])
+    |> cast(attrs, [:alt_text, :ipfscid, :item_id])
     |> validate_required([:ipfscid, :item_id])
   end
 

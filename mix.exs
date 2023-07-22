@@ -53,7 +53,8 @@ defmodule Sweeter.MixProject do
       {:httpoison, "~> 2.1"},
       {:poison, "~> 5.0"},
       {:argon2_elixir, "~> 3.1"},
-      {:swoosh, "~> 1.6"}
+      {:swoosh, "~> 1.6"},
+      {:bamboo, "~> 2.3"}
     ]
   end
 

@@ -9,9 +9,9 @@ import Config
 
 config :sweeter,
   ecto_repos: [Sweeter.Repo],
-  api1317: "http://10.108.7.86:1317",
-  faucet4500: "http://10.108.7.86:4500",
-  assigner5555: "http://10.108.7.86:5555"
+  api1317: "http://10.104.0.13:1317",
+  faucet4500: "http://10.104.0.13:4500",
+  assigner5555: "http://10.104.0.13:5555"
 
 # Configures the endpoint
 config :sweeter, SweeterWeb.Endpoint,
@@ -73,12 +73,18 @@ config :sweeter, :pow,
   mailer_backend: SweeterWeb.Pow.Mailer
 
 config :sweeter, SweeterWeb.Pow.Mailer,
-  adapter: Swoosh.Adapters.Mailgun,
-  # domain: System.get_env("MAILGUN_URL"),
-  # api_key:  System.get_env("MAILGUN_KEY")
+  adapter: Bamboo.MandrillAdapter,
+  api_key: "",
+  hackney_opts: [
+    recv_timeout: :timer.minutes(1)
+  ]
+# config :sweeter, SweeterWeb.Pow.Mailer,
+#   adapter: Bamboo.MailgunAdapter,
+#   hackney_opts: [
+#     recv_timeout: :timer.minutes(1)
+#   ]
   # sory please dont take my keys
-
-  config :swoosh, api_client: Swoosh.ApiClient.Sweeter, sweeter: SweeterWeb.Pow.Mailer
+config :swoosh, api_client: Swoosh.ApiClient.Sweeter, sweeter: SweeterWeb.Pow.Mailer
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

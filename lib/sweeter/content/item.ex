@@ -26,7 +26,7 @@ defmodule Sweeter.Content.Item do
     item
     |> cast(attrs, [:body, :deleted, :source, :title, :search_suppressed, :users_id])
     |> cast_assoc(:users)
-    |> validate_required([:body, :source, :title])
+    |> validate_required([:body, :title])
   end
 
   def get_all do
