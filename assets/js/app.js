@@ -74,3 +74,39 @@ if (document.getElementById('file-form')) {
         xhr.send(formData)
     }
 }
+
+let translate_button = document.getElementById("translate")
+if (translate_button) {
+    translate_button.addEventListener("click", function() {
+        let text = fetchItemText()
+        let xhr = new XMLHttpRequest()
+        xhr.open("POST", "https://translate.internetstate.city/translate", true);
+        xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    let translation = JSON.parse(xhr.responseText)
+                    console.log("The translation " + JSON.stringify(translation))
+                    if (document.getElementById('translation')) {
+                        let translated = document.getElementById('translation')
+                        translated.textContent = translation["translatedText"]
+                    }
+                }
+            }
+            // xhr.onload = requestComplete;
+        xhr.setRequestHeader("Content-Type", "application/json")
+        let res = xhr.send(JSON.stringify({
+            q: text,
+            source: "auto",
+            target: "es",
+            format: "text",
+            api_key: ""
+        }))
+
+    })
+}
+
+function fetchItemText() {
+    let node = document.getElementById('item-contents')
+    let textContent = node.textContent
+    console.log(textContent)
+    return textContent
+}

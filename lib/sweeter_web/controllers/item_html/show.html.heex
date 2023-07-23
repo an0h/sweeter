@@ -1,6 +1,6 @@
 <.header>
-  Item <%= @item.id %>
-  <:subtitle>This is a item record from your database.</:subtitle>
+  <%= @item.title %>
+  <:subtitle>From.</:subtitle>
   <:actions>
     <.link href={~p"/items/#{@item}/edit"}>
       <.button>Edit item</.button>
@@ -13,12 +13,17 @@
   <img src={"https://sweetipfs.herokuapp.com/read?ipfscid=#{image.ipfscid}"} />
   <% end %>
 <% end %>
+<div id="item-contents">
 <.list>
+  <:item title="Title"><%= @item.title %></:item>
   <:item title="Body"><%= @item.body %></:item>
   <:item title="Deleted"><%= @item.deleted %></:item>
   <:item title="Source"><%= @item.source %></:item>
-  <:item title="Title"><%= @item.title %></:item>
 </.list>
+</div>
+<div id="translation">
+</div>
+<.button id="translate">Translate</.button>
 
 <.back navigate={~p"/items"}>Back to items</.back>
 
