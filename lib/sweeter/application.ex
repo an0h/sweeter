@@ -7,10 +7,6 @@ defmodule Sweeter.Application do
 
   @impl true
   def start(_type, _args) do
-    # create ets table
-    :ets.new(:user_interactions, [:named_table, :public])
-    :ets.new(:api_activities, [:named_table, :public])
-
     children = [
       # Start the Telemetry supervisor
       SweeterWeb.Telemetry,
@@ -27,6 +23,10 @@ defmodule Sweeter.Application do
       # Start a worker by calling: Sweeter.Worker.start_link(arg)
       # {Sweeter.Worker, arg}
     ]
+
+    # create ets table
+    :ets.new(:user_interactions, [:named_table, :public])
+    :ets.new(:api_activities, [:named_table, :public])
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options

@@ -14,7 +14,7 @@ defmodule Sweeter.Content.Item do
     field :source, :string
     field :title, :string
     field :search_suppressed, :boolean, default: false
-    belongs_to :users, Sweeter.Users.User
+    belongs_to :user, Sweeter.Users.User
     has_many :reactions, Sweeter.Content.Reactions
     has_many :images, Sweeter.Content.Image
 
@@ -25,7 +25,7 @@ defmodule Sweeter.Content.Item do
   def changeset(item, attrs) do
     item
     |> cast(attrs, [:body, :deleted, :source, :title, :search_suppressed, :user_id])
-    |> cast_assoc(:users)
+    |> cast_assoc(:user)
     |> validate_required([:body, :title])
     |> unique_constraint(:title)
   end

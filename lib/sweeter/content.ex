@@ -68,7 +68,9 @@ defmodule Sweeter.Content do
 
   """
   def delete_item(%Item{} = item) do
-    Repo.delete(item)
+    item
+    |> Item.changeset(%{deleted: true})
+    |> Repo.update()
   end
 
   @doc """

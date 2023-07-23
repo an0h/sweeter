@@ -26,7 +26,7 @@ defmodule SweeterWeb.API.V1.APIController do
     end
     {:ok, {user_id, user_address}} = user_id_address(conn)
     new = Map.merge(attrs,
-      %{"body" => "", "imagealt" => "", "format" => "", "source" => "api", "ipfscids" => ipfscid, "users_id" => user_id},
+      %{"body" => "", "imagealt" => "", "format" => "", "source" => "api", "ipfscids" => ipfscid, "user_id" => user_id},
       fn _k, v1, _v2 ->
         v1
       end)

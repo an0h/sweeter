@@ -17,6 +17,7 @@ defmodule Sweeter.Users.User do
     field :handle, :string
     field :name, :string
     field :is_admin, :boolean
+    field :is_moderator, :boolean
     field :timeout_until, :utc_datetime
     field :profile_pic_cid, :string
     field :blurb, :string
@@ -30,13 +31,13 @@ defmodule Sweeter.Users.User do
     user_or_changeset
     |> pow_changeset(attrs)
     |> pow_extension_changeset(attrs)
+    |> Ecto.Changeset.cast(attrs, [:is_admin, :timeout_until, :blurb])
   end
 
   def profile_changeset(user, attrs) do
-    {age, _} = Integer.parse(attrs["age"])
     user
     |> Ecto.Changeset.change()
-    |> Ecto.Changeset.put_change(:age, age)
+    |> Ecto.Changeset.put_change(:age, age_integer(attrs["age"]))
     |> Ecto.Changeset.put_change(:blurb, attrs["blurb"])
     |> Ecto.Changeset.put_change(:handle, attrs["handle"])
     |> Ecto.Changeset.put_change(:location, attrs["location"])
@@ -61,5 +62,24 @@ defmodule Sweeter.Users.User do
 
   def get_profile(id) do
     Repo.get!(User, id)
+  end
+
+  def get_is_admin(conn) do
+    case Pow.Plug.current_user(conn) do
+      nil ->
+        false
+      user ->
+        user.is_admin || user.is_moderator
+    end
+  end
+
+  defp age_integer(a) do
+    try do
+      {age, _} = Integer.parse(a)
+      age
+    rescue
+      _e ->
+        nil
+    end
   end
 end
