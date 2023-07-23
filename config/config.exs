@@ -70,7 +70,8 @@ config :sweeter, :pow,
   repo: Sweeter.Repo,
   extensions: [PowResetPassword, PowEmailConfirmation],
   controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks,
-  mailer_backend: SweeterWeb.Pow.Mailer
+  mailer_backend: SweeterWeb.Pow.Mailer,
+  cache_store_backend: Pow.Store.Backend.MnesiaCache
 
 config :sweeter, SweeterWeb.Pow.Mailer,
   adapter: Bamboo.MandrillAdapter,

@@ -20,6 +20,8 @@ defmodule Sweeter.Application do
       {Phoenix.PubSub, name: Sweeter.PubSub},
       # Start Finch
       {Finch, name: Sweeter.Finch},
+      # Start Mnesia
+      {Pow.Store.Backend.MnesiaCache, extra_db_nodes: {Node, :list, []}},
       # Start the Endpoint (http/https)
       SweeterWeb.Endpoint
       # Start a worker by calling: Sweeter.Worker.start_link(arg)
