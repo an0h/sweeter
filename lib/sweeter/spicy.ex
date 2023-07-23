@@ -61,9 +61,10 @@ defmodule Sweeter.Spicy do
     response = HTTPoison.post!(faucet, Poison.encode!(body), headers)
 
     # Access the response status code, headers, and body
-    status_code = response.status_code
-    response_headers = response.headers
-    response_body = Poison.decode!(response.body)
+    # status_code = response.status_code
+    # response_headers = response.headers
+    # response_body =
+    Poison.decode!(response.body)
   end
 
   defp buildurl(email, mnemonic) do

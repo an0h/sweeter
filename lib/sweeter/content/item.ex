@@ -24,9 +24,10 @@ defmodule Sweeter.Content.Item do
   @doc false
   def changeset(item, attrs) do
     item
-    |> cast(attrs, [:body, :deleted, :source, :title, :search_suppressed, :users_id])
+    |> cast(attrs, [:body, :deleted, :source, :title, :search_suppressed, :user_id])
     |> cast_assoc(:users)
     |> validate_required([:body, :title])
+    |> unique_constraint(:title)
   end
 
   def get_all do
@@ -51,7 +52,6 @@ defmodule Sweeter.Content.Item do
   end
 
   def create_item(attrs \\ %{}) do
-    IO.inspect attrs
     {:ok, item} = %Item{}
       |> Item.changeset(attrs)
       |> Repo.insert()
