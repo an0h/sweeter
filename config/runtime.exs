@@ -76,6 +76,14 @@ if config_env() == :prod do
         ]
       ]
     ]
+
+  config :sweeter, SweeterWeb.Pow.Mailer,
+    adapter: Bamboo.MandrillAdapter,
+    api_key: System.get_env("MANDARILL_KEY"),
+    hackney_opts: [
+      recv_timeout: :timer.minutes(1)
+    ]
+
   # ## SSL Support
   #
   # To get SSL working, you will need to add the `https` key
