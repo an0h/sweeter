@@ -31,19 +31,26 @@ defmodule SweeterWeb.ItemController do
   end
 
   def show(conn, %{"id" => id}) do
-    item = Content.get_item!(id) |> Repo.preload(:images)
+    item = Content.get_item!(id)
+      |> Repo.preload(:images)
+      |> Repo.preload(:moderations)
     reactions = Reactions.get_reactions_for_item(id)
     item = %{item | reactions: reactions}
 
     case Pow.Plug.current_user(conn) do
       nil ->
         conn
-        |> render(:show, item: item, address: "")
+        |> render(:show, item: item, address: "", is_moderator: false, moderation_changeset: %Moderation{})
       user ->
+        is_moderator = User.get_is_moderator(conn)
         moderation_changeset = Content.change_moderation(%Moderation{},
           %{"item_id" => item.id, "requestor_id" => user.id})
         conn
-        |> render(:show, item: item, address: user.address, moderation_changeset: moderation_changeset)
+        |> render(:show,
+          item: item,
+          address: user.address,
+          is_moderator: is_moderator,
+          moderation_changeset: moderation_changeset)
     end
   end
 
@@ -70,7 +77,7 @@ defmodule SweeterWeb.ItemController do
   end
 
   def delete(conn, %{"id" => id}) do
-    case User.get_is_admin(conn) do
+    case User.get_is_moderator(conn) do
       true ->
         item = Content.get_item!(id)
         {:ok, _item} = Content.delete_item(item)

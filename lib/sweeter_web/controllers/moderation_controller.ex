@@ -19,7 +19,7 @@ defmodule SweeterWeb.ModerationController do
       {:ok, moderation} ->
         conn
         |> put_flash(:info, "Moderation created successfully.")
-        |> redirect(to: ~p"/moderations/#{moderation}")
+        |> redirect(to: "/items/#{moderation.item_id}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, :new, changeset: changeset)

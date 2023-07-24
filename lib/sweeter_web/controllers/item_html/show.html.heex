@@ -43,3 +43,9 @@
 <%= if @address != "" do %>
 <.moderation_form changeset={@moderation_changeset} action={~p"/moderations"} />
 <% end %>
+
+<%= if @is_moderator == true do %>
+  <%= for moderation <- @item.moderations do %>
+  <li><%= moderation.category %> <%= moderation.reason %></li>
+  <% end %>
+<% end %>

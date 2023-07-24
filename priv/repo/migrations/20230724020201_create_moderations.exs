@@ -3,7 +3,7 @@ defmodule Sweeter.Repo.Migrations.CreateModerations do
 
   def change do
     create table(:moderations) do
-      add :requestor_id, :bigint
+      add :requestor_id, references(:users)
       add :item_id, references(:items)
       add :reason, :text
       add :category, :string

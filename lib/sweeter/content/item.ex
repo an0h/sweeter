@@ -17,6 +17,7 @@ defmodule Sweeter.Content.Item do
     belongs_to :user, Sweeter.Users.User
     has_many :reactions, Sweeter.Content.Reactions
     has_many :images, Sweeter.Content.Image
+    has_many :moderations, Sweeter.Content.Moderation
 
     timestamps()
   end

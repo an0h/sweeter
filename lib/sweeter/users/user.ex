@@ -6,6 +6,8 @@ defmodule Sweeter.Users.User do
   use Pow.Extension.Ecto.Schema,
     extensions: [PowResetPassword, PowEmailConfirmation]
 
+  import Ecto.Changeset
+
   alias Sweeter.Repo
   alias Sweeter.Users.User
 
@@ -29,20 +31,14 @@ defmodule Sweeter.Users.User do
 
   def changeset(user_or_changeset, attrs) do
     user_or_changeset
+    |> profile_changeset(attrs)
     |> pow_changeset(attrs)
     |> pow_extension_changeset(attrs)
-    |> Ecto.Changeset.cast(attrs, [:is_admin, :timeout_until, :blurb])
   end
 
   def profile_changeset(user, attrs) do
     user
-    |> Ecto.Changeset.change()
-    |> Ecto.Changeset.put_change(:age, age_integer(attrs["age"]))
-    |> Ecto.Changeset.put_change(:blurb, attrs["blurb"])
-    |> Ecto.Changeset.put_change(:handle, attrs["handle"])
-    |> Ecto.Changeset.put_change(:location, attrs["location"])
-    |> Ecto.Changeset.put_change(:name, attrs["name"])
-    |> Ecto.Changeset.put_change(:profile_pic_cid, attrs["profile_pic_cid"])
+    |> cast(attrs, [:age, :address, :blurb, :handle, :location, :name, :is_admin, :is_moderator, :profile_pic_cid, :timeout_until])
   end
 
   def change_user(%User{} = user, attrs \\ %{}) do
@@ -64,11 +60,12 @@ defmodule Sweeter.Users.User do
     Repo.get!(User, id)
   end
 
-  def get_is_admin(conn) do
+  def get_is_moderator(conn) do
     case Pow.Plug.current_user(conn) do
       nil ->
         false
       user ->
+        IO.inspect user
         user.is_admin || user.is_moderator
     end
   end
