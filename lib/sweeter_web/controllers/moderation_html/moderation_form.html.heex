@@ -1,0 +1,19 @@
+<.simple_form :let={f} for={@changeset} action={@action}>
+  <.error :if={@changeset.action}>
+    Oops, something went wrong! Please check the errors below.
+  </.error>
+  <.input field={f[:requestor_id]} type="hidden" />
+  <.input field={f[:item_id]} type="hidden" />
+  <.input field={f[:reason]} type="textarea" label="Reason" />
+  <.input field={f[:category]} type="select" options={
+        [ {"plaigarism", "plaigarism"}, 
+          {"violence", "violence"},
+          {"threat", "threat"},
+          {"lewd", "lewd"},
+          {"uncouth", "uncouth"}
+        ]
+      } label="Category" />
+  <:actions>
+    <.button>Request Moderation</.button>
+  </:actions>
+</.simple_form>

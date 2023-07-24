@@ -40,6 +40,8 @@ defmodule SweeterWeb.Router do
     get "/profile/:id", SweeterWeb.ProfileController, :show_profile
     get "/edit_profile/:id", SweeterWeb.ProfileController, :edit_profile
     put "/update_profile", SweeterWeb.ProfileController, :update_profile
+
+    resources "/moderations", SweeterWeb.ModerationController,  only: [:index, :show, :create, :new]
   end
 
   scope "/", SweeterWeb do

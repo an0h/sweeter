@@ -1,15 +1,13 @@
-defmodule SweeterWeb.ItemHTML do
+defmodule SweeterWeb.ModerationHTML do
   use SweeterWeb, :html
 
-  embed_templates "item_html/*"
-  embed_templates "file_upload_html/*"
   embed_templates "moderation_html/*"
 
   @doc """
-  Renders a item form.
+  Renders a moderation form.
   """
   attr :changeset, Ecto.Changeset, required: true
   attr :action, :string, required: true
 
-  def item_form(assigns)
+  def moderation_form(assigns)
 end

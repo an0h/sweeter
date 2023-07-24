@@ -70,16 +70,7 @@ config :sweeter, :pow,
   repo: Sweeter.Repo,
   extensions: [PowResetPassword, PowEmailConfirmation],
   controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks,
-  mailer_backend: SweeterWeb.Pow.Mailer,
   cache_store_backend: Pow.Store.Backend.MnesiaCache
-
-# config :sweeter, SweeterWeb.Pow.Mailer,
-#   adapter: Bamboo.MailgunAdapter,
-#   hackney_opts: [
-#     recv_timeout: :timer.minutes(1)
-#   ]
-  # sory please dont take my keys
-config :swoosh, api_client: Swoosh.ApiClient.Sweeter, sweeter: SweeterWeb.Pow.Mailer
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

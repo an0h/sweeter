@@ -1,0 +1,8 @@
+<.header>
+  Edit Moderation <%= @moderation.id %>
+  <:subtitle>Use this form to manage moderation records in your database.</:subtitle>
+</.header>
+
+<.moderation_form changeset={@changeset} action={~p"/moderations/#{@moderation}"} />
+
+<.back navigate={~p"/moderations"}>Back to moderations</.back>

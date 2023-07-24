@@ -1,0 +1,17 @@
+<.header>
+  Moderation <%= @moderation.id %>
+  <:subtitle>This is a moderation record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/moderations/#{@moderation}/edit"}>
+      <.button>Edit moderation</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Requestor"><%= @moderation.requestor_id %></:item>
+  <:item title="Reason"><%= @moderation.reason %></:item>
+  <:item title="Category"><%= @moderation.category %></:item>
+</.list>
+
+<.back navigate={~p"/moderations"}>Back to moderations</.back>

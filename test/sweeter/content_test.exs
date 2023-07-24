@@ -62,4 +62,62 @@ defmodule Sweeter.ContentTest do
       assert %Ecto.Changeset{} = Content.change_item(item)
     end
   end
+
+  describe "moderations" do
+    alias Sweeter.Content.Moderation
+
+    import Sweeter.ContentFixtures
+
+    @invalid_attrs %{category: nil, reason: nil, requestor_id: nil}
+
+    test "list_moderations/0 returns all moderations" do
+      moderation = moderation_fixture()
+      assert Content.list_moderations() == [moderation]
+    end
+
+    test "get_moderation!/1 returns the moderation with given id" do
+      moderation = moderation_fixture()
+      assert Content.get_moderation!(moderation.id) == moderation
+    end
+
+    test "create_moderation/1 with valid data creates a moderation" do
+      valid_attrs = %{category: "some category", reason: "some reason", requestor_id: 42}
+
+      assert {:ok, %Moderation{} = moderation} = Content.create_moderation(valid_attrs)
+      assert moderation.category == "some category"
+      assert moderation.reason == "some reason"
+      assert moderation.requestor_id == 42
+    end
+
+    test "create_moderation/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Content.create_moderation(@invalid_attrs)
+    end
+
+    test "update_moderation/2 with valid data updates the moderation" do
+      moderation = moderation_fixture()
+      update_attrs = %{category: "some updated category", reason: "some updated reason", requestor_id: 43}
+
+      assert {:ok, %Moderation{} = moderation} = Content.update_moderation(moderation, update_attrs)
+      assert moderation.category == "some updated category"
+      assert moderation.reason == "some updated reason"
+      assert moderation.requestor_id == 43
+    end
+
+    test "update_moderation/2 with invalid data returns error changeset" do
+      moderation = moderation_fixture()
+      assert {:error, %Ecto.Changeset{}} = Content.update_moderation(moderation, @invalid_attrs)
+      assert moderation == Content.get_moderation!(moderation.id)
+    end
+
+    test "delete_moderation/1 deletes the moderation" do
+      moderation = moderation_fixture()
+      assert {:ok, %Moderation{}} = Content.delete_moderation(moderation)
+      assert_raise Ecto.NoResultsError, fn -> Content.get_moderation!(moderation.id) end
+    end
+
+    test "change_moderation/1 returns a moderation changeset" do
+      moderation = moderation_fixture()
+      assert %Ecto.Changeset{} = Content.change_moderation(moderation)
+    end
+  end
 end

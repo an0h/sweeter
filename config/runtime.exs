@@ -77,6 +77,11 @@ if config_env() == :prod do
       ]
     ]
 
+  config :swoosh, api_client: Swoosh.ApiClient.Sweeter, sweeter: SweeterWeb.Pow.Mailer
+
+  config :sweeter, :pow,
+    mailer_backend: SweeterWeb.Pow.Mailer
+
   config :sweeter, SweeterWeb.Pow.Mailer,
     adapter: Bamboo.MandrillAdapter,
     api_key: System.get_env("MANDARILL_KEY"),

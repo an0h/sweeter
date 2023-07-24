@@ -4,6 +4,7 @@ defmodule SweeterWeb.ItemController do
   alias Sweeter.Repo
   alias Sweeter.Content
   alias Sweeter.Content.Item
+  alias Sweeter.Content.Moderation
   alias Sweeter.Content.Reactions
   alias Sweeter.Users.User
 
@@ -39,8 +40,10 @@ defmodule SweeterWeb.ItemController do
         conn
         |> render(:show, item: item, address: "")
       user ->
+        moderation_changeset = Content.change_moderation(%Moderation{},
+          %{"item_id" => item.id, "requestor_id" => user.id})
         conn
-        |> render(:show, item: item, address: user.address)
+        |> render(:show, item: item, address: user.address, moderation_changeset: moderation_changeset)
     end
   end
 

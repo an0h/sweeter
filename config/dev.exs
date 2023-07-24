@@ -77,4 +77,16 @@ config :phoenix, :stacktrace_depth, 20
 config :phoenix, :plug_init_mode, :runtime
 
 # Disable swoosh api client as it is only required for production adapters.
-config :swoosh, :api_client, false
+# config :swoosh, :api_client, false
+
+config :swoosh, api_client: Swoosh.ApiClient.Sweeter, sweeter: SweeterWeb.Pow.Mailer1
+
+config :sweeter, :pow,
+  mailer_backend: SweeterWeb.Pow.Mailer1
+
+config :sweeter, SweeterWeb.Pow.Mailer1,
+  adapter: Bamboo.MandrillAdapter,
+  api_key: System.get_env("MANDARILL_KEY"),
+  hackney_opts: [
+    recv_timeout: :timer.minutes(1)
+  ]
