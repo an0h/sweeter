@@ -19,6 +19,8 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 https://hexdocs.pm/pow/api.html#content
 https://abulasar.com/adding-infinite-scroll-in-phoenix-liveview-app
+https://blog.differentpla.net/blog/2022/01/08/libcluster-kubernetes/
+https://www.welcometothejungle.com/fr/articles/redis-mnesia-distributed-database
 
 ```
 curl -X POST -d 'user[email]=sc@rib.e&user[password]=dapaSS!2' http://localhost:4000/api/v1/session  | jq -r '.[]["access_token"]'

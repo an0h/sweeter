@@ -7,6 +7,17 @@ defmodule Sweeter.Application do
 
   @impl true
   def start(_type, _args) do
+    topologies = [
+      sweeter_k8s: [
+        strategy: Elixir.Cluster.Strategy.Kubernetes.DNS,
+        config: [
+          service: "sweeter-svc",
+          application_name: "sweeter",
+          polling_interval: 10_000
+        ]
+      ]
+    ]
+
     children = [
       # Start the Telemetry supervisor
       SweeterWeb.Telemetry,
@@ -16,9 +27,12 @@ defmodule Sweeter.Application do
       {Phoenix.PubSub, name: Sweeter.PubSub},
       # Start Finch
       {Finch, name: Sweeter.Finch},
+      # Cluster Supervisor
+      {Cluster.Supervisor, [topologies, [name: Sweeter.ClusterSupervisor]]},
       # Start Mnesia,
-      Pow.Store.Backend.MnesiaCache,
-      # {Pow.Store.Backend.MnesiaCache, extra_db_nodes: {Node, :list, []}},
+      # Pow.Store.Backend.MnesiaCache,
+      {Pow.Store.Backend.MnesiaCache, extra_db_nodes: {Node, :list, []}},
+      Pow.Store.Backend.MnesiaCache.Unsplit,
       # Start the Endpoint (http/https)
       SweeterWeb.Endpoint
       # Start a worker by calling: Sweeter.Worker.start_link(arg)

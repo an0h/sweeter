@@ -63,20 +63,6 @@ if config_env() == :prod do
     ],
     secret_key_base: secret_key_base
 
-  config :libcluster,
-    topologies: [
-      erlang_nodes_in_k8s: [
-        strategy: Elixir.Cluster.Strategy.Kubernetes,
-        config: [
-          mode: :ip,
-          kubernetes_node_basename: "sweeter",
-          kubernetes_selector: "app=sweeter",
-          kubernetes_namespace: "default",
-          polling_interval: 10_000
-        ]
-      ]
-    ]
-
   config :swoosh, api_client: Swoosh.ApiClient.Sweeter, sweeter: SweeterWeb.Pow.Mailer
 
   config :sweeter, :pow,

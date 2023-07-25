@@ -3,6 +3,8 @@ defmodule SweeterWeb.PageController do
   alias Sweeter.Content.PublerSubser
 
   def home(conn, _params) do
+    nodes = inspect(Node.list())
+    IO.inspect nodes
     case Pow.Plug.current_user(conn) do
       nil ->
         conn
