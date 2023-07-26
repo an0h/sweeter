@@ -65,7 +65,6 @@ defmodule Sweeter.Users.User do
       nil ->
         false
       user ->
-        IO.inspect user
         user.is_admin || user.is_moderator
     end
   end

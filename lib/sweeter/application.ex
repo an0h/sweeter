@@ -39,10 +39,6 @@ defmodule Sweeter.Application do
       # {Sweeter.Worker, arg}
     ]
 
-    # create ets table
-    :ets.new(:user_interactions, [:named_table, :public])
-    :ets.new(:api_activities, [:named_table, :public])
-
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Sweeter.Supervisor]
