@@ -31,6 +31,11 @@ defmodule SweeterWeb.PageController do
     |> render(:about_anon)
   end
 
+  def about_tech(conn, _params) do
+    conn
+    |> render(:about_tech)
+  end
+
   def energy(conn, _params) do
     conn
     |> render(:energy)

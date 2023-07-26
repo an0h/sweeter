@@ -50,6 +50,7 @@ defmodule SweeterWeb.Router do
     get "/", PageController, :home
     get "/about_api", PageController, :about_api
     get "/about_anon", PageController, :about_anon
+    get "/about_tech", PageController, :about_tech
     get "/energy", PageController, :energy
     get "/privacy", PageController, :privacy
     get "/mnemonic", SpicyController, :get_mnemonic
