@@ -1,12 +1,11 @@
 defmodule Sweeter.CreditDebit do
-  alias Sweeter.UserCache
 
   def increment_api(address) do
     case get_cache_from_address(address) do
-      %Sweeter.UserCache{
+      {:atomic, [%{
           address: address,
           reaction_count: reaction_count,
-          api_count: api_count} ->
+          api_count: api_count}]} ->
         new_value = api_count + 1
         address_write(address, reaction_count, new_value)
         modulus_100(address, new_value)
@@ -20,10 +19,10 @@ defmodule Sweeter.CreditDebit do
 
   def increment_interaction(address) do
     case get_cache_from_address(address) do
-      %Sweeter.UserCache{
+      {:atomic, [%{
           address: address,
           reaction_count: reaction_count,
-          api_count: api_count} ->
+          api_count: api_count}]} ->
         new_value = reaction_count + 1
         address_write(address, new_value, api_count)
         modulus_10(address, new_value)
@@ -36,21 +35,24 @@ defmodule Sweeter.CreditDebit do
   end
 
   defp get_cache_from_address(address) do
-    Memento.transaction! fn ->
-      Memento.Query.read(UserCache, address)
+    data_to_read = fn ->
+      :mnesia.read({User, address})
     end
+    :mnesia.transaction(data_to_read)
   end
 
   defp address_write(address) do
-    Memento.transaction! fn ->
-      Memento.Query.write(%UserCache{address: address, reaction_count: 0, api_count: 0})
+    data_to_write = fn ->
+      :mnesia.write({User, address, 0, 0})
     end
+    :mnesia.transaction(data_to_write)
   end
 
   defp address_write(address, reaction_count, api_count) do
-    Memento.transaction! fn ->
-      Memento.Query.write(%UserCache{address: address, reaction_count: reaction_count, api_count: api_count})
+    data_to_write = fn ->
+      :mnesia.write({User, address, reaction_count, api_count})
     end
+    :mnesia.transaction(data_to_write)
   end
 
   defp modulus_10(address, value) do

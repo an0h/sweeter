@@ -4,6 +4,7 @@ defmodule Sweeter.Application do
   @moduledoc false
 
   use Application
+  alias Mensia
 
   @impl true
   def start(_type, _args) do
@@ -38,6 +39,8 @@ defmodule Sweeter.Application do
       # Start a worker by calling: Sweeter.Worker.start_link(arg)
       # {Sweeter.Worker, arg}
     ]
+
+    :mnesia.create_table(User, [:address, :reaction_count, :api_count])
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
