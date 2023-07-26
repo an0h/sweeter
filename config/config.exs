@@ -63,8 +63,6 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-config :mnesia, :dir, '/tmp/sweeter'
-
 config :sweeter, :pow,
   web_mailer_module: SweeterWeb,
   web_module: SweeterWeb,

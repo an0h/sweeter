@@ -63,6 +63,8 @@ if config_env() == :prod do
     ],
     secret_key_base: secret_key_base
 
+  # config :mnesia, :dir, "/vol/#{System.get_env("POD_IP")}"
+
   config :swoosh, api_client: Swoosh.ApiClient.Sweeter, sweeter: SweeterWeb.Pow.Mailer
 
   config :sweeter, :pow,
