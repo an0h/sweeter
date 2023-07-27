@@ -27,9 +27,10 @@ defmodule Sweeter.Spicy do
 
   def get_cosmos_by_address(address) do
     api_service = fetchSpicy1317()
-    url = "http://#{api_service}/cosmos/auth/v1beta1/accounts/#{address}"
+    url = "#{api_service}/cosmos/auth/v1beta1/accounts/#{address}"
     headers = [{"Content-type", "application/json"}, {"accept", "application/json"}]
 
+    IO.inspect url
     IO.puts "in this get cosmos by address"
     try do
       {status, response} =

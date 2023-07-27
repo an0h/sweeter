@@ -1,28 +1,24 @@
 <header class="px-4 sm:px-6 lg:px-8">
   <div class="flex items-center justify-between border-b border-zinc-100 py-3 text-sm">
-    <div class="flex items-center gap-4">
-      <a href="/">Home</a>
-      <a href="/privacy">Privacy</a>
-      <a href="/energy">Energy</a>
-      <a href="/about_anon">Anon</a>
-      <a href="/about_api">API</a>
-      <a href="/about_tech">Tech</a>
-    </div>
     <div class="flex items-center gap-4 font-semibold leading-6 text-zinc-900">
-
-    <p class="hover:text-zinc-700">
-      <.link navigate="/session/new" class="font-semibold text-brand hover:underline">
-        Sign in
-      </.link>
-    </p>
-    <p class="hover:text-zinc-700">
-      <.link navigate="/registration/new" class="font-semibold text-brand hover:underline">
-        Sign up
-      </.link>
-    </p>
-    <p class="rounded-lg bg-zinc-100 px-2 py-1 hover:bg-zinc-200/80">
-      <.link href={~p"/session"} method="delete">Logout</.link> 
-    </p>
+      <p class="hover:text-zinc-700">
+        <.link navigate="/session/new" class="font-semibold text-brand hover:underline">
+          Sign in
+        </.link>
+      </p>
+      <p class="hover:text-zinc-700">
+        <.link navigate="/registration/new" class="font-semibold text-brand hover:underline">
+          Sign up
+        </.link>
+      </p>
+      <p class="rounded-lg bg-zinc-100 px-2 py-1 hover:bg-zinc-200/80">
+        <.link href={~p"/session"} method="delete">Logout</.link> 
+      </p>
+    </div>
+    <div class="flex items-left">
+      <a href="/">
+        <img src={~p"/images/pigeon.png"} width="64" />
+      </a>
     </div>
   </div>
 </header>
@@ -32,3 +28,17 @@
     <%= @inner_content %>
   </div>
 </main>
+<footer class="px-4 sm:px-6 lg:px-8">
+  <div class="flex items-center justify-between border-t border-zinc-100 py-3 text-sm">
+    <div class="flex items-center gap-4 font-semibold leading-6 text-zinc-900">
+    <div class="flex items-center gap-4">
+      <a href="/">Home</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/energy">Energy</a>
+      <a href="/about_anon">Anon</a>
+      <a href="/about_api">API</a>
+      <a href="/about_tech">Tech</a>
+    </div>
+    </div>
+  </div>
+</footer>

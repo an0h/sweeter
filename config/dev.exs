@@ -90,3 +90,8 @@ config :sweeter, SweeterWeb.Pow.Mailer1,
   hackney_opts: [
     recv_timeout: :timer.minutes(1)
   ]
+
+config :sweeter,
+    api1317: System.get_env("api1317"),
+    faucet4500: System.get_env("faucet4500"),
+    assigner5555: System.get_env("assigner5555")

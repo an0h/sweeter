@@ -8,10 +8,7 @@
 import Config
 
 config :sweeter,
-  ecto_repos: [Sweeter.Repo],
-  api1317: "http://spicy-svc.default.svc.cluster.local:1317",
-  faucet4500: "http://spicy-svc.default.svc.cluster.local:4500",
-  assigner5555: "http://spicy-svc.default.svc.cluster.local:5555"
+  ecto_repos: [Sweeter.Repo]
 
 # Configures the endpoint
 config :sweeter, SweeterWeb.Endpoint,

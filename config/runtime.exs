@@ -77,6 +77,11 @@ if config_env() == :prod do
       recv_timeout: :timer.minutes(1)
     ]
 
+  config :sweeter,
+    api1317: System.get_env("api1317"),
+    faucet4500: System.get_env("faucet4500"),
+    assigner5555: System.get_env("assigner5555")
+
   # ## SSL Support
   #
   # To get SSL working, you will need to add the `https` key

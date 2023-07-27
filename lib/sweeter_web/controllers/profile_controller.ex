@@ -2,9 +2,12 @@ defmodule SweeterWeb.ProfileController do
   use SweeterWeb, :controller
 
   alias Sweeter.Users.User
+  alias Sweeter.Spicy
 
   def show_profile(conn, %{"id" => id}) do
     user = User.get_profile(id)
+    # tokes = Spicy.get_cosmos_by_address(user.address)
+    # IO.inspect(tokes)
     conn
     |> render(:show, user: user)
   end
