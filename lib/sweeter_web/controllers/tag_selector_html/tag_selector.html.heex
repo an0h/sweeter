@@ -1,23 +1,51 @@
-tag selector
-<form>
-    <input type="text" id="tag_search">
-</form>
-<br />
-<form id="required_tags" onsubmit="event.preventDefault()">
-  <button id="controversial" onclick="toggleRequiredTag('controversial')"
+<form id="restricted_tags" onsubmit="event.preventDefault()">
+  <input type="hidden" id="controversial" name="controversial" value="false">
+  <button id="controversial_btn" onclick="toggleRestrictedTag('controversial', 1)"
     class="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded">
     Controversial
   </button>
-  <button id="crass" onclick="toggleRequiredTag('crass')" 
+  <input type="hidden" id="crass" name="crass" value="false">
+  <button id="crass_btn" onclick="toggleRestrictedTag('crass', 2)" 
     class="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded">
     Crass
   </button>
-  <button id="sexually_explicit" onclick="toggleRequiredTag('sexually_explicit')"
+  <input type="hidden" id="sexually_explicit" name="sexually_explicit" value="false">
+  <button id="sexually_explicit_btn" onclick="toggleRestrictedTag('sexually_explicit', 3)"
     class="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded">
     Sexually Explicit
   </button>
-  <button  id="violent" onclick="toggleRequiredTag('violent')"
+  <input type="hidden" id="violent" name="violent" value="false">
+  <button id="violent_btn" onclick="toggleRestrictedTag('violent', 4)"
     class="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded">
     Violent
   </button>
 </form>
+
+<script>
+
+function toggleRestrictedTag(restricted_tag, id) {
+    let tag = document.getElementById(restricted_tag)
+    tag.value = tag.value == "false" ? "true" : "false"
+    let restricted_tags_list = document.getElementById("item_restricted_tag_ids").value
+    let restricted_tags_array = restricted_tags_list.split(',')
+    if (tag.value == "true") {
+        toggleStyles(restricted_tag, 'teal', 'zinc')
+        restricted_tags_array.push(id)
+        console.log(restricted_tags_array)
+        document.getElementById("item_restricted_tag_ids").value = restricted_tags_array.toString()
+    } else {
+        toggleStyles(restricted_tag, 'zinc', 'teal')
+        let removedArray = restricted_tags_array.filter(item => item !== id);
+        document.getElementById("item_restricted_tag_ids").value = removedArray.toString()
+    }
+}
+
+function toggleStyles(restricted_tag, remove, add) {
+    const button = document.getElementById(restricted_tag + '_btn')
+    button.classList.remove('bg-' + remove + '-500');
+    button.classList.remove('hover:bg-' + remove + '-700');
+    button.classList.add('hover:bg-' + add + '-700');
+    button.classList.add('bg-' + add + '-500');
+}
+
+</script>

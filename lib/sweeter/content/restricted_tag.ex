@@ -4,6 +4,7 @@ defmodule Sweeter.Content.RestrictedTag do
 
   schema "restricted_tags" do
     field :label, :string
+    field :form_field_name, :string
 
     timestamps()
   end
@@ -11,7 +12,7 @@ defmodule Sweeter.Content.RestrictedTag do
   @doc false
   def changeset(restricted_tag, attrs) do
     restricted_tag
-    |> cast(attrs, [:label])
+    |> cast(attrs, [:label, :form_field_name])
     |> validate_required([:label])
   end
 end

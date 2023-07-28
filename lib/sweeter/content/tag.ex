@@ -6,6 +6,7 @@ defmodule Sweeter.Content.Tag do
 
   schema "tags" do
     field :label, :string
+    field :form_field_name, :string
 
     # many_to_many :items, Item, join_through: "item_tags"
 
@@ -15,7 +16,7 @@ defmodule Sweeter.Content.Tag do
   @doc false
   def changeset(tag, attrs) do
     tag
-    |> cast(attrs, [:label])
+    |> cast(attrs, [:label, :form_field_name])
     # |> cast_assoc(:items)
     |> validate_required([:label])
   end

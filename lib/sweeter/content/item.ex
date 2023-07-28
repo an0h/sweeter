@@ -7,6 +7,7 @@ defmodule Sweeter.Content.Item do
   alias Sweeter.Content.Item
   alias Sweeter.Content.Image
   alias Sweeter.Content.PublerSubser
+  alias Sweeter.Content.RestrictedTagItem
 
   schema "items" do
     field :body, :string
@@ -18,7 +19,6 @@ defmodule Sweeter.Content.Item do
     has_many :reactions, Sweeter.Content.Reactions
     has_many :images, Sweeter.Content.Image
     has_many :moderations, Sweeter.Content.Moderation
-    many_to_many :tags, Sweeter.Content.Tag, join_through: "item_tags"
 
     timestamps()
   end
@@ -61,6 +61,7 @@ defmodule Sweeter.Content.Item do
     if attrs["ipfscids"] != nil do
       Image.create_item_image(item.id, attrs["ipfscids"], attrs["imagealt"])
     end
+    restricted_tag_item(item.id, attrs["restricted_tag_ids"])
     {:ok, item}
   end
 
@@ -72,5 +73,45 @@ defmodule Sweeter.Content.Item do
         select: [i.id, i.body, i.headline, i.deleted]
     )
     |> item_list_struct_converter
+  end
+
+  def tag_item(item_id, tags) do
+    tags
+    |> parse_tags
+    |> iterate_restricted_tags(item_id)
+  end
+
+  def restricted_tag_item(item_id, tags) do
+    tags
+    |> parse_tags
+    |> iterate_restricted_tags(item_id)
+  end
+
+  defp parse_tags(string) do
+    string
+    |> String.split(",")
+    |> Enum.map(&String.trim/1)
+    |> Enum.reject(&(&1 == ""))
+    |> Enum.map(&String.to_integer/1)
+  end
+
+  defp iterate_restricted_tags(list, item_id) do
+    Enum.each(list, &save_restricted_tag(&1, item_id))
+  end
+
+  defp save_restricted_tag(tag_id, item_id) do
+    save = %RestrictedTagItem{}
+    |> RestrictedTagItem.changeset(%{item_id: item_id, restricted_tag_id: tag_id})
+    |> Repo.insert()
+  end
+
+  defp iterate_tags(list, item_id) do
+    Enum.each(list, &save_tag(&1, item_id))
+  end
+
+  defp save_tag(tag_id, item_id) do
+    save = %RestrictedTagItem{}
+    |> RestrictedTagItem.changeset(%{item_id: item_id, tag_id: tag_id})
+    |> Repo.insert()
   end
 end

@@ -8,6 +8,7 @@ defmodule Sweeter.Content do
 
   alias Sweeter.Content.Item
   alias Sweeter.Content.Tag
+  alias Sweeter.Content.RestrictedTag
 
   @doc """
   Returns the list of items.
@@ -186,6 +187,12 @@ defmodule Sweeter.Content do
   def create_tag(attrs \\ %{}) do
     %Tag{}
     |> Tag.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def create_restricted_tag(attrs \\ %{}) do
+    %RestrictedTag{}
+    |> RestrictedTag.changeset(attrs)
     |> Repo.insert()
   end
 end

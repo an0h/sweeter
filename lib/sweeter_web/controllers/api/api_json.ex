@@ -12,7 +12,7 @@ defmodule SweeterWeb.API.V1.APIJSON do
   defp itemize(%Item{} = item) do
     %{
       id: item.id,
-      title: item.title,
+      headline: item.headline,
       body: item.body,
       source: item.source
     }

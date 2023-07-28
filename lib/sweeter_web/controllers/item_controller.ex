@@ -24,7 +24,6 @@ defmodule SweeterWeb.ItemController do
         conn
         |> put_flash(:info, "Item created successfully.")
         |> redirect(to: ~p"/items/#{item}")
-
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, :new, changeset: changeset)
     end

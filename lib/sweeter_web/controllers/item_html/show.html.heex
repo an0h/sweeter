@@ -1,5 +1,5 @@
 <.header>
-  <%= @item.title %>
+  <%= @item.headline %>
   <:subtitle>From.</:subtitle>
   <:actions>
     <.link href={~p"/items/#{@item}/edit"}>
@@ -15,7 +15,7 @@
 <% end %>
 <div id="item-contents">
 <.list>
-  <:item title="Title"><%= @item.title %></:item>
+  <:item title="Headline"><%= @item.headline %></:item>
   <:item title="Body"><%= @item.body %></:item>
   <:item title="Source"><%= @item.source %></:item>
 </.list>
