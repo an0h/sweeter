@@ -1,10 +1,12 @@
 <.header>
-  New Item
-  <:subtitle>Use this form to manage item records in your database.</:subtitle>
+  Write something!
+  <:subtitle>you are required to add at least one tag, and if your content merits required tags and you neglect to tag it, you can lose tokes if they aren't included</:subtitle>
 </.header>
+
+<.file_upload />
 
 <.item_form changeset={@changeset} action={~p"/items"} />
 
-<.file_upload />
+<.tag_selector />
 
 <.back navigate={~p"/items"}>Back to items</.back>

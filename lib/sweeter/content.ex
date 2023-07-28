@@ -7,6 +7,7 @@ defmodule Sweeter.Content do
   alias Sweeter.Repo
 
   alias Sweeter.Content.Item
+  alias Sweeter.Content.Tag
 
   @doc """
   Returns the list of items.
@@ -180,5 +181,11 @@ defmodule Sweeter.Content do
   """
   def change_moderation(%Moderation{} = moderation, attrs \\ %{}) do
     Moderation.changeset(moderation, attrs)
+  end
+
+  def create_tag(attrs \\ %{}) do
+    %Tag{}
+    |> Tag.changeset(attrs)
+    |> Repo.insert()
   end
 end

@@ -6,7 +6,7 @@ defmodule Sweeter.Repo.Migrations.CreateItems do
       add :body, :text
       add :deleted, :boolean, default: false, null: false
       add :source, :string
-      add :title, :string
+      add :headline, :string
       add :search_suppressed, :boolean, default: false, null: false
       add :user_id, references(:users)
 

@@ -110,3 +110,7 @@ function fetchItemText() {
     console.log(textContent)
     return textContent
 }
+
+function toggleRequiredTag(required_tag) {
+    console.log(required_tag)
+}

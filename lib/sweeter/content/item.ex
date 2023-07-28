@@ -12,12 +12,13 @@ defmodule Sweeter.Content.Item do
     field :body, :string
     field :deleted, :boolean, default: false
     field :source, :string
-    field :title, :string
+    field :headline, :string
     field :search_suppressed, :boolean, default: false
     belongs_to :user, Sweeter.Users.User
     has_many :reactions, Sweeter.Content.Reactions
     has_many :images, Sweeter.Content.Image
     has_many :moderations, Sweeter.Content.Moderation
+    many_to_many :tags, Sweeter.Content.Tag, join_through: "item_tags"
 
     timestamps()
   end
@@ -25,17 +26,17 @@ defmodule Sweeter.Content.Item do
   @doc false
   def changeset(item, attrs) do
     item
-    |> cast(attrs, [:body, :deleted, :source, :title, :search_suppressed, :user_id])
+    |> cast(attrs, [:body, :deleted, :source, :headline, :search_suppressed, :user_id])
     |> cast_assoc(:user)
-    |> validate_required([:body, :title])
-    |> unique_constraint(:title)
+    |> validate_required([:headline])
+    |> unique_constraint(:headline)
   end
 
   def get_all do
     Repo.all(
       from i in "items",
         where: i.deleted != true,
-        select: [i.id, i.body, i.title, i.source]
+        select: [i.id, i.body, i.headline, i.source]
     )
     |> item_list_struct_converter
   end
@@ -44,7 +45,7 @@ defmodule Sweeter.Content.Item do
     Enum.map(
       item_list,
       fn item ->
-        [:id, :body, :title, :source]
+        [:id, :body, :headline, :source]
         |> Enum.zip(item)
         |> Map.new()
         |> Map.merge(%Item{}, fn _k, i, _empty -> i end)
@@ -53,6 +54,7 @@ defmodule Sweeter.Content.Item do
   end
 
   def create_item(attrs \\ %{}) do
+    IO.inspect attrs
     {:ok, item} = %Item{}
       |> Item.changeset(attrs)
       |> Repo.insert()
@@ -67,7 +69,7 @@ defmodule Sweeter.Content.Item do
     Repo.all(
       from i in "items",
         where: i.user_id in ^publers,
-        select: [i.id, i.body, i.title, i.deleted]
+        select: [i.id, i.body, i.headline, i.deleted]
     )
     |> item_list_struct_converter
   end

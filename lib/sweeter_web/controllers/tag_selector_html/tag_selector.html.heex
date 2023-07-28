@@ -1,0 +1,23 @@
+tag selector
+<form>
+    <input type="text" id="tag_search">
+</form>
+<br />
+<form id="required_tags" onsubmit="event.preventDefault()">
+  <button id="controversial" onclick="toggleRequiredTag('controversial')"
+    class="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded">
+    Controversial
+  </button>
+  <button id="crass" onclick="toggleRequiredTag('crass')" 
+    class="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded">
+    Crass
+  </button>
+  <button id="sexually_explicit" onclick="toggleRequiredTag('sexually_explicit')"
+    class="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded">
+    Sexually Explicit
+  </button>
+  <button  id="violent" onclick="toggleRequiredTag('violent')"
+    class="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded">
+    Violent
+  </button>
+</form>
