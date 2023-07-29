@@ -4,6 +4,7 @@ defmodule SweeterWeb.ItemController do
   alias Sweeter.Repo
   alias Sweeter.Content
   alias Sweeter.Content.Item
+  alias Sweeter.Content.LoadCounts
   alias Sweeter.Content.Moderation
   alias Sweeter.Content.Reactions
   alias Sweeter.Content.Tag
@@ -40,18 +41,22 @@ defmodule SweeterWeb.ItemController do
     item = %{item | reactions: reactions}
     restricted_tags = RestrictedTag.get_restricted_tag_labels_for_item(String.to_integer(id))
     tags = Tag.get_tag_labels_for_item(String.to_integer(id))
+    item_load_count = LoadCounts.fetch_item_load_count(id)
 
     case Pow.Plug.current_user(conn) do
       nil ->
+        LoadCounts.increment_item_load_count(id)
         conn
         |> render(:show,
           item: item,
           restricted_tags: restricted_tags,
           tags: tags,
           address: "",
+          item_load_count: item_load_count,
           is_moderator: false,
           moderation_changeset: %Moderation{})
       user ->
+        LoadCounts.increment_item_load_count(id, user.id)
         is_moderator = User.get_is_moderator(conn)
         moderation_changeset = Content.change_moderation(%Moderation{},
           %{"item_id" => item.id, "requestor_id" => user.id})
@@ -59,6 +64,7 @@ defmodule SweeterWeb.ItemController do
         |> render(:show,
           item: item,
           restricted_tags: restricted_tags,
+          item_load_count: item_load_count,
           tags: tags,
           address: user.address,
           is_moderator: is_moderator,
