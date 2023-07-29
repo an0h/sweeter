@@ -35,11 +35,17 @@ defmodule SweeterWeb.ItemController do
       |> Repo.preload(:moderations)
     reactions = Reactions.get_reactions_for_item(id)
     item = %{item | reactions: reactions}
+    restricted_tags = Item.get_restricted_tags(String.to_integer(id))
 
     case Pow.Plug.current_user(conn) do
       nil ->
         conn
-        |> render(:show, item: item, address: "", is_moderator: false, moderation_changeset: %Moderation{})
+        |> render(:show,
+          item: item,
+          restricted_tags: restricted_tags,
+          address: "",
+          is_moderator: false,
+          moderation_changeset: %Moderation{})
       user ->
         is_moderator = User.get_is_moderator(conn)
         moderation_changeset = Content.change_moderation(%Moderation{},
@@ -47,6 +53,7 @@ defmodule SweeterWeb.ItemController do
         conn
         |> render(:show,
           item: item,
+          restricted_tags: restricted_tags,
           address: user.address,
           is_moderator: is_moderator,
           moderation_changeset: moderation_changeset)

@@ -19,6 +19,7 @@ defmodule Sweeter.Content.Item do
     has_many :reactions, Sweeter.Content.Reactions
     has_many :images, Sweeter.Content.Image
     has_many :moderations, Sweeter.Content.Moderation
+    has_many :restricted_tags, Sweeter.Content.RestrictedTagItem
 
     timestamps()
   end
@@ -54,7 +55,6 @@ defmodule Sweeter.Content.Item do
   end
 
   def create_item(attrs \\ %{}) do
-    IO.inspect attrs
     {:ok, item} = %Item{}
       |> Item.changeset(attrs)
       |> Repo.insert()
@@ -73,6 +73,26 @@ defmodule Sweeter.Content.Item do
         select: [i.id, i.body, i.headline, i.deleted]
     )
     |> item_list_struct_converter
+  end
+
+  def get_restricted_tags(item_id) do
+    Repo.all(
+      from rti in "restricted_tag_items",
+      join: rt in "restricted_tags",
+      on: rti.restricted_tag_id == rt.id,
+      where: rti.item_id == ^item_id,
+      select: [rt.label]
+    )
+  end
+
+  def get_tags(item_id) do
+    Repo.all(
+      from t in "tags",
+      join: ti in "tag_items",
+      on: ti.item_id == ^item_id,
+      where: t.id == ^item_id,
+      select: [t.label]
+    )
   end
 
   def tag_item(item_id, tags) do
