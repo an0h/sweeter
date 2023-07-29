@@ -1,0 +1,10 @@
+<.simple_form :let={f} for={@changeset} action={~p"/moderator/create_tag"}>
+  <.error :if={@changeset.action}>
+    Oops, something went wrong! Please check the errors below.
+  </.error>
+  <.input field={f[:label]} type="text" label="Tag Label" />
+  <:actions>
+    <.button>Create Tag</.button>
+  </:actions>
+</.simple_form>
+

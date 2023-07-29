@@ -12,8 +12,6 @@ defmodule Sweeter.Content.Tag do
     field :label, :string
     field :form_field_name, :string
 
-    # many_to_many :items, Item, join_through: "item_tags"
-
     timestamps()
   end
 
@@ -21,8 +19,11 @@ defmodule Sweeter.Content.Tag do
   def changeset(tag, attrs) do
     tag
     |> cast(attrs, [:label, :form_field_name])
-    # |> cast_assoc(:items)
     |> validate_required([:label])
+  end
+
+  def change_tag(%Tag{} = tag, attrs \\ %{}) do
+    Tag.changeset(tag, attrs)
   end
 
   def create_tag(attrs \\ %{}) do

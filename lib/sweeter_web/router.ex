@@ -27,6 +27,10 @@ defmodule SweeterWeb.Router do
     plug Pow.Plug.RequireAuthenticated, error_handler: SweeterWeb.APIAuthErrorHandler
   end
 
+  pipeline :moderators_only do
+    plug SweeterWeb.ModeratorPlug
+  end
+
   scope "/" do
     pipe_through :browser
 
@@ -42,6 +46,13 @@ defmodule SweeterWeb.Router do
     put "/update_profile", SweeterWeb.ProfileController, :update_profile
 
     resources "/moderations", SweeterWeb.ModerationController,  only: [:index, :show, :create, :new]
+  end
+
+  scope "/" do
+    pipe_through [:browser, :protected, :moderators_only]
+
+    get "/moderator/create_tag", SweeterWeb.ModerationController, :new_tag
+    post "/moderator/create_tag", SweeterWeb.ModerationController, :create_tag
   end
 
   scope "/", SweeterWeb do

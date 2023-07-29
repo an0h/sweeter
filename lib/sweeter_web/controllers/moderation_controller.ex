@@ -3,6 +3,7 @@ defmodule SweeterWeb.ModerationController do
 
   alias Sweeter.Content
   alias Sweeter.Content.Moderation
+  alias Sweeter.Content.Tag
 
   def index(conn, _params) do
     moderations = Content.list_moderations()
@@ -24,6 +25,33 @@ defmodule SweeterWeb.ModerationController do
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, :new, changeset: changeset)
     end
+  end
+
+  def new_tag(conn, _params) do
+    changeset = Tag.change_tag(%Tag{})
+    render(conn, :add_tag, changeset: changeset)
+  end
+
+  def create_tag(conn, %{"tag" => %{"label" => label}}) do
+    case Tag.create_tag(%{"label" => label, "form_field_name" => convert_to_slug(label)}) do
+      {:ok, _} ->
+        conn
+        |> put_flash(:info, "#{label} was created")
+        |> redirect(to: ~p"/items/new")
+
+      e ->
+        conn
+        |> put_flash(:info, "your tag was not created")
+        |> redirect(to: ~p"/items/new")
+    end
+  end
+
+  defp convert_to_slug(label) do
+    label
+    |> String.downcase()                     # Convert to lowercase
+    |> String.replace(~r/[^a-zA-Z0-9\s]/, "") # Remove anything that isn't a letter or number
+    |> String.replace(~r/\s+/, "_")          # Replace spaces with underscores
+    |> String.trim("_")                      # Trim underscores from the beginning and end
   end
 
   def show(conn, %{"id" => id}) do

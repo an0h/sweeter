@@ -65,7 +65,8 @@ defmodule Sweeter.Users.User do
       nil ->
         false
       user ->
-        user.is_admin || user.is_moderator
+        profile = User.get_profile(user.id)
+        profile.is_admin || profile.is_moderator
     end
   end
 

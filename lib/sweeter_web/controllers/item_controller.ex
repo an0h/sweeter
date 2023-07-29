@@ -17,7 +17,6 @@ defmodule SweeterWeb.ItemController do
   def new(conn, _params) do
     changeset = Content.change_item(%Item{})
     known_tags = Tag.get_all()
-    IO.inspect known_tags
     render(conn, :new, changeset: changeset, known_tags: known_tags)
   end
 
@@ -40,7 +39,7 @@ defmodule SweeterWeb.ItemController do
     item = %{item | reactions: reactions}
     restricted_tags = Item.get_restricted_tags(String.to_integer(id))
     tags = Item.get_tags(String.to_integer(id))
-IO.inspect tags
+
     case Pow.Plug.current_user(conn) do
       nil ->
         conn
