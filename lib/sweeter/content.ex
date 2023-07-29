@@ -183,16 +183,4 @@ defmodule Sweeter.Content do
   def change_moderation(%Moderation{} = moderation, attrs \\ %{}) do
     Moderation.changeset(moderation, attrs)
   end
-
-  def create_tag(attrs \\ %{}) do
-    %Tag{}
-    |> Tag.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  def create_restricted_tag(attrs \\ %{}) do
-    %RestrictedTag{}
-    |> RestrictedTag.changeset(attrs)
-    |> Repo.insert()
-  end
 end

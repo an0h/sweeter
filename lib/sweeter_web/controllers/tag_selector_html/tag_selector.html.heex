@@ -1,4 +1,15 @@
-<form id="restricted_tags" onsubmit="event.preventDefault()">
+<form id="select_tags" onsubmit="event.preventDefault()">
+<label class="block text-left" style="max-width: 300px;">
+  <span class="text-gray-700">Multiselect</span>
+  <select id="tag_select" class="form-multiselect block w-full mt-1" multiple onchange="selectTags()">
+  <%= for tag <- @known_tags do %>
+    <option value={tag.id}><%= tag.label %></option>
+  <% end %>
+  </select>
+</label>
+
+</form>
+<form id="select_restricted_tags" onsubmit="event.preventDefault()">
   <input type="hidden" id="controversial" name="controversial" value="false">
   <button id="controversial_btn" onclick="toggleRestrictedTag('controversial', 2)"
     class="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded">
@@ -22,6 +33,22 @@
 </form>
 
 <script>
+function selectTags() {
+    selected_id = document.getElementById("tag_select").value;
+    let tags_list = document.getElementById("item_tag_ids").value.split(',')
+    let new_list = updateSelectedTagsList(tags_list,selected_id);
+    document.getElementById("item_tag_ids").value = new_list.toString()
+}
+
+function updateSelectedTagsList(array, id) {
+  const index = array.indexOf(id);
+  if (index === -1) {
+    array.push(id);
+  } else {
+    array.splice(index, 1);
+  }
+  return array;
+}
 
 function toggleRestrictedTag(restricted_tag, id) {
     let tag = document.getElementById(restricted_tag)

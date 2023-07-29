@@ -8,6 +8,7 @@ defmodule Sweeter.Content.Item do
   alias Sweeter.Content.Image
   alias Sweeter.Content.PublerSubser
   alias Sweeter.Content.RestrictedTagItem
+  alias Sweeter.Content.TagItem
 
   schema "items" do
     field :body, :string
@@ -20,6 +21,7 @@ defmodule Sweeter.Content.Item do
     has_many :images, Sweeter.Content.Image
     has_many :moderations, Sweeter.Content.Moderation
     has_many :restricted_tags, Sweeter.Content.RestrictedTagItem
+    has_many :tags, Sweeter.Content.Tag
 
     timestamps()
   end
@@ -62,6 +64,7 @@ defmodule Sweeter.Content.Item do
       Image.create_item_image(item.id, attrs["ipfscids"], attrs["imagealt"])
     end
     restricted_tag_item(item.id, attrs["restricted_tag_ids"])
+    tag_item(item.id, attrs["tag_ids"])
     {:ok, item}
   end
 
@@ -87,10 +90,10 @@ defmodule Sweeter.Content.Item do
 
   def get_tags(item_id) do
     Repo.all(
-      from t in "tags",
-      join: ti in "tag_items",
-      on: ti.item_id == ^item_id,
-      where: t.id == ^item_id,
+      from ti in "tag_items",
+      join: t in "tags",
+      on: ti.tag_id == t.id,
+      where: ti.item_id == ^item_id,
       select: [t.label]
     )
   end
@@ -98,7 +101,7 @@ defmodule Sweeter.Content.Item do
   def tag_item(item_id, tags) do
     tags
     |> parse_tags
-    |> iterate_restricted_tags(item_id)
+    |> iterate_tags(item_id)
   end
 
   def restricted_tag_item(item_id, tags) do
@@ -119,19 +122,19 @@ defmodule Sweeter.Content.Item do
     Enum.each(list, &save_restricted_tag(&1, item_id))
   end
 
+  defp iterate_tags(list, item_id) do
+    Enum.each(list, &save_tag(&1, item_id))
+  end
+
   defp save_restricted_tag(tag_id, item_id) do
     save = %RestrictedTagItem{}
     |> RestrictedTagItem.changeset(%{item_id: item_id, restricted_tag_id: tag_id})
     |> Repo.insert()
   end
 
-  defp iterate_tags(list, item_id) do
-    Enum.each(list, &save_tag(&1, item_id))
-  end
-
   defp save_tag(tag_id, item_id) do
-    save = %RestrictedTagItem{}
-    |> RestrictedTagItem.changeset(%{item_id: item_id, tag_id: tag_id})
+    save = %TagItem{}
+    |> TagItem.changeset(%{item_id: item_id, tag_id: tag_id})
     |> Repo.insert()
   end
 end

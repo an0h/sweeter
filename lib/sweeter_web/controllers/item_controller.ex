@@ -6,6 +6,7 @@ defmodule SweeterWeb.ItemController do
   alias Sweeter.Content.Item
   alias Sweeter.Content.Moderation
   alias Sweeter.Content.Reactions
+  alias Sweeter.Content.Tag
   alias Sweeter.Users.User
 
   def index(conn, _params) do
@@ -15,7 +16,9 @@ defmodule SweeterWeb.ItemController do
 
   def new(conn, _params) do
     changeset = Content.change_item(%Item{})
-    render(conn, :new, changeset: changeset)
+    known_tags = Tag.get_all()
+    IO.inspect known_tags
+    render(conn, :new, changeset: changeset, known_tags: known_tags)
   end
 
   def create(conn, %{"item" => item_params}) do
@@ -36,13 +39,15 @@ defmodule SweeterWeb.ItemController do
     reactions = Reactions.get_reactions_for_item(id)
     item = %{item | reactions: reactions}
     restricted_tags = Item.get_restricted_tags(String.to_integer(id))
-
+    tags = Item.get_tags(String.to_integer(id))
+IO.inspect tags
     case Pow.Plug.current_user(conn) do
       nil ->
         conn
         |> render(:show,
           item: item,
           restricted_tags: restricted_tags,
+          tags: tags,
           address: "",
           is_moderator: false,
           moderation_changeset: %Moderation{})
@@ -54,6 +59,7 @@ defmodule SweeterWeb.ItemController do
         |> render(:show,
           item: item,
           restricted_tags: restricted_tags,
+          tags: tags,
           address: user.address,
           is_moderator: is_moderator,
           moderation_changeset: moderation_changeset)

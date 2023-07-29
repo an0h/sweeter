@@ -2,7 +2,11 @@ defmodule Sweeter.Content.Tag do
   use Ecto.Schema
   import Ecto.Changeset
 
+  import Ecto.Query
+  alias Sweeter.Repo
+
   alias Sweeter.Content.Item
+  alias Sweeter.Content.Tag
 
   schema "tags" do
     field :label, :string
@@ -19,5 +23,15 @@ defmodule Sweeter.Content.Tag do
     |> cast(attrs, [:label, :form_field_name])
     # |> cast_assoc(:items)
     |> validate_required([:label])
+  end
+
+  def create_tag(attrs \\ %{}) do
+    %Tag{}
+    |> Tag.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def get_all() do
+    Repo.all(Tag)
   end
 end
