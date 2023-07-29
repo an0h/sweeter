@@ -7,6 +7,7 @@ defmodule SweeterWeb.ItemController do
   alias Sweeter.Content.Moderation
   alias Sweeter.Content.Reactions
   alias Sweeter.Content.Tag
+  alias Sweeter.Content.RestrictedTag
   alias Sweeter.Users.User
 
   def index(conn, _params) do
@@ -37,8 +38,9 @@ defmodule SweeterWeb.ItemController do
       |> Repo.preload(:moderations)
     reactions = Reactions.get_reactions_for_item(id)
     item = %{item | reactions: reactions}
-    restricted_tags = Item.get_restricted_tags(String.to_integer(id))
-    tags = Item.get_tags(String.to_integer(id))
+    restricted_tags = RestrictedTag.get_restricted_tags_for_item(String.to_integer(id))
+    IO.inspect restricted_tags
+    tags = Tag.get_tags_for_item(String.to_integer(id))
 
     case Pow.Plug.current_user(conn) do
       nil ->
