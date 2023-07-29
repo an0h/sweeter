@@ -11,7 +11,7 @@ defmodule Sweeter.Content.RestrictedTag do
 
   schema "restricted_tags" do
     field :label, :string
-    field :form_field_name, :string
+    field :slug, :string
 
     timestamps()
   end
@@ -19,7 +19,7 @@ defmodule Sweeter.Content.RestrictedTag do
   @doc false
   def changeset(restricted_tag, attrs) do
     restricted_tag
-    |> cast(attrs, [:label, :form_field_name])
+    |> cast(attrs, [:label, :slug])
     |> validate_required([:label])
   end
 
@@ -29,13 +29,23 @@ defmodule Sweeter.Content.RestrictedTag do
     |> Repo.insert()
   end
 
-  def get_restricted_tags_for_item(item_id) do
+  def get_restricted_tag_labels_for_item(item_id) do
     Repo.all(
       from rti in "restricted_tag_items",
       join: rt in "restricted_tags",
       on: rti.restricted_tag_id == rt.id,
       where: rti.item_id == ^item_id,
       select: [rt.label]
+    )
+  end
+
+  def get_restricted_tag_slugs_for_item(item_id) do
+    Repo.all(
+      from rti in "restricted_tag_items",
+      join: rt in "restricted_tags",
+      on: rti.restricted_tag_id == rt.id,
+      where: rti.item_id == ^item_id,
+      select: [rt.slug]
     )
   end
 

@@ -14,7 +14,18 @@ defmodule SweeterWeb.API.V1.APIController do
   end
 
   def api_item_list(conn, _) do
-    items = Item.get_all()
+    # items = Item.get_all()
+    #   |> Repo.preload(:tag_items)
+    #   |> Repo.preload(:restricted_tag_items)
+
+    items = Enum.map(Item.get_all(), fn item ->
+        restricted_tags = RestrictedTag.get_restricted_tag_labels_for_item(item.id)
+        tags = Tag.get_tag_labels_for_item(item.id)
+
+        Map.put(item, :restricted_tags, restricted_tags)
+        |> Map.put(:tags, tags)
+      end)
+
     render(conn, "items.json", items: items)
   end
 
@@ -32,7 +43,9 @@ defmodule SweeterWeb.API.V1.APIController do
       end)
     case Item.create_item(new) do
       {:ok, item} ->
-        CreditDebit.increment_api(user_address)
+        if user_address != nil do
+          CreditDebit.increment_api(user_address)
+        end
         render(conn, "item.json", item: item)
       {:error, %Ecto.Changeset{} = _changeset} ->
         send_resp(conn, "error.json", "Item not created")

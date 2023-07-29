@@ -11,7 +11,7 @@ defmodule Sweeter.Content.Tag do
 
   schema "tags" do
     field :label, :string
-    field :form_field_name, :string
+    field :slug, :string
 
     timestamps()
   end
@@ -19,7 +19,7 @@ defmodule Sweeter.Content.Tag do
   @doc false
   def changeset(tag, attrs) do
     tag
-    |> cast(attrs, [:label, :form_field_name])
+    |> cast(attrs, [:label, :slug])
     |> validate_required([:label])
   end
 
@@ -37,13 +37,23 @@ defmodule Sweeter.Content.Tag do
     Repo.all(Tag)
   end
 
-  def get_tags_for_item(item_id) do
+  def get_tag_labels_for_item(item_id) do
     Repo.all(
       from ti in "tag_items",
       join: t in "tags",
       on: ti.tag_id == t.id,
       where: ti.item_id == ^item_id,
       select: [t.label]
+    )
+  end
+
+  def get_tag_slugs_for_item(item_id) do
+    Repo.all(
+      from ti in "tag_items",
+      join: t in "tags",
+      on: ti.tag_id == t.id,
+      where: ti.item_id == ^item_id,
+      select: [t.slug]
     )
   end
 

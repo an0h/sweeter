@@ -33,7 +33,7 @@ defmodule SweeterWeb.ModerationController do
   end
 
   def create_tag(conn, %{"tag" => %{"label" => label}}) do
-    case Tag.create_tag(%{"label" => label, "form_field_name" => convert_to_slug(label)}) do
+    case Tag.create_tag(%{"label" => label, "slug" => convert_to_slug(label)}) do
       {:ok, _} ->
         conn
         |> put_flash(:info, "#{label} was created")

@@ -62,8 +62,12 @@ defmodule Sweeter.Content.Item do
     if attrs["ipfscids"] != nil do
       Image.create_item_image(item.id, attrs["ipfscids"], attrs["imagealt"])
     end
-    RestrictedTag.restricted_tag_item(item.id, attrs["restricted_tag_ids"])
-    Tag.tag_item(item.id, attrs["tag_ids"])
+    if attrs["restricted_tag_ids"] != nil do
+      RestrictedTag.restricted_tag_item(item.id, attrs["restricted_tag_ids"])
+    end
+    if attrs["tag_ids"] != nil do
+      Tag.tag_item(item.id, attrs["tag_ids"])
+    end
     {:ok, item}
   end
 

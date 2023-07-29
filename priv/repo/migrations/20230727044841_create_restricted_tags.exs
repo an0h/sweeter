@@ -4,7 +4,7 @@ defmodule Sweeter.Repo.Migrations.CreateRestrictedTags do
   def change do
     create table(:restricted_tags) do
       add :label, :string
-      add :form_field_name, :string
+      add :slug, :string
 
       timestamps()
     end
