@@ -37,13 +37,22 @@ defmodule Sweeter.Content.Tag do
     Repo.all(Tag)
   end
 
+  def get_tag_ids_by_slug(slugs) do
+    s = Enum.map(String.split(slugs, ","), &String.trim/1)
+    from(
+      t in Tag,
+      where: t.slug in ^s,
+      select: t.id)
+    |> Repo.all()
+  end
+
   def get_tag_labels_for_item(item_id) do
     Repo.all(
       from ti in "tag_items",
       join: t in "tags",
       on: ti.tag_id == t.id,
       where: ti.item_id == ^item_id,
-      select: [t.label]
+      select: t.label
     )
   end
 
@@ -53,7 +62,7 @@ defmodule Sweeter.Content.Tag do
       join: t in "tags",
       on: ti.tag_id == t.id,
       where: ti.item_id == ^item_id,
-      select: [t.slug]
+      select: t.slug
     )
   end
 

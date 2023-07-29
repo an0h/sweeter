@@ -56,6 +56,8 @@ defmodule Sweeter.Content.Item do
   end
 
   def create_item(attrs \\ %{}) do
+
+    IO.inspect attrs
     {:ok, item} = %Item{}
       |> Item.changeset(attrs)
       |> Repo.insert()

@@ -11,6 +11,18 @@ defmodule SweeterWeb.API.V1.APIJSON do
     %{item: itemize(item)}
   end
 
+  def slugs(%{tags: tags}) do
+    %{slugs: for(tag <- tags, do: get_slug(tag))}
+  end
+
+  defp get_slug(%Tag{} = tag) do
+    tag.slug
+  end
+
+  defp get_slug(%RestrictedTag{} = tag) do
+    tag.slug
+  end
+
   defp itemize(%Item{} = item) do
     %{
       id: item.id,

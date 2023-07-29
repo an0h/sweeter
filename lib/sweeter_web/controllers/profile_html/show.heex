@@ -1,5 +1,6 @@
 <div class="mx-auto max-w-sm">
 show profile
+<%= @user.handle %>
 
 <%= if @user.profile_pic_cid != "" do %>
   <img src={"https://sweetipfs.herokuapp.com/read?ipfscid=#{@user.profile_pic_cid}"} />

@@ -23,10 +23,30 @@ defmodule Sweeter.Content.RestrictedTag do
     |> validate_required([:label])
   end
 
+  def get_all() do
+    Repo.all(RestrictedTag)
+  end
+
   def create_restricted_tag(attrs \\ %{}) do
     %RestrictedTag{}
     |> RestrictedTag.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def get_restricted_tag_slugs() do
+    Repo.all(
+      from rt in "restricted_tags",
+      select: rt.slug
+    )
+  end
+
+  def get_restricted_tag_ids_by_slug(slugs) do
+    s = Enum.map(String.split(slugs, ","), &String.trim/1)
+    from(
+      rt in RestrictedTag,
+      where: rt.slug in ^s,
+      select: rt.id)
+    |> Repo.all()
   end
 
   def get_restricted_tag_labels_for_item(item_id) do
@@ -35,7 +55,7 @@ defmodule Sweeter.Content.RestrictedTag do
       join: rt in "restricted_tags",
       on: rti.restricted_tag_id == rt.id,
       where: rti.item_id == ^item_id,
-      select: [rt.label]
+      select: rt.label
     )
   end
 
@@ -45,7 +65,7 @@ defmodule Sweeter.Content.RestrictedTag do
       join: rt in "restricted_tags",
       on: rti.restricted_tag_id == rt.id,
       where: rti.item_id == ^item_id,
-      select: [rt.slug]
+      select: rt.slug
     )
   end
 

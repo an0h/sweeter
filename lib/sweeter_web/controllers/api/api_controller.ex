@@ -3,6 +3,8 @@ defmodule SweeterWeb.API.V1.APIController do
 
   alias Sweeter.Content
   alias Sweeter.Content.Item
+  alias Sweeter.Content.Tag
+  alias Sweeter.Content.RestrictedTag
   alias Sweeter.CreditDebit
 
   action_fallback SweeterWeb.FallbackController
@@ -14,10 +16,6 @@ defmodule SweeterWeb.API.V1.APIController do
   end
 
   def api_item_list(conn, _) do
-    # items = Item.get_all()
-    #   |> Repo.preload(:tag_items)
-    #   |> Repo.preload(:restricted_tag_items)
-
     items = Enum.map(Item.get_all(), fn item ->
         restricted_tags = RestrictedTag.get_restricted_tag_labels_for_item(item.id)
         tags = Tag.get_tag_labels_for_item(item.id)
@@ -29,16 +27,37 @@ defmodule SweeterWeb.API.V1.APIController do
     render(conn, "items.json", items: items)
   end
 
+  def api_tag_slug_list(conn, _) do
+    tags = Tag.get_all()
+    render(conn, "slugs.json", tags: tags)
+  end
+
+  def api_restricted_tag_slug_list(conn, _) do
+    tags = RestrictedTag.get_all()
+    render(conn, "slugs.json", tags: tags)
+  end
+
   def api_item_create(conn, attrs) do
     {:ok, body, _} = Plug.Conn.read_body(conn)
     ipfscid = upload_image(body)
     if attrs["media"] do
       associate_links(attrs["media"])
     end
+    tag_ids = Tag.get_tag_ids_by_slug(attrs["tag_slugs"])
+      |> Enum.join(",")
+    restricted_tag_ids = RestrictedTag.get_restricted_tag_ids_by_slug(attrs["restricted_tag_slugs"])
+      |> Enum.join(",")
     {:ok, {user_id, user_address}} = user_id_address(conn)
     new = Map.merge(attrs,
-      %{"body" => "", "imagealt" => "", "format" => "", "source" => "api", "ipfscids" => ipfscid, "user_id" => user_id},
-      fn _k, v1, _v2 ->
+      %{"body" => "",
+        "imagealt" => "",
+        "format" => "",
+        "source" => "api",
+        "ipfscids" => ipfscid,
+        "user_id" => user_id,
+        "tag_ids" => tag_ids,
+        "restricted_tag_ids" => restricted_tag_ids},
+      fn k, v1, _v2 ->
         v1
       end)
     case Item.create_item(new) do

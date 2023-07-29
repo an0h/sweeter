@@ -82,6 +82,8 @@ defmodule SweeterWeb.Router do
   scope "/api/v1", SweeterWeb.API.V1, as: :api_v1 do
     pipe_through [:api, :api_protected]
 
+    get "/get_tag_list", APIController, :api_tag_slug_list
+    get "/get_restricted_tag_list", APIController, :api_restricted_tag_slug_list
     get "/get_items", APIController, :search
     post "/create_item", APIController, :api_item_create
   end
