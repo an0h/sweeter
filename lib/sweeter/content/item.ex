@@ -37,8 +37,8 @@ defmodule Sweeter.Content.Item do
   def get_all do
     Repo.all(
       from i in "items",
-        where: i.deleted != true,
-        select: [i.id, i.body, i.headline, i.source]
+        where: i.deleted != true and i.search_suppressed != true,
+        select: [i.id, i.body, i.headline, i.source, i.search_suppressed]
     )
     |> item_list_struct_converter
   end
@@ -47,7 +47,7 @@ defmodule Sweeter.Content.Item do
     Enum.map(
       item_list,
       fn item ->
-        [:id, :body, :headline, :source]
+        [:id, :body, :headline, :source, :search_suppressed]
         |> Enum.zip(item)
         |> Map.new()
         |> Map.merge(%Item{}, fn _k, i, _empty -> i end)
