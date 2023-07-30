@@ -21,13 +21,29 @@ defmodule Sweeter.Content.LoadCounts do
   end
 
   def fetch_item_load_count(item_id) do
-    id = String.to_integer(item_id)
+    id = get_id_int(item_id)
     Repo.all(
       from i in "load_counts",
         where: i.item_id == ^id,
         select: count(i.id)
     )
     |> List.first()
+  end
+
+  defp get_id_int(id) do
+    case id do
+      id when is_integer(id) ->
+        id
+
+      str when is_binary(str) ->
+        case String.to_integer(str) do
+          {:ok, int} -> int
+          :error -> nil # or raise an error, depending on your use case
+        end
+
+      _ ->
+        nil # or raise an error, depending on your use case
+    end
   end
 
   def increment_item_load_count(item_id) do

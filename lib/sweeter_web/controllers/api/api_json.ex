@@ -1,5 +1,6 @@
 defmodule SweeterWeb.API.V1.APIJSON do
   alias Sweeter.Content.Item
+  alias Sweeter.Content.LoadCounts
   alias Sweeter.Content.Tag
   alias Sweeter.Content.RestrictedTag
 
@@ -32,7 +33,8 @@ defmodule SweeterWeb.API.V1.APIJSON do
       tags: Tag.get_tag_labels_for_item(item.id),
       tag_slugs: Tag.get_tag_slugs_for_item(item.id),
       restricted_tags: RestrictedTag.get_restricted_tag_labels_for_item(item.id),
-      restricted_tag_slugs: RestrictedTag.get_restricted_tag_slugs_for_item(item.id)
+      restricted_tag_slugs: RestrictedTag.get_restricted_tag_slugs_for_item(item.id),
+      page_views: LoadCounts.fetch_item_load_count(item.id)
     }
   end
 

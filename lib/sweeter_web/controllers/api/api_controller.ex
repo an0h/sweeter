@@ -16,14 +16,7 @@ defmodule SweeterWeb.API.V1.APIController do
   end
 
   def api_item_list(conn, _) do
-    items = Enum.map(Item.get_all(), fn item ->
-        restricted_tags = RestrictedTag.get_restricted_tag_labels_for_item(item.id)
-        tags = Tag.get_tag_labels_for_item(item.id)
-
-        Map.put(item, :restricted_tags, restricted_tags)
-        |> Map.put(:tags, tags)
-      end)
-
+    items = Item.get_all()
     render(conn, "items.json", items: items)
   end
 
