@@ -78,16 +78,18 @@ if (document.getElementById('file-form')) {
 let translate_button = document.getElementById("translate")
 if (translate_button) {
     translate_button.addEventListener("click", function() {
+        // this element's id from in translation.html.heex
+        let targetLang = document.getElementById('target_lang').value
         let text = fetchItemText()
         let xhr = new XMLHttpRequest()
-        xhr.open("POST", "https://translate.internetstate.city/translate", true);
+        xhr.open("POST", "https://translate.internetstate.city/translate", true)
         xhr.onreadystatechange = function() {
                 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
                     let translation = JSON.parse(xhr.responseText)
                     console.log("The translation " + JSON.stringify(translation))
                     if (document.getElementById('translation')) {
                         let translated = document.getElementById('translation')
-                        translated.textContent = translation["translatedText"]
+                        translated.innerHTML = '<pre>' + translation["translatedText"] + '</pre>'
                     }
                 }
             }
@@ -96,7 +98,7 @@ if (translate_button) {
         let res = xhr.send(JSON.stringify({
             q: text,
             source: "auto",
-            target: "es",
+            target: targetLang,
             format: "text",
             api_key: ""
         }))
