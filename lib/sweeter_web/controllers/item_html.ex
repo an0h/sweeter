@@ -5,6 +5,7 @@ defmodule SweeterWeb.ItemHTML do
   embed_templates "file_upload_html/*"
   embed_templates "moderation_html/*"
   embed_templates "tag_selector_html/*"
+  embed_templates "translation_html/*"
 
   @doc """
   Renders a item form.

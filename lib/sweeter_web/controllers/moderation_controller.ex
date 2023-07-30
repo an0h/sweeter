@@ -87,4 +87,10 @@ defmodule SweeterWeb.ModerationController do
     |> put_flash(:info, "Moderation deleted successfully.")
     |> redirect(to: ~p"/moderations")
   end
+
+  def list_pending_moderations(conn, _attrs) do
+    moderations = Content.list_moderations()
+    render(conn, :pending, moderations: moderations)
+  end
+
 end

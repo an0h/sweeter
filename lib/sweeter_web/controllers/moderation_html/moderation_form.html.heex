@@ -6,12 +6,13 @@
   <.input field={f[:item_id]} type="hidden" />
   <.input field={f[:reason]} type="textarea" label="Reason" />
   <.input field={f[:category]} type="select" options={
-        [ {"plaigarism", "plaigarism"}, 
-          {"violence", "violence"},
-          {"threat", "threat"},
+        [ 
+          {"conflict", "conflict"},
           {"lewd", "lewd"},
+          {"plaigarism", "plaigarism"}, 
+          {"threat", "threat"},
           {"uncouth", "uncouth"},
-          {"conflict", "conflict"}
+          {"violence", "violence"}
         ]
       } label="Category" />
   <:actions>

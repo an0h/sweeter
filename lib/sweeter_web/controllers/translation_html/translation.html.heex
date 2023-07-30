@@ -1,0 +1,14 @@
+<div id="translation">
+</div>
+<div id="language-pickers">
+</div>
+<.button id="translate">Translate</.button>
+
+<script>
+function fetchItemText() {
+    let node = document.getElementById('<%= @div_id %>')
+    let textContent = node.textContent
+    console.log(textContent)
+    return textContent
+}
+</script>

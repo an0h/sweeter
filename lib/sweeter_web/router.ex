@@ -31,6 +31,22 @@ defmodule SweeterWeb.Router do
     plug SweeterWeb.ModeratorPlug
   end
 
+  scope "/", SweeterWeb do
+    pipe_through :browser
+
+    get "/", PageController, :home
+    get "/about_api", PageController, :about_api
+    get "/about_anon", PageController, :about_anon
+    get "/about_tech", PageController, :about_tech
+    get "/energy", PageController, :energy
+    get "/privacy", PageController, :privacy
+    get "/mnemonic", SpicyController, :get_mnemonic
+
+    post "/show_mnemonic", SpicyController, :show_mnemonic
+
+    resources "/items", ItemController
+  end
+
   scope "/" do
     pipe_through :browser
 
@@ -53,22 +69,8 @@ defmodule SweeterWeb.Router do
 
     get "/moderator/create_tag", SweeterWeb.ModerationController, :new_tag
     post "/moderator/create_tag", SweeterWeb.ModerationController, :create_tag
-  end
 
-  scope "/", SweeterWeb do
-    pipe_through :browser
-
-    get "/", PageController, :home
-    get "/about_api", PageController, :about_api
-    get "/about_anon", PageController, :about_anon
-    get "/about_tech", PageController, :about_tech
-    get "/energy", PageController, :energy
-    get "/privacy", PageController, :privacy
-    get "/mnemonic", SpicyController, :get_mnemonic
-
-    post "/show_mnemonic", SpicyController, :show_mnemonic
-
-    resources "/items", ItemController
+    get "/moderator/pending", SweeterWeb.ModerationController, :list_pending_moderations
   end
 
   scope "/api/v1", SweeterWeb.API.V1, as: :api_v1 do

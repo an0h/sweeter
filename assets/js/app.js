@@ -103,10 +103,3 @@ if (translate_button) {
 
     })
 }
-
-function fetchItemText() {
-    let node = document.getElementById('item-contents')
-    let textContent = node.textContent
-    console.log(textContent)
-    return textContent
-}

@@ -29,10 +29,9 @@
   <:item title="Source"><%= @item.source %></:item>
 </.list>
 </div>
-<div id="translation">
-</div>
-<.button id="translate">Translate</.button>
-<br />
+
+<.translation div_id="item-contents" />
+
 <div>Page Views<%= @item_load_count %></div>
 <div id="your-reaction"></div>
 <div class="reactions">
