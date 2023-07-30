@@ -19,7 +19,12 @@ defmodule SweeterWeb.ItemController do
   def new(conn, _params) do
     changeset = Content.change_item(%Item{})
     known_tags = Tag.get_all()
-    render(conn, :new, changeset: changeset, known_tags: known_tags)
+    case Pow.Plug.current_user(conn) do
+      nil ->
+        render(conn, :new, changeset: changeset, known_tags: known_tags, search_suppressed: True)
+      user ->
+        render(conn, :new, changeset: changeset, known_tags: known_tags, search_suppressed: False)
+      end
   end
 
   def create(conn, %{"item" => item_params}) do
