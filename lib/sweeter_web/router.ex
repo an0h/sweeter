@@ -41,9 +41,6 @@ defmodule SweeterWeb.Router do
     get "/about_tech", PageController, :about_tech
     get "/energy", PageController, :energy
     get "/privacy", PageController, :privacy
-    get "/mnemonic", SpicyController, :get_mnemonic
-
-    post "/show_mnemonic", SpicyController, :show_mnemonic
 
     resources "/items", ItemController
   end
@@ -62,11 +59,17 @@ defmodule SweeterWeb.Router do
     get "/edit_profile/:id", SweeterWeb.ProfileController, :edit_profile
     put "/update_profile", SweeterWeb.ProfileController, :update_profile
 
+    get "/mnemonic", SweeterWeb.SpicyController, :get_mnemonic
+    post "/show_mnemonic", SweeterWeb.SpicyController, :show_mnemonic
+
     resources "/moderations", SweeterWeb.ModerationController,  only: [:index, :show, :create, :new]
   end
 
   scope "/" do
     pipe_through [:browser, :protected, :moderators_only]
+
+    get "/moderate_item/:id", SweeterWeb.ItemController, :moderate_item
+    put "/moderate_item/:id", SweeterWeb.ItemController, :moderater_item_update
 
     get "/moderator/create_tag", SweeterWeb.ModerationController, :new_tag
     post "/moderator/create_tag", SweeterWeb.ModerationController, :create_tag

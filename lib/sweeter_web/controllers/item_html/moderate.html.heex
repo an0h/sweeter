@@ -1,0 +1,53 @@
+<.item item={@item} restricted_tags={@restricted_tags} tags={@tags} item_load_count={@item_load_count} />
+
+<h1 class="text-3xl font-bold text-teal-500">Moderator Zone</h1>
+<%= if @item.search_suppressed == true do %>
+Search is currently suppressed
+<% end %>
+<div class="reactions">
+<ul> 
+<%= for reaction <- @item.reactions do %>
+<li><%= reaction.emoji %><span class="reaction-count"><%= reaction.count %></span></li>
+<% end %>
+</ul>
+</div>
+
+
+<div class="p-12">
+  <h1 class="font-bold mb-4">Tag List</h1>
+  <div class="space-y-2">
+  <%= for tag <- @tags do %>
+    <label class="flex items-center">
+      <input type="checkbox" onClick="UpdateTag()" class="form-checkbox text-teal-500 h-5 w-5">
+      <span class="ml-2 text-gray-700"><%= tag %></span>
+    </label>
+  <% end %>
+  </div>
+</div>
+<.restricted_tags />
+
+<.simple_form :let={f} for={@changeset} action={@action}>
+  <.error :if={@changeset.action}>
+    Oops, something went wrong! Please check the errors below.
+  </.error>
+  <.input field={f[:source]} type="text" label="Source" />
+  <.input field={f[:search_suppressed]} label="Search Suppressed?" type="select" options={
+        [
+          {true, true},
+          {false, false}
+        ]
+      }  />
+  <.input field={f[:restricted_tag_ids]} type="hidden" />
+  <.input field={f[:tag_ids]} type="hidden" />
+  <:actions>
+    <.button>Save Item</.button>
+  </:actions>
+</.simple_form>
+
+
+
+<ul>
+  <%= for moderation <- @item.moderations do %>
+  <li><%= moderation.category %> <%= moderation.reason %></li>
+  <% end %>
+</ul>

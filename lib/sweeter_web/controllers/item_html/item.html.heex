@@ -1,0 +1,35 @@
+<div id="restricted_tags">
+<%= for rt <- @restricted_tags do %>
+  <button 
+    class="bg-teal-700 text-white font-bold py-1 px-3 rounded">
+    <%= rt %>
+  </button>
+<% end %>
+</div>
+
+<div id="item-contents">
+    <div class="tags">
+    <span class="smol">Tagged:</span>
+    <%= for t <- @tags do %>
+    <div class="tag"><%= t %></div>
+    <% end %>
+    </div>
+    <div id="item_headline" class="text-2xl font-bold mb-4">
+    <%= @item.headline %>
+    </div>
+    <div id="page_views">Page Views <%= @item_load_count %></div>
+    <%= @item.body %>
+    <% if @item.source != "" do %>
+    <.list>
+    <:item title="Source"><%= @item.source %></:item>
+    </.list>
+    <% end %>
+</div>
+
+
+<.translation div_id="item-contents" />
+<%= if @item.images do %>
+  <%= for image <- @item.images do %>
+  <img src={"https://sweetipfs.herokuapp.com/read?ipfscid=#{image.ipfscid}"} />
+  <% end %>
+<% end %>

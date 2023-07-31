@@ -40,40 +40,97 @@ defmodule SweeterWeb.ItemController do
 
   def show(conn, %{"id" => id}) do
     item = Content.get_item!(id)
-      |> Repo.preload(:images)
-      |> Repo.preload(:moderations)
-    reactions = Reactions.get_reactions_for_item(id)
-    item = %{item | reactions: reactions}
-    restricted_tags = RestrictedTag.get_restricted_tag_labels_for_item(String.to_integer(id))
-    tags = Tag.get_tag_labels_for_item(String.to_integer(id))
-    item_load_count = LoadCounts.fetch_item_load_count(id)
+    |> Repo.preload(:images)
+    |> Repo.preload(:moderations)
+    if item.deleted == true do
+      conn
+      |> put_flash(:info, "This item has been deleted")
+      |> redirect(to: ~p"/items")
+    else
+      reactions = Reactions.get_reactions_for_item(id)
+      item = %{item | reactions: reactions}
+      restricted_tags = RestrictedTag.get_restricted_tag_labels_for_item(String.to_integer(id))
+      tags = Tag.get_tag_labels_for_item(String.to_integer(id))
+      item_load_count = LoadCounts.fetch_item_load_count(id)
 
+      case Pow.Plug.current_user(conn) do
+        nil ->
+          LoadCounts.increment_item_load_count(id)
+          conn
+          |> render(:show,
+            item: item,
+            restricted_tags: restricted_tags,
+            tags: tags,
+            address: "",
+            item_load_count: item_load_count,
+            is_moderator: false,
+            moderation_changeset: %Moderation{})
+        user ->
+          LoadCounts.increment_item_load_count(id, user.id)
+          is_moderator = User.get_is_moderator(conn)
+          moderation_changeset = Content.change_moderation(%Moderation{},
+            %{"item_id" => item.id, "requestor_id" => user.id})
+          conn
+          |> render(:show,
+            item: item,
+            restricted_tags: restricted_tags,
+            item_load_count: item_load_count,
+            tags: tags,
+            address: user.address,
+            is_moderator: is_moderator,
+            moderation_changeset: moderation_changeset)
+      end
+    end
+  end
+
+  def moderate_item(conn, %{"id" => id}) do
     case Pow.Plug.current_user(conn) do
       nil ->
-        LoadCounts.increment_item_load_count(id)
         conn
-        |> render(:show,
-          item: item,
-          restricted_tags: restricted_tags,
-          tags: tags,
-          address: "",
-          item_load_count: item_load_count,
-          is_moderator: false,
-          moderation_changeset: %Moderation{})
+        |> put_flash(:info, "Nope, nada.")
+        |> redirect(to: ~p"/items")
       user ->
-        LoadCounts.increment_item_load_count(id, user.id)
-        is_moderator = User.get_is_moderator(conn)
-        moderation_changeset = Content.change_moderation(%Moderation{},
-          %{"item_id" => item.id, "requestor_id" => user.id})
+        if User.get_is_moderator(conn) do
+          item = Content.get_item!(id)
+          |> Repo.preload(:images)
+          |> Repo.preload(:moderations)
+          reactions = Reactions.get_reactions_for_item(id)
+          item = %{item | reactions: reactions}
+          restricted_tags = RestrictedTag.get_restricted_tag_slugs_for_item(String.to_integer(id))
+          tags = Tag.get_tag_slugs_for_item(String.to_integer(id))
+          item_load_count = LoadCounts.fetch_item_load_count(id)
+
+          changeset = Content.change_item(item)
+          conn
+          |> render(:moderate,
+            item: item,
+            restricted_tags: restricted_tags,
+            item_load_count: item_load_count,
+            tags: tags,
+            address: user.address,
+            action: "/moderate_item/#{id}",
+            changeset: changeset)
+        else
+          conn
+          |> put_flash(:info, "Nope, nada.")
+          |> redirect(to: ~p"/items")
+        end
+    end
+  end
+
+  def moderater_item_update(conn, attrs) do
+    IO.inspect attrs
+    item = Content.get_item!(5)
+    case Item.create_item_moderation(item, attrs) do
+      {:ok, item} ->
         conn
-        |> render(:show,
-          item: item,
-          restricted_tags: restricted_tags,
-          item_load_count: item_load_count,
-          tags: tags,
-          address: user.address,
-          is_moderator: is_moderator,
-          moderation_changeset: moderation_changeset)
+        |> put_flash(:info, "Moderated successfully.")
+        |> redirect(to: ~p"/items/#{item}")
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        conn
+        |> put_flash(:info, "Moderatation failed.")
+        |> redirect(to: ~p"/moderate_item/#{attrs.id}")
     end
   end
 

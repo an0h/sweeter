@@ -1,36 +1,4 @@
-<.header>
-<%= for rt <- @restricted_tags do %>
-  <button 
-    class="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded">
-    <%= rt %>
-  </button>
-<% end %>
-<%= for t <- @tags do %>
-<%= t %>
-<% end %>
-  <%= @item.headline %>
-  <:subtitle>From.</:subtitle>
-  <:actions>
-    <.link href={~p"/items/#{@item}/edit"}>
-      <.button>Edit item</.button>
-    </.link>
-  </:actions>
-</.header>
-
-<%= if @item.images do %>
-  <%= for image <- @item.images do %>
-  <img src={"https://sweetipfs.herokuapp.com/read?ipfscid=#{image.ipfscid}"} />
-  <% end %>
-<% end %>
-<div id="item-contents">
-<.list>
-  <:item title="Headline"><%= @item.headline %></:item>
-  <:item title="Body"><%= @item.body %></:item>
-  <:item title="Source"><%= @item.source %></:item>
-</.list>
-</div>
-
-<.translation div_id="item-contents" />
+<.item item={@item} restricted_tags={@restricted_tags} tags={@tags} item_load_count={@item_load_count} />
 
 <div>Page Views<%= @item_load_count %></div>
 <div id="your-reaction"></div>
@@ -52,10 +20,4 @@ Search is suppressed, add 👍 and maybe it will be added to search results? (*n
 
 <%= if @address != "" do %>
 <.moderation_form changeset={@moderation_changeset} action={~p"/moderations"} />
-<% end %>
-
-<%= if @is_moderator == true do %>
-  <%= for moderation <- @item.moderations do %>
-  <li><%= moderation.category %> <%= moderation.reason %></li>
-  <% end %>
 <% end %>

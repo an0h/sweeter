@@ -34,6 +34,11 @@ defmodule Sweeter.Content.Item do
     |> unique_constraint(:headline)
   end
 
+  def mod_item_changeset(item, attrs) do
+    item
+    |> cast(attrs, [:deleted, :source, :search_suppressed])
+  end
+
   def get_all do
     Repo.all(
       from i in "items",
@@ -56,8 +61,6 @@ defmodule Sweeter.Content.Item do
   end
 
   def create_item(attrs \\ %{}) do
-
-    IO.inspect attrs
     {:ok, item} = %Item{}
       |> Item.changeset(attrs)
       |> Repo.insert()
@@ -70,6 +73,19 @@ defmodule Sweeter.Content.Item do
     if attrs["tag_ids"] != nil do
       Tag.tag_item(item.id, attrs["tag_ids"])
     end
+    {:ok, item}
+  end
+
+  def create_item_moderation(item, attrs) do
+    # if attrs["restricted_tag_ids"] != nil do
+    #   RestrictedTag.restricted_tag_item(item.id, attrs["restricted_tag_ids"])
+    # end
+    # if attrs["tag_ids"] != nil do
+    #   Tag.tag_item(item.id, attrs["tag_ids"])
+    # end
+    item
+    |> Item.mod_item_changeset(attrs)
+    |> Repo.update()
     {:ok, item}
   end
 
