@@ -73,6 +73,12 @@ defmodule SweeterWeb.Router do
     get "/moderator/pending", SweeterWeb.ModerationController, :list_pending_moderations
   end
 
+  scope "/" do
+    pipe_through [:browser, :protected]
+
+    get "/:handle", SweeterWeb.ProfileController, :handle_profile
+  end
+
   scope "/api/v1", SweeterWeb.API.V1, as: :api_v1 do
     pipe_through :api
 
@@ -80,7 +86,6 @@ defmodule SweeterWeb.Router do
     post "/session/renew", SessionController, :renew
   end
 
-  # Other scopes may use custom stacks.
   scope "/api/v1", SweeterWeb.API.V1, as: :api_v1 do
     pipe_through [:api, :api_protected]
 
@@ -90,7 +95,6 @@ defmodule SweeterWeb.Router do
     post "/create_item", APIController, :api_item_create
   end
 
-  # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:sweeter, :dev_routes) do
     # If you want to use the LiveDashboard in production, you should put
     # it behind authentication and allow only admins to access it.

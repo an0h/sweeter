@@ -12,6 +12,12 @@ defmodule SweeterWeb.ProfileController do
     |> render(:show, user: user)
   end
 
+  def handle_profile(conn, %{"handle" => handle}) do
+    user = User.get_handle_profile(handle)
+    conn
+    |> render(:show, user: user)
+  end
+
   def edit_profile(conn, %{"id" => id}) do
     authed_user = Pow.Plug.current_user(conn)
     {user_id, _} = Integer.parse(id)
