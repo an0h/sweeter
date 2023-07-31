@@ -28,6 +28,15 @@ defmodule SweeterWeb.ItemController do
   end
 
   def create(conn, %{"item" => item_params}) do
+    case Pow.Plug.current_user(conn) do
+      nil ->
+        write_item(conn, item_params)
+      user ->
+        write_item(conn, item_params |> Map.put("user_id", user.id))
+    end
+  end
+
+  defp write_item(conn, item_params) do
     case Item.create_item(item_params) do
       {:ok, item} ->
         conn
@@ -90,38 +99,45 @@ defmodule SweeterWeb.ItemController do
         |> put_flash(:info, "Nope, nada.")
         |> redirect(to: ~p"/items")
       user ->
-        if User.get_is_moderator(conn) do
-          item = Content.get_item!(id)
+        item = Content.get_item!(id)
           |> Repo.preload(:images)
           |> Repo.preload(:moderations)
-          reactions = Reactions.get_reactions_for_item(id)
-          item = %{item | reactions: reactions}
-          restricted_tags = RestrictedTag.get_restricted_tag_slugs_for_item(String.to_integer(id))
-          tags = Tag.get_tag_slugs_for_item(String.to_integer(id))
-          item_load_count = LoadCounts.fetch_item_load_count(id)
-
-          changeset = Content.change_item(item)
+        IO.inspect item.user_id
+        IO.inspect user.id
+        if user.id == item.user_id do
           conn
-          |> render(:moderate,
-            item: item,
-            restricted_tags: restricted_tags,
-            item_load_count: item_load_count,
-            tags: tags,
-            address: user.address,
-            action: "/moderate_item/#{id}",
-            changeset: changeset)
-        else
-          conn
-          |> put_flash(:info, "Nope, nada.")
+          |> put_flash(:info, "That is your own item, can't moderate self.")
           |> redirect(to: ~p"/items")
+        else
+          if User.get_is_moderator(conn) do
+            reactions = Reactions.get_reactions_for_item(id)
+            item = %{item | reactions: reactions}
+            restricted_tags = RestrictedTag.get_restricted_tag_slugs_for_item(String.to_integer(id))
+            tags = Tag.get_tag_slugs_for_item(String.to_integer(id))
+            item_load_count = LoadCounts.fetch_item_load_count(id)
+
+            changeset = Content.change_item(item)
+            conn
+            |> render(:moderate,
+              item: item,
+              restricted_tags: restricted_tags,
+              item_load_count: item_load_count,
+              tags: tags,
+              address: user.address,
+              action: "/moderate_item/#{id}",
+              changeset: changeset)
+          else
+            conn
+            |> put_flash(:info, "Nope, nada.")
+            |> redirect(to: ~p"/items")
+          end
         end
     end
   end
 
-  def moderater_item_update(conn, attrs) do
-    IO.inspect attrs
-    item = Content.get_item!(5)
-    case Item.create_item_moderation(item, attrs) do
+  def moderater_item_update(conn, %{"id" => id,"item" => updated} = attrs) do
+    item = Content.get_item!(id)
+    case Item.create_item_moderation(item, updated) do
       {:ok, item} ->
         conn
         |> put_flash(:info, "Moderated successfully.")

@@ -44,8 +44,7 @@ Search is currently suppressed
   </:actions>
 </.simple_form>
 
-
-
+<h2 class="text-4xl font-bold text-teal-500">Moderation Requests</h2>
 <ul>
   <%= for moderation <- @item.moderations do %>
   <li><%= moderation.category %> <%= moderation.reason %></li>
