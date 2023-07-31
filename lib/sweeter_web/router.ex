@@ -11,6 +11,7 @@ defmodule SweeterWeb.Router do
     plug :put_root_layout, html: {SweeterWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug SweeterWeb.LoggedInIdPlug
     plug Pow.Plug.Session, otp_app: :sweeter
   end
 
