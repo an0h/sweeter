@@ -11,6 +11,7 @@ defmodule Sweeter.Content.ModReview do
     field :moderator_id, :integer
     field :note, :string
     has_many :moderations, Sweeter.Content.Moderation
+    belongs_to :item, Sweeter.Content.Item
 
     timestamps()
   end
@@ -18,8 +19,8 @@ defmodule Sweeter.Content.ModReview do
   @doc false
   def changeset(mod_review, attrs) do
     mod_review
-    |> cast(attrs, [:moderator_id, :note, :logentry])
-    |> validate_required([:moderator_id, :note, :logentry])
+    |> cast(attrs, [:item_id, :moderator_id, :note, :logentry])
+    |> validate_required([:item_id, :moderator_id, :note, :logentry])
   end
 
   def create_review(attrs \\ %{}) do

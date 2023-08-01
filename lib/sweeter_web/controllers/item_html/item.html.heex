@@ -31,3 +31,12 @@
   <img src={"https://sweetipfs.herokuapp.com/read?ipfscid=#{image.ipfscid}"} />
   <% end %>
 <% end %>
+<%= if @address != "" do %>
+  <%= for modreview <- @item.modreviews do %>
+  <ul>
+  <li><%= modreview.inserted_at %></li>
+  <li><%= modreview.logentry %></li>
+  <li><%= modreview.note %></li>
+  </ul>
+  <% end %>
+<% end %>

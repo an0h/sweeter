@@ -23,6 +23,7 @@ defmodule Sweeter.Content.Item do
     has_many :reactions, Sweeter.Content.Reactions
     has_many :images, Sweeter.Content.Image
     has_many :moderations, Sweeter.Content.Moderation
+    has_many :modreviews, Sweeter.Content.ModReview
 
     timestamps()
   end
@@ -81,6 +82,7 @@ defmodule Sweeter.Content.Item do
   def log_moderator_item_update(submitted, item, moderator_id) do
     user_handle = User.get_moderator_handle_from_id(moderator_id)
     ModReview.create_review(%{
+      "item_id" => item.id,
       "logentry" => "The #{user_handle} moderated, submitting with TAGS #{submitted["tag_ids"]} REQUIRED_TAGS #{submitted["required_tag_ids"]}.  The source is #{submitted["source"]} and search_suppressed is #{submitted["search_suppressed"]}",
       "note" => submitted["body"],
       "moderator_id" => moderator_id})

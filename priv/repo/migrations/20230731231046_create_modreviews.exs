@@ -4,6 +4,7 @@ defmodule Sweeter.Repo.Migrations.CreateModreviews do
   def change do
     create table(:modreviews) do
       add :moderator_id, references(:users)
+      add :item_id, references(:items)
       add :note, :text
       add :logentry, :text
 

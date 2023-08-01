@@ -51,6 +51,7 @@ defmodule SweeterWeb.ItemController do
     item = Content.get_item!(id)
     |> Repo.preload(:images)
     |> Repo.preload(:moderations)
+    |> Repo.preload(:modreviews)
     if item.deleted == true do
       conn
       |> put_flash(:info, "This item has been deleted")
@@ -61,7 +62,6 @@ defmodule SweeterWeb.ItemController do
       restricted_tags = RestrictedTag.get_restricted_tag_labels_for_item(String.to_integer(id))
       tags = Tag.get_tag_labels_for_item(String.to_integer(id))
       item_load_count = LoadCounts.fetch_item_load_count(id)
-
       case Pow.Plug.current_user(conn) do
         nil ->
           LoadCounts.increment_item_load_count(id)
@@ -72,7 +72,6 @@ defmodule SweeterWeb.ItemController do
             tags: tags,
             address: "",
             item_load_count: item_load_count,
-            is_moderator: false,
             moderation_changeset: %Moderation{})
         user ->
           LoadCounts.increment_item_load_count(id, user.id)
@@ -86,7 +85,6 @@ defmodule SweeterWeb.ItemController do
             item_load_count: item_load_count,
             tags: tags,
             address: user.address,
-            is_moderator: is_moderator,
             moderation_changeset: moderation_changeset)
       end
     end
