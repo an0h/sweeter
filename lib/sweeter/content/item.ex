@@ -6,10 +6,12 @@ defmodule Sweeter.Content.Item do
 
   alias Sweeter.Content.Item
   alias Sweeter.Content.Image
+  alias Sweeter.Content.ModReview
   alias Sweeter.Content.PublerSubser
   alias Sweeter.Content.RestrictedTag
   alias Sweeter.Content.RestrictedTagItem
   alias Sweeter.Content.Tag
+  alias Sweeter.Users.User
 
   schema "items" do
     field :body, :string
@@ -76,7 +78,15 @@ defmodule Sweeter.Content.Item do
     {:ok, item}
   end
 
-  def create_item_moderation(item, attrs) do
+  def log_moderator_item_update(submitted, item, moderator_id) do
+    user_handle = User.get_moderator_handle_from_id(moderator_id)
+    ModReview.create_review(%{
+      "logentry" => "The #{user_handle} moderated, submitting with TAGS #{submitted["tag_ids"]} REQUIRED_TAGS #{submitted["required_tag_ids"]}.  The source is #{submitted["source"]} and search_suppressed is #{submitted["search_suppressed"]}",
+      "note" => submitted["body"],
+      "moderator_id" => moderator_id})
+  end
+
+  def write_moderation(item, attrs) do
     # if attrs["restricted_tag_ids"] != nil do
     #   RestrictedTag.restricted_tag_item(item.id, attrs["restricted_tag_ids"])
     # end

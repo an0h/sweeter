@@ -64,6 +64,20 @@ defmodule Sweeter.Users.User do
     Repo.get_by!(User, handle: handle)
   end
 
+  def get_handle_from_id(id) do
+    user = Repo.get!(User, id)
+    user.handle
+  end
+
+  def get_moderator_handle_from_id(id) do
+    user = Repo.get!(User, id)
+    if user.handle == nil or user.handle == "" do
+      user.email
+    else
+      user.handle
+    end
+  end
+
   def get_is_moderator(conn) do
     case Pow.Plug.current_user(conn) do
       nil ->

@@ -69,7 +69,7 @@ defmodule SweeterWeb.Router do
     pipe_through [:browser, :protected, :moderators_only]
 
     get "/moderate_item/:id", SweeterWeb.ItemController, :moderate_item
-    put "/moderate_item/:id", SweeterWeb.ItemController, :moderater_item_update
+    put "/moderate_item/:id", SweeterWeb.ItemController, :moderator_item_update
 
     get "/moderator/create_tag", SweeterWeb.ModerationController, :new_tag
     post "/moderator/create_tag", SweeterWeb.ModerationController, :create_tag

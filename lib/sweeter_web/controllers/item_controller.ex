@@ -102,8 +102,6 @@ defmodule SweeterWeb.ItemController do
         item = Content.get_item!(id)
           |> Repo.preload(:images)
           |> Repo.preload(:moderations)
-        IO.inspect item.user_id
-        IO.inspect user.id
         if user.id == item.user_id do
           conn
           |> put_flash(:info, "That is your own item, can't moderate self.")
@@ -135,19 +133,28 @@ defmodule SweeterWeb.ItemController do
     end
   end
 
-  def moderater_item_update(conn, %{"id" => id,"item" => updated} = attrs) do
-    item = Content.get_item!(id)
-    case Item.create_item_moderation(item, updated) do
-      {:ok, item} ->
+  def moderator_item_update(conn, %{"id" => id,"item" => updated} = attrs) do
+    case Pow.Plug.current_user(conn) do
+      nil ->
         conn
-        |> put_flash(:info, "Moderated successfully.")
-        |> redirect(to: ~p"/items/#{item}")
+        |> put_flash(:info, "Nope, nada.")
+        |> redirect(to: ~p"/items")
+      user ->
+        IO.inspect updated
+        item = Content.get_item!(id)
+        case Item.write_moderation(item, updated) do
+          {:ok, item} ->
+            Item.log_moderator_item_update(updated, item, user.id)
+            conn
+            |> put_flash(:info, "Moderated successfully.")
+            |> redirect(to: ~p"/items/#{item}")
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        conn
-        |> put_flash(:info, "Moderatation failed.")
-        |> redirect(to: ~p"/moderate_item/#{attrs.id}")
-    end
+          {:error, %Ecto.Changeset{} = changeset} ->
+            conn
+            |> put_flash(:info, "Moderatation failed.")
+            |> redirect(to: ~p"/moderate_item/#{attrs.id}")
+        end
+      end
   end
 
   def edit(conn, %{"id" => _id}) do
