@@ -1,6 +1,4 @@
 defmodule SweeterWeb.Router do
-  alias Sweeter.Content.Item
-  alias SweeterWeb.ItemController
   use SweeterWeb, :router
   use Pow.Phoenix.Router
   use Pow.Extension.Phoenix.Router,
@@ -45,6 +43,8 @@ defmodule SweeterWeb.Router do
     get "/privacy", PageController, :privacy
 
     resources "/items", ItemController
+    resources "/searches", SearchController
+    resources "/search", SearchController
   end
 
   scope "/" do
@@ -69,6 +69,7 @@ defmodule SweeterWeb.Router do
 
   scope "/" do
     pipe_through [:browser, :protected, :moderators_only]
+    get "/about_mod", PageController, :privacy
 
     get "/moderate_item/:id", SweeterWeb.ItemController, :moderate_item
     put "/moderate_item/:id", SweeterWeb.ItemController, :moderator_item_update

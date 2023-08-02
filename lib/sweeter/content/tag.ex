@@ -37,6 +37,13 @@ defmodule Sweeter.Content.Tag do
     Repo.all(Tag)
   end
 
+  def get_all_slugs() do
+    Repo.all(
+      from t in "tags",
+      select: t.slug
+    )
+  end
+
   def get_tag_ids_by_slug(slugs) do
     if slugs == nil do
       []

@@ -1,0 +1,15 @@
+<.header>
+  Search <%= @search.id %>
+  <:subtitle>This is a search record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/searches/#{@search}/edit"}>
+      <.button>Edit search</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Tag slug list"><%= @search.tag_slug_list %></:item>
+</.list>
+
+<.back navigate={~p"/searches"}>Back to searches</.back>

@@ -1,0 +1,8 @@
+<.header>
+  Edit Search <%= @search.id %>
+  <:subtitle>Use this form to manage search records in your database.</:subtitle>
+</.header>
+
+<.search_form changeset={@changeset} action={~p"/searches/#{@search}"} />
+
+<.back navigate={~p"/searches"}>Back to searches</.back>

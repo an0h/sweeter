@@ -120,4 +120,58 @@ defmodule Sweeter.ContentTest do
       assert %Ecto.Changeset{} = Content.change_moderation(moderation)
     end
   end
+
+  describe "searches" do
+    alias Sweeter.Content.Search
+
+    import Sweeter.ContentFixtures
+
+    @invalid_attrs %{tag_slug_list: nil}
+
+    test "list_searches/0 returns all searches" do
+      search = search_fixture()
+      assert Content.list_searches() == [search]
+    end
+
+    test "get_search!/1 returns the search with given id" do
+      search = search_fixture()
+      assert Content.get_search!(search.id) == search
+    end
+
+    test "create_search/1 with valid data creates a search" do
+      valid_attrs = %{tag_slug_list: "some tag_slug_list"}
+
+      assert {:ok, %Search{} = search} = Content.create_search(valid_attrs)
+      assert search.tag_slug_list == "some tag_slug_list"
+    end
+
+    test "create_search/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Content.create_search(@invalid_attrs)
+    end
+
+    test "update_search/2 with valid data updates the search" do
+      search = search_fixture()
+      update_attrs = %{tag_slug_list: "some updated tag_slug_list"}
+
+      assert {:ok, %Search{} = search} = Content.update_search(search, update_attrs)
+      assert search.tag_slug_list == "some updated tag_slug_list"
+    end
+
+    test "update_search/2 with invalid data returns error changeset" do
+      search = search_fixture()
+      assert {:error, %Ecto.Changeset{}} = Content.update_search(search, @invalid_attrs)
+      assert search == Content.get_search!(search.id)
+    end
+
+    test "delete_search/1 deletes the search" do
+      search = search_fixture()
+      assert {:ok, %Search{}} = Content.delete_search(search)
+      assert_raise Ecto.NoResultsError, fn -> Content.get_search!(search.id) end
+    end
+
+    test "change_search/1 returns a search changeset" do
+      search = search_fixture()
+      assert %Ecto.Changeset{} = Content.change_search(search)
+    end
+  end
 end

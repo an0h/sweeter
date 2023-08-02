@@ -9,7 +9,6 @@ defmodule Sweeter.Content.Item do
   alias Sweeter.Content.ModReview
   alias Sweeter.Content.PublerSubser
   alias Sweeter.Content.RestrictedTag
-  alias Sweeter.Content.RestrictedTagItem
   alias Sweeter.Content.Tag
   alias Sweeter.Users.User
 

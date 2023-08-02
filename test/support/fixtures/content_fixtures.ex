@@ -36,4 +36,18 @@ defmodule Sweeter.ContentFixtures do
 
     moderation
   end
+
+  @doc """
+  Generate a search.
+  """
+  def search_fixture(attrs \\ %{}) do
+    {:ok, search} =
+      attrs
+      |> Enum.into(%{
+        tag_slug_list: "some tag_slug_list"
+      })
+      |> Sweeter.Content.create_search()
+
+    search
+  end
 end
