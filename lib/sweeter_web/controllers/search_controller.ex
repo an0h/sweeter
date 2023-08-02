@@ -5,10 +5,15 @@ defmodule SweeterWeb.SearchController do
   alias Sweeter.Content.Search
 
   def index(conn, _params) do
-    searches = Content.list_searches()
+    query = "Polic"
+    search_term = "%#{query}%"
+    matches = Search.get_all_query_matches(search_term)
+    IO.inspect matches
+    IO.puts "matches"
+    # searches = Content.list_searches()
     tag_slugs = Search.get_suggested_searches()
     rt_slugs = Search.restricted_tag_slugs()
-    render(conn, :index, searches: searches, tag_slugs: tag_slugs, rt_slugs: rt_slugs)
+    render(conn, :index, searches: [], tag_slugs: tag_slugs, rt_slugs: rt_slugs)
   end
 
   def new(conn, _params) do

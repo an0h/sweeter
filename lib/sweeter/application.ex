@@ -12,7 +12,7 @@ defmodule Sweeter.Application do
       sweeter_k8s: [
         strategy: Elixir.Cluster.Strategy.Kubernetes.DNS,
         config: [
-          service: "sweeter-svc",
+          service: "sweeter-epdm-svc",
           application_name: "sweeter",
           polling_interval: 10_000
         ]
