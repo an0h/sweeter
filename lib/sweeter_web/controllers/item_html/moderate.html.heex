@@ -1,4 +1,4 @@
-<.item item={@item} restricted_tags={@restricted_tags} tags={@tags} item_load_count={@item_load_count} />
+<.item item={@item} restricted_tags={@restricted_tags} tags={@tags} item_load_count={@item_load_count} address={@address} />
 
 <h1 class="text-3xl font-bold text-teal-500">Moderator Zone</h1>
 <%= if @item.search_suppressed == true do %>
@@ -36,11 +36,14 @@ Search is currently suppressed
   </div>
 </div>
 
+<.restricted_tags />
+
 <.simple_form :let={f} for={@changeset} action={@action}>
   <.error :if={@changeset.action}>
     Oops, something went wrong! Please check the errors below.
   </.error>
-  <.input field={f[:body]} type="textarea" label="Moderation Action Notes and Reasoning" />
+  <!-- using this field is a terrible hack, because it is actually the item's body but, shrug -->
+  <.input field={f[:body]} value="" type="textarea" label="Moderation Action Notes and Reasoning" />
   <hr />
   <.input field={f[:source]} type="text" label="Source" />
   <.input field={f[:search_suppressed]} label="Search Suppressed?" type="select" options={
@@ -67,3 +70,9 @@ Search is currently suppressed
   </li>
   <% end %>
 </ul>
+
+<script>
+function toggleRestrictedTag(slug, num) {
+  console.log(slug)
+}
+</script>

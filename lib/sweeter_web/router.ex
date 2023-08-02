@@ -1,4 +1,6 @@
 defmodule SweeterWeb.Router do
+  alias Sweeter.Content.Item
+  alias SweeterWeb.ItemController
   use SweeterWeb, :router
   use Pow.Phoenix.Router
   use Pow.Extension.Phoenix.Router,

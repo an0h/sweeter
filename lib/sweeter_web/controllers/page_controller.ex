@@ -8,7 +8,7 @@ defmodule SweeterWeb.PageController do
     case Pow.Plug.current_user(conn) do
       nil ->
         conn
-        |> render(:home, layout: false)
+        |> render(:home)
       user ->
         if user.address == nil do
           conn
@@ -16,7 +16,7 @@ defmodule SweeterWeb.PageController do
           |> redirect(to: "/mnemonic")
         else
           conn
-          |> render(:home, layout: false)
+          |> render(:home)
         end
     end
   end

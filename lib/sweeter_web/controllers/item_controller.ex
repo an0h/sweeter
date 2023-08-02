@@ -100,6 +100,7 @@ defmodule SweeterWeb.ItemController do
         item = Content.get_item!(id)
           |> Repo.preload(:images)
           |> Repo.preload(:moderations)
+          |> Repo.preload(:modreviews)
         if user.id == item.user_id do
           conn
           |> put_flash(:info, "That is your own item, can't moderate self.")
