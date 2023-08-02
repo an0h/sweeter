@@ -48,7 +48,7 @@ if config_env() == :prod do
       You can generate one by calling: mix phx.gen.secret
       """
 
-  host = System.get_env("PHX_HOST") || "cherry.internetstate.city"
+  host = System.get_env("PHX_HOST") || "all4u.city"
   port = String.to_integer(System.get_env("PORT") || "4000")
 
   config :sweeter, SweeterWeb.Endpoint,
