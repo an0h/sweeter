@@ -38,12 +38,16 @@ defmodule Sweeter.Content.Tag do
   end
 
   def get_tag_ids_by_slug(slugs) do
-    s = Enum.map(String.split(slugs, ","), &String.trim/1)
-    from(
-      t in Tag,
-      where: t.slug in ^s,
-      select: t.id)
-    |> Repo.all()
+    if slugs == nil do
+      []
+    else
+      s = Enum.map(String.split(slugs, ","), &String.trim/1)
+      from(
+        t in Tag,
+        where: t.slug in ^s,
+        select: t.id)
+      |> Repo.all()
+    end
   end
 
   def get_tag_labels_for_item(item_id) do

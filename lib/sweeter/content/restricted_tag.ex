@@ -41,12 +41,16 @@ defmodule Sweeter.Content.RestrictedTag do
   end
 
   def get_restricted_tag_ids_by_slug(slugs) do
-    s = Enum.map(String.split(slugs, ","), &String.trim/1)
-    from(
-      rt in RestrictedTag,
-      where: rt.slug in ^s,
-      select: rt.id)
-    |> Repo.all()
+    if slugs == nil do
+      []
+    else
+      s = Enum.map(String.split(slugs, ","), &String.trim/1)
+      from(
+        rt in RestrictedTag,
+        where: rt.slug in ^s,
+        select: rt.id)
+      |> Repo.all()
+    end
   end
 
   def get_restricted_tag_labels_for_item(item_id) do
