@@ -7,20 +7,16 @@ defmodule Sweeter.Spicy do
   def get_new_user_address(email, mnemonic) do
     IO.puts "in get new user address"
     url = buildurl(email, mnemonic)
-    headers = []
 
-    try do
-      {_status, response} =
-        HTTPoison.get(
-          url,
-          '',
-          headers
-        )
-        %{"address" => address, "key" => _key, "mnemonic" => mnemonic} = Poison.decode!(response.body)
-        {:ok, address: address, mnemonic: mnemonic}
-      rescue
-      e in HTTPoison.Error ->
-        IO.inspect(e)
+    case HTTPoison.get(url) do
+      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+        case Poison.decode!(body) do
+          %{"address" => address, "key" => _key, "mnemonic" => mnemonic} ->
+            {:ok, address: address, mnemonic: mnemonic}
+          _e ->
+            {:error}
+        end
+      {:error, %HTTPoison.Error{} = error} ->
         {:error}
     end
   end

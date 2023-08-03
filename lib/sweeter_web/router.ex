@@ -69,7 +69,7 @@ defmodule SweeterWeb.Router do
 
   scope "/" do
     pipe_through [:browser, :protected, :moderators_only]
-    get "/about_mod", PageController, :privacy
+    get "/about_mod", SweeterWeb.PageController, :about_mod
 
     get "/moderate_item/:id", SweeterWeb.ItemController, :moderate_item
     put "/moderate_item/:id", SweeterWeb.ItemController, :moderator_item_update
