@@ -3,6 +3,8 @@ defmodule SweeterWeb.ModerationController do
 
   alias Sweeter.Content
   alias Sweeter.Content.Moderation
+  alias Sweeter.Content.Tag
+  alias Sweeter.Users.User
 
   def index(conn, _params) do
     moderations = Content.list_moderations()
@@ -58,5 +60,46 @@ defmodule SweeterWeb.ModerationController do
     conn
     |> put_flash(:info, "Moderation successfully.")
     |> redirect(to: ~p"/moderations")
+  end
+
+  def new_tag(conn, %{}) do
+    case User.get_is_moderator(conn) do
+      true ->
+        changeset = Tag.changeset(%Tag{},%{})
+        render(conn, :add_tag, changeset: changeset)
+      false ->
+        conn
+        |> put_flash(:info, "youre not a mod")
+        |> redirect(to: ~p"/items")
+    end
+  end
+
+  def create_tag(conn, %{"tag" => tag}) do
+    case User.get_moderator_id(conn) do
+      false ->
+        conn
+        |> put_flash(:info, "youre not a mod")
+        |> redirect(to: ~p"/items")
+      user_id ->
+        tag = Map.put(tag, "submitted_by", user_id)
+          |> Map.put("slug", Tag.convert_to_slug(tag["label"]))
+        IO.inspect tag
+        Tag.create_tag(tag)
+        conn
+        |> put_flash(:info, "tag created")
+        |> redirect(to: ~p"/items")
+    end
+  end
+
+  def list_tags(conn, _params) do
+    case User.get_is_moderator(conn) do
+      true ->
+        changeset = Tag.changeset(%Tag{},%{})
+        render(conn, :add_tag, changeset: changeset)
+      false ->
+        conn
+        |> put_flash(:info, "youre not a mod")
+        |> redirect(to: ~p"/items")
+    end
   end
 end

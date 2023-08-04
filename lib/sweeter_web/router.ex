@@ -74,6 +74,7 @@ defmodule SweeterWeb.Router do
     get "/moderate_item/:id", SweeterWeb.ItemController, :moderate_item
     put "/moderate_item/:id", SweeterWeb.ItemController, :moderator_item_update
 
+    get "/moderator/list_tags", SweeterWeb.ModerationController, :list_tags
     get "/moderator/create_tag", SweeterWeb.ModerationController, :new_tag
     post "/moderator/create_tag", SweeterWeb.ModerationController, :create_tag
 

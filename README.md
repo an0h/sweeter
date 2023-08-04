@@ -27,3 +27,7 @@ curl -X POST -d 'user[email]=sc@rib.e&user[password]=dapaSS!2' http://localhost:
 
 curl -H "Authorization: fillout" http://localhost:4000/api/v1/get_items?query=#match
 ```
+
+    export api1317="http://0.0.0.0:1317"
+    export faucet4500="http://0.0.0.0:4500"
+    export assigner5555="http://0.0.0.0:5555"

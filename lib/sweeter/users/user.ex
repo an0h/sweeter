@@ -88,6 +88,20 @@ defmodule Sweeter.Users.User do
     end
   end
 
+  def get_moderator_id(conn) do
+    case Pow.Plug.current_user(conn) do
+      nil ->
+        false
+      user ->
+        profile = User.get_profile(user.id)
+        if profile.is_admin || profile.is_moderator do
+          profile.id
+        else
+          false
+        end
+    end
+  end
+
   defp age_integer(a) do
     try do
       {age, _} = Integer.parse(a)

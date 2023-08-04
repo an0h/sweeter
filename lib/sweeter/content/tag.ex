@@ -8,10 +8,12 @@ defmodule Sweeter.Content.Tag do
   alias Sweeter.Content.Item
   alias Sweeter.Content.Tag
   alias Sweeter.Content.TagItem
+  alias Sweeter.Users.User
 
   schema "tags" do
     field :label, :string
     field :slug, :string
+    field :submitted_by, :integer
 
     timestamps()
   end
@@ -19,8 +21,11 @@ defmodule Sweeter.Content.Tag do
   @doc false
   def changeset(tag, attrs) do
     tag
-    |> cast(attrs, [:label, :slug])
-    |> validate_required([:label])
+    |> cast(attrs, [:label, :slug, :submitted_by])
+    |> validate_required([:label, :slug])
+    |> foreign_key_constraint(:submitted_by, name: :tags_submitted_by_fkey,
+       message: "submitted_by"
+     )
   end
 
   def change_tag(%Tag{} = tag, attrs \\ %{}) do
@@ -28,9 +33,12 @@ defmodule Sweeter.Content.Tag do
   end
 
   def create_tag(attrs \\ %{}) do
-    %Tag{}
+    IO.puts "in create tag"
+    creation = %Tag{}
     |> Tag.changeset(attrs)
     |> Repo.insert()
+    IO.inspect creation
+    creation
   end
 
   def get_all() do
@@ -89,6 +97,14 @@ defmodule Sweeter.Content.Tag do
     |> Enum.map(&String.trim/1)
     |> Enum.reject(&(&1 == ""))
     |> Enum.map(&String.to_integer/1)
+  end
+
+  def convert_to_slug(label) do
+    label
+    |> String.downcase()                      # Convert to lowercase
+    |> String.replace(~r/[^a-zA-Z0-9\s]/, "") # Remove anything that isn't a letter or number
+    |> String.replace(~r/\s+/, "_")           # Replace spaces with underscores
+    |> String.trim("_")                       # Trim underscores from the beginning and end
   end
 
   defp iterate_tags(list, item_id) do
