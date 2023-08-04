@@ -1,25 +1,14 @@
 <.header>
-  Listing Moderations
+  Listing Tags U Made
   <:actions>
-    <.link href={~p"/moderations/new"}>
-      <.button>New Moderation</.button>
+    <.link href={~p"/moderator/create_tag"}>
+      <.button>New Tag</.button>
     </.link>
   </:actions>
 </.header>
 
-<.table id="moderations" rows={@moderations} row_click={&JS.navigate(~p"/moderations/#{&1}")}>
-  <:col :let={moderation} label="Requestor"><%= moderation.requestor_id %></:col>
-  <:col :let={moderation} label="Reason"><%= moderation.reason %></:col>
-  <:col :let={moderation} label="Category"><%= moderation.category %></:col>
-  <:action :let={moderation}>
-    <div class="sr-only">
-      <.link navigate={~p"/moderations/#{moderation}"}>Show</.link>
-    </div>
-    <.link navigate={~p"/moderations/#{moderation}/edit"}>Edit</.link>
-  </:action>
-  <:action :let={moderation}>
-    <.link href={~p"/moderations/#{moderation}"} method="delete" data-confirm="Are you sure?">
-      Delete
-    </.link>
-  </:action>
+
+<.table id="tags" rows={@tags}>
+  <:col :let={tag} label="Label"><%= tag.label %></:col>
+  <:col :let={tag} label="Slug"><%= tag.slug %></:col>
 </.table>

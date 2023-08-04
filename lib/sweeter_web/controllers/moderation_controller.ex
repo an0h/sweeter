@@ -83,23 +83,22 @@ defmodule SweeterWeb.ModerationController do
       user_id ->
         tag = Map.put(tag, "submitted_by", user_id)
           |> Map.put("slug", Tag.convert_to_slug(tag["label"]))
-        IO.inspect tag
         Tag.create_tag(tag)
         conn
         |> put_flash(:info, "tag created")
-        |> redirect(to: ~p"/items")
+        |> redirect(to: ~p"/moderator/list_tags")
     end
   end
 
   def list_tags(conn, _params) do
-    case User.get_is_moderator(conn) do
-      true ->
-        changeset = Tag.changeset(%Tag{},%{})
-        render(conn, :add_tag, changeset: changeset)
+    case User.get_moderator_id(conn) do
       false ->
         conn
         |> put_flash(:info, "youre not a mod")
         |> redirect(to: ~p"/items")
+      user_id ->
+        tags = Tag.get_all_submitted_by(user_id)
+        render(conn, :list_tags, tags: tags)
     end
   end
 end

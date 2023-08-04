@@ -33,16 +33,26 @@ defmodule Sweeter.Content.Tag do
   end
 
   def create_tag(attrs \\ %{}) do
-    IO.puts "in create tag"
-    creation = %Tag{}
+    %Tag{}
     |> Tag.changeset(attrs)
     |> Repo.insert()
-    IO.inspect creation
-    creation
   end
 
   def get_all() do
     Repo.all(Tag)
+  end
+
+  def get_all_submitted_by(user_id) do
+    Repo.all(
+      from t in "tags",
+      where: t.submitted_by == ^user_id,
+      select: [t.label, t.slug, t.submitted_by]
+    ) |> Enum.map(&cast_tag/1)
+  end
+
+  defp cast_tag(tag) do
+    [label, slug, submitted_by] = tag
+    %Tag{label: label, slug: slug, submitted_by: submitted_by}
   end
 
   def get_all_slugs() do
