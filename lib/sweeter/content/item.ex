@@ -109,4 +109,13 @@ defmodule Sweeter.Content.Item do
     )
     |> item_list_struct_converter
   end
+
+  def get_all_by_user(ui) do
+    Repo.all(
+      from i in "items",
+        where: i.user_id == ^ui,
+        select: [i.id, i.body, i.headline, i.deleted]
+    )
+    |> item_list_struct_converter
+  end
 end

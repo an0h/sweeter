@@ -55,11 +55,19 @@ defmodule SweeterWeb.API.V1.APIController do
       end)
     case Item.create_item(new) do
       {:ok, item} ->
+        IO.inspect item
+        IO.puts "what?"
         if user_address != nil do
           CreditDebit.increment_api(user_address)
         end
         render(conn, "item.json", item: item)
       {:error, %Ecto.Changeset{} = _changeset} ->
+        IO.inspect _changeset
+        IO.puts "in error"
+        send_resp(conn, "error.json", "Item not created")
+      e ->
+        IO.inspect e
+        IO.puts "in err"
         send_resp(conn, "error.json", "Item not created")
     end
   end

@@ -10,6 +10,8 @@ defmodule Sweeter.CreditDebit do
         address_write(address, reaction_count, new_value)
         modulus_100(address, new_value)
         new_value
+      {:aborted, {:no_exists, User}} ->
+        :mnesia.create_table(User, [:address, :reaction_count, :api_count])
       nil ->
         address_write(address)
         modulus_100(address, 0)

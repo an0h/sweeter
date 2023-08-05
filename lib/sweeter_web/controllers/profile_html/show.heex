@@ -1,8 +1,7 @@
 <div class="mx-auto max-w-sm">
-show profile
 <%= @user.handle %>
 
-<%= if @user.profile_pic_cid != "" do %>
+<%= if @user.profile_pic_cid != nil do %>
   <img src={"https://sweetipfs.herokuapp.com/read?ipfscid=#{@user.profile_pic_cid}"} />
 <% end %>
   <div id="user-contents">
@@ -16,3 +15,5 @@ show profile
   </div>
 <.translation div_id="user-contents" />
 </div>
+
+<.item_list items={@user_authored} />
