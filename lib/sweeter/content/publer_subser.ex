@@ -5,6 +5,8 @@ defmodule Sweeter.Content.PublerSubser do
   import Ecto.Changeset
   import Ecto.Query
   alias Sweeter.Repo
+
+  alias Sweeter.Content.Item
   alias Sweeter.Content.PublerSubser
 
 
@@ -23,7 +25,17 @@ defmodule Sweeter.Content.PublerSubser do
     |> unique_constraint(:publer_subser, name: :publer_subser_publer_id_subser_id_index)
   end
 
-  def publer_id_list(subser_id) do
+  def subscription_feed(subser_id) do
+    publist = publer_id_list(subser_id)
+    Repo.all(
+      from i in "items",
+        where: i.user_id in ^publist,
+        select: [i.id, i.body, i.headline, i.deleted]
+    )
+    |> Item.item_list_struct_converter
+  end
+
+  defp publer_id_list(subser_id) do
     Repo.all(
       from ps in "publer_subser",
         where: ps.subser_id == ^subser_id,

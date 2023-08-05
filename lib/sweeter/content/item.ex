@@ -50,7 +50,7 @@ defmodule Sweeter.Content.Item do
     |> item_list_struct_converter
   end
 
-  defp item_list_struct_converter(item_list) do
+  def item_list_struct_converter(item_list) do
     Enum.map(
       item_list,
       fn item ->

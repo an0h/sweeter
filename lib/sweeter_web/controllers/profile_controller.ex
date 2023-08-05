@@ -12,8 +12,9 @@ defmodule SweeterWeb.ProfileController do
     subscribe_action = "/profile/subscribe/" <> id
     # tokes = Spicy.get_cosmos_by_address(user.address)
     # IO.inspect(tokes)
+    subscribed_items = PublerSubser.subscription_feed(String.to_integer(id))
     conn
-    |> render(:show, user: user, user_authored: user_authored, subscribe_action: subscribe_action)
+    |> render(:show, user: user, user_authored: user_authored, subscribed_items: subscribed_items, subscribe_action: subscribe_action)
   end
 
   def handle_profile(conn, %{"handle" => handle}) do
@@ -64,15 +65,21 @@ defmodule SweeterWeb.ProfileController do
         |> put_flash(:info, "Login to create subscriptions")
         |> redirect(to: "/items")
       user ->
-        case PublerSubser.subser(id, user.id) do
-          {:ok, _pubsub} ->
-            conn
-            |> put_flash(:info, "You were subscribed")
-            |> redirect(to: "/profile/#{id}")
-          {:error, %{}} ->
-            conn
-            |> put_flash(:info, "you were NOT subscribed")
-            |> redirect(to: "/profile/#{id}")
+        if user.id == id do
+          conn
+          |> put_flash(:info, "you were NOT subscribed")
+          |> redirect(to: "/profile/#{id}")
+        else
+          case PublerSubser.subser(id, user.id) do
+            {:ok, _pubsub} ->
+              conn
+              |> put_flash(:info, "You were subscribed")
+              |> redirect(to: "/profile/#{id}")
+            {:error, %{}} ->
+              conn
+              |> put_flash(:info, "you were NOT subscribed")
+              |> redirect(to: "/profile/#{id}")
+          end
         end
     end
   end

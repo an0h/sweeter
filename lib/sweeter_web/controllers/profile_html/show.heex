@@ -16,4 +16,10 @@
 <.translation div_id="user-contents" />
 </div>
 
+<hr />
+Written by <%= @user.handle %>
 <.item_list items={@user_authored} />
+
+<hr />
+<%= @user.handle %> subscribed feed:
+<.item_list items={@subscribed_items} />
