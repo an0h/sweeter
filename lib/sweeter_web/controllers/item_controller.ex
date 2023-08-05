@@ -22,9 +22,9 @@ defmodule SweeterWeb.ItemController do
     known_tags = Tag.get_all()
     case Pow.Plug.current_user(conn) do
       nil ->
-        render(conn, :new, changeset: changeset, known_tags: known_tags, search_suppressed: True)
+        render(conn, :new, changeset: changeset, known_tags: known_tags, anon: True)
       user ->
-        render(conn, :new, changeset: changeset, known_tags: known_tags, search_suppressed: False)
+        render(conn, :new, changeset: changeset, known_tags: known_tags, anon: False)
       end
   end
 

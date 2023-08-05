@@ -5,8 +5,7 @@
   <.input field={f[:headline]} type="text" label="Headline" />
   <.input field={f[:body]} type="textarea" label="Body" disabled value="you can add longer body text through the API. but, guys comeon, brevity is the soul of wit? what DID we love about twitter forcing us to count characters? idk but for rn, headline only in manual posts. API can add body because i scrape news sites.  When i figure out debits, then something something something you can have da body..." />
   <.input field={f[:source]} type="text" label="Source" />
-  <%= if @search_suppressed == True do %>
-  <.input field={f[:search_suppressed]} type="hidden" value="1" />
+  <%= if @anon == True do %>
   <.input field={f[:restricted_tag_ids]} type="hidden" value="1" />
   <% else %>
   <.input field={f[:restricted_tag_ids]} type="hidden" />
