@@ -8,18 +8,12 @@
 </.header>
 <%= for tag <- @tags do %>
   <label class="flex items-center">
-    <span class="label"><%= tag.label %></span>
+    <a href=""><span class="label"><%= tag.label %></span></a>
   </label>
 <% end %>
 <h2 class="text-2xl font-semibold text-teal-800">Restricted Tags</h2>
 <%= for rt <- @rtags do %>
-  <label class="flex items-center">
-    <span class="label"><%= rt.label %></span>
-  </label>
+  <.link href={~p"/search/tag/#{rt.slug}"} class="font-semibold text-brand hover:underline">
+    <%= rt.label %>
+  </.link><br />
 <% end %>
-
-<script>
-function UpdateTag(){
-
-}
-</script>

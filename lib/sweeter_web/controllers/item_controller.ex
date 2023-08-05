@@ -10,6 +10,7 @@ defmodule SweeterWeb.ItemController do
   alias Sweeter.Content.Tag
   alias Sweeter.Content.RestrictedTag
   alias Sweeter.Users.User
+  alias Sweeter.CreditDebit
 
   def index(conn, _params) do
     items = Item.get_all()
@@ -139,11 +140,11 @@ defmodule SweeterWeb.ItemController do
         |> put_flash(:info, "Nope, nada.")
         |> redirect(to: ~p"/items")
       user ->
-        IO.inspect updated
         item = Content.get_item!(id)
         case Item.write_moderation(item, updated) do
           {:ok, item} ->
             Item.log_moderator_item_update(updated, item, user.id)
+            CreditDebit.u_get_a_token(user.address)
             conn
             |> put_flash(:info, "Moderated successfully.")
             |> redirect(to: ~p"/items/#{item}")

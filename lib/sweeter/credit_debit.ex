@@ -34,6 +34,10 @@ defmodule Sweeter.CreditDebit do
     end
   end
 
+  def u_get_a_token(address) do
+    Sweeter.Spicy.add_spicy_token(address, "1token")
+  end
+
   defp get_cache_from_address(address) do
     data_to_read = fn ->
       :mnesia.read({User, address})

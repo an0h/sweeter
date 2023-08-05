@@ -68,17 +68,26 @@ defmodule SweeterWeb.SearchController do
     |> redirect(to: ~p"/searches")
   end
 
+  def search_by_term(conn, %{"text" => term}) do
+    search_term = "%#{term}%"
+    matches = Search.get_all_query_matches(search_term)
+    render(conn, :results, items: matches)
+  end
+
   def search_by_tag(conn, params) do
     # is restricted or not
     tag = params["tag_slug"]
-    [rtids] = Enum.filter(Search.restricted_tag_ids(),
-      fn {key, value} -> value == tag end)
-      |> Enum.map(fn {key, _v} -> key end)
-    IO.inspect params
-    # get id from slug
-    # Tag.get_tag_ids_by_slug
-    items = Search.get_items_by_tag(rtids)
-    conn
-    render(conn, :results, items: items)
+    if tag != nil do
+      [rtids] = Enum.filter(Search.restricted_tag_ids(),
+        fn {key, value} -> value == tag end)
+        |> Enum.map(fn {key, _v} -> key end)
+      IO.inspect params
+      # get id from slug
+      # Tag.get_tag_ids_by_slug
+      items = Search.get_items_by_tag(rtids)
+      render(conn, :results, items: items)
+    else
+      render(conn, :results, items: [])
+    end
   end
 end
