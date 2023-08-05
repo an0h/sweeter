@@ -1,6 +1,5 @@
 defmodule SweeterWeb.PageController do
   use SweeterWeb, :controller
-  alias Sweeter.Content.PublerSubser
 
   def home(conn, _params) do
     nodes = inspect(Node.list())
@@ -49,25 +48,5 @@ defmodule SweeterWeb.PageController do
   def privacy(conn, _params) do
     conn
     |> render(:privacy)
-  end
-
-  def subscribe(conn, %{"id" => id}) do
-    case Pow.Plug.current_user(conn) do
-      nil ->
-        conn
-        |> put_flash(:info, "Login to create subscriptions")
-        |> redirect(to: "/users/#{id}")
-      user ->
-        case PublerSubser.subser(id, user.id) do
-          {:ok, _pubsub} ->
-            conn
-            |> put_flash(:info, "You were subscribed")
-            |> redirect(to: "/users/#{id}")
-          {:error, %{}} ->
-            conn
-            |> put_flash(:info, "you were NOT subscribed")
-            |> redirect(to: "/users/#{id}")
-        end
-    end
   end
 end

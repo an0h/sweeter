@@ -60,9 +60,10 @@ defmodule SweeterWeb.Router do
   scope "/" do
     pipe_through [:browser, :protected]
 
+    get "/profile/subscribe/:id", SweeterWeb.ProfileController, :subscribe
     get "/profile/:id", SweeterWeb.ProfileController, :show_profile
-    get "/edit_profile/:id", SweeterWeb.ProfileController, :edit_profile
-    put "/update_profile", SweeterWeb.ProfileController, :update_profile
+    get "/profile/edit/:id", SweeterWeb.ProfileController, :edit_profile
+    put "/profile/update", SweeterWeb.ProfileController, :update_profile
 
     get "/mnemonic", SweeterWeb.SpicyController, :get_mnemonic
     post "/show_mnemonic", SweeterWeb.SpicyController, :show_mnemonic

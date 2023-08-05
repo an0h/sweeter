@@ -1,6 +1,6 @@
 <div class="mx-auto max-w-sm">
 <%= @user.handle %>
-
+<form action={@subscribe_action}><.button>Subscribe</.button></form>
 <%= if @user.profile_pic_cid != nil do %>
   <img src={"https://sweetipfs.herokuapp.com/read?ipfscid=#{@user.profile_pic_cid}"} />
 <% end %>
