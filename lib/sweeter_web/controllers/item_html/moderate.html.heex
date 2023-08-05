@@ -1,5 +1,5 @@
 <.item item={@item} restricted_tags={@restricted_tags} tags={@tags} item_load_count={@item_load_count} address={@address} />
-
+<hr />
 <h1 class="text-3xl font-bold text-teal-500">Moderator Zone</h1>
 <%= if @item.search_suppressed == true do %>
 Search is currently suppressed
@@ -12,7 +12,9 @@ Search is currently suppressed
 </ul>
 </div>
 
-
+<!--
+@TODO moderators can add/remove restricted tags on items
+moderators can add tags to items
 <div class="p-3">
   <h1 class="font-bold mb-4">Tag List</h1>
   <div class="space-y-2">
@@ -35,8 +37,7 @@ Search is currently suppressed
   <% end %>
   </div>
 </div>
-
-<.restricted_tags />
+-->
 
 <.simple_form :let={f} for={@changeset} action={@action}>
   <.error :if={@changeset.action}>
@@ -44,7 +45,8 @@ Search is currently suppressed
   </.error>
   <!-- using this field is a terrible hack, because it is actually the item's body but, shrug -->
   <.input field={f[:body]} value="" type="textarea" label="Moderation Action Notes and Reasoning" />
-  <hr />
+  As a moderator, you can update the item source and the search supressed status for items you are moderating.
+  A log with your actions and handle (or email if you didnt set a handle) is displayed to logged in users.
   <.input field={f[:source]} type="text" label="Source" />
   <.input field={f[:search_suppressed]} label="Search Suppressed?" type="select" options={
         [

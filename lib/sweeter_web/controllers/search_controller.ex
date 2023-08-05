@@ -3,6 +3,7 @@ defmodule SweeterWeb.SearchController do
 
   alias Sweeter.Content
   alias Sweeter.Content.Search
+  alias Sweeter.Content.Tag
 
   def index(conn, _params) do
     query = "Polic"
@@ -11,9 +12,9 @@ defmodule SweeterWeb.SearchController do
     IO.inspect matches
     IO.puts "matches"
     # searches = Content.list_searches()
-    tag_slugs = Search.get_suggested_searches()
-    rt_slugs = Search.restricted_tag_slugs()
-    render(conn, :index, searches: [], tag_slugs: tag_slugs, rt_slugs: rt_slugs)
+    tags = Search.get_suggested_searches()
+    rtags = Search.restricted_tags()
+    render(conn, :index, searches: [], tags: tags, rtags: rtags)
   end
 
   def new(conn, _params) do
@@ -65,5 +66,19 @@ defmodule SweeterWeb.SearchController do
     conn
     |> put_flash(:info, "Search deleted successfully.")
     |> redirect(to: ~p"/searches")
+  end
+
+  def search_by_tag(conn, params) do
+    # is restricted or not
+    tag = params["tag_slug"]
+    [rtids] = Enum.filter(Search.restricted_tag_ids(),
+      fn {key, value} -> value == tag end)
+      |> Enum.map(fn {key, _v} -> key end)
+    IO.inspect params
+    # get id from slug
+    # Tag.get_tag_ids_by_slug
+    items = Search.get_items_by_tag(rtids)
+    conn
+    render(conn, :results, items: items)
   end
 end

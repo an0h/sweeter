@@ -6,32 +6,17 @@
     </.link>
   </:actions>
 </.header>
-<%= for slug <- @tag_slugs do %>
+<%= for tag <- @tags do %>
   <label class="flex items-center">
-    <input type="checkbox" onClick="UpdateTag()" class="form-checkbox text-teal-500 h-5 w-5" checked>
-    <span class="ml-2 text-gray-700"><%= slug %></span>
+    <span class="label"><%= tag.label %></span>
   </label>
 <% end %>
-<%= for rt <- @rt_slugs do %>
+<h2 class="text-2xl font-semibold text-teal-800">Restricted Tags</h2>
+<%= for rt <- @rtags do %>
   <label class="flex items-center">
-    <input type="checkbox" onClick="UpdateTag()" class="form-checkbox text-teal-500 h-5 w-5" checked>
-    <span class="ml-2 text-gray-700"><%= rt %></span>
+    <span class="label"><%= rt.label %></span>
   </label>
 <% end %>
-<.table id="searches" rows={@searches} row_click={&JS.navigate(~p"/searches/#{&1}")}>
-  <:col :let={search} label="Tag slug list"><%= search.tag_slug_list %></:col>
-  <:action :let={search}>
-    <div class="sr-only">
-      <.link navigate={~p"/searches/#{search}"}>Show</.link>
-    </div>
-    <.link navigate={~p"/searches/#{search}/edit"}>Edit</.link>
-  </:action>
-  <:action :let={search}>
-    <.link href={~p"/searches/#{search}"} method="delete" data-confirm="Are you sure?">
-      Delete
-    </.link>
-  </:action>
-</.table>
 
 <script>
 function UpdateTag(){

@@ -1,3 +1,10 @@
+<p>You're a moderator! You must have seen the restricted tags: Crass, Controversial, Sexually Explicit, Violent</p>
+<p>Please ensure that tags you submit are not those things.</p>
+
+I actually curse like a sailor.  But because moderation is the hard problem, crass includes any swear words.  It pains me to type that but...
+
+@TODO we need to figure out a block word list for tags that isn't English exclusive fist... i mean if you wanted to work on that with me...
+
 <.simple_form :let={f} for={@changeset} action={~p"/moderator/create_tag"}>
   <.error :if={@changeset.action}>
     Oops, something went wrong! Please check the errors below.

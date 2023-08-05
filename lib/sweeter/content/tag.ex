@@ -50,7 +50,7 @@ defmodule Sweeter.Content.Tag do
     ) |> Enum.map(&cast_tag/1)
   end
 
-  defp cast_tag(tag) do
+  def cast_tag(tag) do
     [label, slug, submitted_by] = tag
     %Tag{label: label, slug: slug, submitted_by: submitted_by}
   end
@@ -60,6 +60,10 @@ defmodule Sweeter.Content.Tag do
       from t in "tags",
       select: t.slug
     )
+  end
+
+  def find_tags_to_search() do
+    Repo.all(Tag)
   end
 
   def get_tag_ids_by_slug(slugs) do
