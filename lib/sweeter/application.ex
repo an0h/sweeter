@@ -40,7 +40,12 @@ defmodule Sweeter.Application do
       # {Sweeter.Worker, arg}
     ]
 
-    :mnesia.create_table(User, [:address, :reaction_count, :api_count])
+    :mnesia.start
+    result = :mnesia.create_table(
+        User,
+       [{:disc_copies, [node()]},
+         attributes: [:address, :reaction_count, :api_count]
+       ])
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options

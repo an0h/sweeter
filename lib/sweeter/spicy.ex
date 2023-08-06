@@ -8,25 +8,31 @@ defmodule Sweeter.Spicy do
     IO.puts "in get new user address"
     url = buildurl(email, mnemonic)
 
+    IO.puts url
+    IO.puts "after url"
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         case Poison.decode!(body) do
           %{"address" => address, "key" => _key, "mnemonic" => mnemonic} ->
             {:ok, address: address, mnemonic: mnemonic}
-          _e ->
+          e ->
+            IO.puts "e"
+            IO.inspect e
             {:error}
         end
-      {:error, %HTTPoison.Error{} = _error} ->
+      {:error, %HTTPoison.Error{} = error} ->
+        IO.puts "error"
+        IO.inspect error
         {:error}
     end
   end
 
-  def get_cosmos_by_address(address) do
+  def get_tokes_by_address(address) do
     api_service = fetchSpicy1317()
     url = "#{api_service}/cosmos/auth/v1beta1/accounts/#{address}"
     headers = [{"Content-type", "application/json"}, {"accept", "application/json"}]
 
-    IO.inspect url
+    IO.puts url
     IO.puts "in this get cosmos by address"
     try do
       {status, response} =
@@ -44,6 +50,8 @@ defmodule Sweeter.Spicy do
   end
 
   def add_spicy_token(address, value) do
+
+    IO.puts "in add token"
     headers = [
       {"accept", "application/json"},
       {"Content-Type", "application/json"}
@@ -61,6 +69,7 @@ defmodule Sweeter.Spicy do
     # status_code = response.status_code
     # response_headers = response.headers
     # response_body =
+      IO.inspect response
     Poison.decode!(response.body)
   end
 

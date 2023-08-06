@@ -21,24 +21,31 @@ defmodule Sweeter.CreditDebit do
 
   def increment_interaction(address) do
     case get_cache_from_address(address) do
+      {:atomic, []} ->
+        IO.puts "nil match"
+        address_write(address)
+        modulus_10(address, 0)
+        0
       {:atomic, [%{
           address: address,
           reaction_count: reaction_count,
           api_count: api_count}]} ->
+            IO.puts "found address in cache and trying"
         new_value = reaction_count + 1
         address_write(address, new_value, api_count)
         modulus_10(address, new_value)
         new_value
       {:aborted, {:no_exists, User}} ->
-        :mnesia.create_table(User, [:address, :reaction_count, :api_count])
-      nil ->
-        address_write(address)
-        modulus_10(address, 0)
-        0
+        :mnesia.create_table(
+          User,
+          [{:disc_copies, [node()]},
+            attributes: [:address, :reaction_count, :api_count]
+          ])
     end
   end
 
   def u_get_a_token(address) do
+    IO.puts "giving token"
     Sweeter.Spicy.add_spicy_token(address, "1token")
   end
 
@@ -65,12 +72,14 @@ defmodule Sweeter.CreditDebit do
 
   defp modulus_10(address, value) do
     if rem(value, 10) == 0 do
+      IO.puts "giving token"
       Sweeter.Spicy.add_spicy_token(address, "1token")
     end
   end
 
   defp modulus_100(address, value) do
     if rem(value, 100) == 0 do
+      IO.puts "giving token"
       Sweeter.Spicy.add_spicy_token(address, "1token")
     end
   end

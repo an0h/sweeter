@@ -3,9 +3,9 @@ import Config
 # Configure your database
 config :sweeter, Sweeter.Repo,
   username: "postgres",
-  password: "c0f33isyummy",
+  password: "4y02IxJvrE",
   hostname: "0.0.0.0",
-  database: "sweeter_dev",
+  database: "sweeter",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
