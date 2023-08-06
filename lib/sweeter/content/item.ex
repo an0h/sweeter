@@ -131,6 +131,12 @@ defmodule Sweeter.Content.Item do
   end
 
   def get_featured_items() do
-    Repo.all(Item)
+    Repo.all(
+      from i in "items",
+        where: i.featured == true,
+        order_by: [desc: :inserted_at],
+        select: [i.id, i.body, i.headline, i.deleted]
+    )
+    |> item_list_struct_converter
   end
 end

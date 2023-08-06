@@ -3,6 +3,7 @@ defmodule SweeterWeb.PageController do
 
   alias Sweeter.Content.Item
   alias Sweeter.Content.PublerSubser
+  alias Sweeter.Users.User
 
   def home(conn, _params) do
     case Pow.Plug.current_user(conn) do
@@ -11,12 +12,14 @@ defmodule SweeterWeb.PageController do
         conn
         |> render(:home, items: items)
       user ->
+        profile = User.get_profile(user.id)
+        IO.inspect profile
         cond do
-        user.address == nil ->
+        profile.address == nil ->
           conn
           |> put_flash(:info, "Get an address! for the blockchain fun game part.")
           |> redirect(to: "/mnemonic")
-        user.handle == nil ->
+        profile.handle == nil ->
           conn
           |> put_flash(:info, "Update your profile, you really need to set a handle pls")
           |> redirect(to: "/profile/edit/#{user.id}")
