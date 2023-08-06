@@ -45,6 +45,7 @@ defmodule Sweeter.Content.Item do
     Repo.all(
       from i in "items",
         where: i.deleted != true and i.search_suppressed != true,
+        order_by: [desc: :inserted_at],
         select: [i.id, i.body, i.headline, i.source, i.search_suppressed]
     )
     |> item_list_struct_converter
@@ -104,6 +105,7 @@ defmodule Sweeter.Content.Item do
     Repo.all(
       from i in "items",
         where: i.user_id == ^ui,
+        order_by: [desc: :inserted_at],
         select: [i.id, i.body, i.headline, i.deleted]
     )
     |> item_list_struct_converter

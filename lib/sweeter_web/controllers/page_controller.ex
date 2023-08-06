@@ -6,14 +6,15 @@ defmodule SweeterWeb.PageController do
 
   def home(conn, _params) do
     case Pow.Plug.current_user(conn) do
+      nil ->
+        items = Item.get_featured_items()
+        conn
+        |> render(:home, items: items)
       user ->
+        IO.inspect user
         items =
           PublerSubser.subscription_feed(user.id) ++ Item.get_all_by_user(user.id)
           |> Enum.uniq()
-        conn
-        |> render(:home, items: items)
-      nil ->
-        items = Item.get_featured_items()
         conn
         |> render(:home, items: items)
     end

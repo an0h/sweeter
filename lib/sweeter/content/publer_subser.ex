@@ -30,6 +30,7 @@ defmodule Sweeter.Content.PublerSubser do
     Repo.all(
       from i in "items",
         where: i.user_id in ^publist,
+        order_by: [desc: :inserted_at],
         select: [i.id, i.body, i.headline, i.deleted]
     )
     |> Item.item_list_struct_converter
