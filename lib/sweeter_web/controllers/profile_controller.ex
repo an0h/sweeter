@@ -4,7 +4,6 @@ defmodule SweeterWeb.ProfileController do
   alias Sweeter.Content.Item
   alias Sweeter.Content.PublerSubser
   alias Sweeter.Users.User
-  alias Sweeter.Spicy
 
   def show_profile(conn, %{"id" => id}) do
     user = User.get_profile(id)

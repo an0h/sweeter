@@ -1,7 +1,7 @@
 defmodule Sweeter.Content.ModReview do
   use Ecto.Schema
   import Ecto.Changeset
-  import Ecto.Query
+  # import Ecto.Query
   alias Sweeter.Repo
 
   alias Sweeter.Content.ModReview
@@ -20,7 +20,7 @@ defmodule Sweeter.Content.ModReview do
   def changeset(mod_review, attrs) do
     mod_review
     |> cast(attrs, [:item_id, :moderator_id, :note, :logentry])
-    |> validate_required([:item_id, :moderator_id, :note, :logentry])
+    |> validate_required([:item_id, :moderator_id, :logentry])
   end
 
   def create_review(attrs \\ %{}) do

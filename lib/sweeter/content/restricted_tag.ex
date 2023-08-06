@@ -84,7 +84,7 @@ defmodule Sweeter.Content.RestrictedTag do
   end
 
   defp save_restricted_tag(tag_id, item_id) do
-    save = %RestrictedTagItem{}
+    %RestrictedTagItem{}
     |> RestrictedTagItem.changeset(%{item_id: item_id, restricted_tag_id: tag_id})
     |> Repo.insert()
   end

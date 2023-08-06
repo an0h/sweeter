@@ -18,7 +18,7 @@
     <%= @item.headline %>
     </div>
     <div id="page_views">Page Views <%= @item_load_count %></div>
-    <%= @item.body %>
+    <%= raw(@item.body) %>
     <.list>
     <:item title="Source"><%= @item.source %></:item>
     </.list>

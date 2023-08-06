@@ -37,8 +37,8 @@ defmodule Sweeter.Content.LoadCounts do
 
       str when is_binary(str) ->
         case String.to_integer(str) do
-          int -> int
           :error -> 0
+          int -> int
         end
 
       _ ->

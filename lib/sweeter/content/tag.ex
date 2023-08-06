@@ -5,10 +5,8 @@ defmodule Sweeter.Content.Tag do
   import Ecto.Query
   alias Sweeter.Repo
 
-  alias Sweeter.Content.Item
   alias Sweeter.Content.Tag
   alias Sweeter.Content.TagItem
-  alias Sweeter.Users.User
 
   schema "tags" do
     field :label, :string
@@ -126,7 +124,7 @@ defmodule Sweeter.Content.Tag do
   end
 
   defp save_tag(tag_id, item_id) do
-    save = %TagItem{}
+    %TagItem{}
     |> TagItem.changeset(%{item_id: item_id, tag_id: tag_id})
     |> Repo.insert()
   end

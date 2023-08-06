@@ -1,6 +1,4 @@
 defmodule SweeterWeb.ModeratorPlug do
-  import Plug.Conn
-
   alias Sweeter.Users.User
 
   def init(opts), do: opts

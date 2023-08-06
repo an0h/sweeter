@@ -5,7 +5,6 @@ defmodule Sweeter.Content.Search do
   alias Sweeter.Repo
 
   alias Sweeter.Content.Item
-  alias Sweeter.Content.RestrictedTag
   alias Sweeter.Content.Tag
 
   schema "searches" do

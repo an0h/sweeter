@@ -7,8 +7,6 @@ defmodule Sweeter.Content do
   alias Sweeter.Repo
 
   alias Sweeter.Content.Item
-  alias Sweeter.Content.Tag
-  alias Sweeter.Content.RestrictedTag
 
   @doc """
   Returns the list of items.

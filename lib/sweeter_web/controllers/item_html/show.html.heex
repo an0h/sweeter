@@ -17,6 +17,18 @@
 <%= if @item.search_suppressed == true do %>
 Search is suppressed, add 👍 and maybe it will be added to search results? (*not implemented)
 <% end %>
+<%= if @is_moderator == true do %>
+As a moderator, you can help promote content by featuring it:<br />
+    <%= if @item.featured == true do %>
+    <a href={@unfeature_link} class="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded">
+    Remove from Featured
+    </a>
+    <%= else  %>
+    <a href={@feature_link} class="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded">
+    Feature
+    </a>
+    <% end %>
+<% end %>
 
 <%= if @address != "" do %>
 <.moderation_form changeset={@moderation_changeset} action={~p"/moderations"} />

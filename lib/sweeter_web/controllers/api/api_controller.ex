@@ -50,24 +50,18 @@ defmodule SweeterWeb.API.V1.APIController do
         "user_id" => user_id,
         "tag_ids" => tag_ids,
         "restricted_tag_ids" => restricted_tag_ids},
-      fn k, v1, _v2 ->
+      fn _k, v1, _v2 ->
         v1
       end)
     case Item.create_item(new) do
       {:ok, item} ->
-        IO.inspect item
-        IO.puts "what?"
         if user_address != nil do
           CreditDebit.increment_api(user_address)
         end
         render(conn, "item.json", item: item)
       {:error, %Ecto.Changeset{} = _changeset} ->
-        IO.inspect _changeset
-        IO.puts "in error"
         send_resp(conn, "error.json", "Item not created")
-      e ->
-        IO.inspect e
-        IO.puts "in err"
+      _e ->
         send_resp(conn, "error.json", "Item not created")
     end
   end

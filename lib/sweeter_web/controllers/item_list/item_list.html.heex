@@ -1,3 +1,8 @@
-<%= for item <- @items do %>
-<li><%= item.headline %></li>
-<% end %>
+<.table id="items" rows={@items} row_click={&JS.navigate(~p"/items/#{&1}")}>
+  <:col :let={item} label="Headline"><%= item.headline %></:col>
+  <:action :let={item}>
+    <div class="sr-only">
+      <.link navigate={~p"/items/#{item}"}>Show</.link>
+    </div>
+  </:action>
+</.table>

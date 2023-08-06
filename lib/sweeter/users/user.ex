@@ -101,14 +101,4 @@ defmodule Sweeter.Users.User do
         end
     end
   end
-
-  defp age_integer(a) do
-    try do
-      {age, _} = Integer.parse(a)
-      age
-    rescue
-      _e ->
-        nil
-    end
-  end
 end

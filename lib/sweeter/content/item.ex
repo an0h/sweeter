@@ -7,7 +7,6 @@ defmodule Sweeter.Content.Item do
   alias Sweeter.Content.Item
   alias Sweeter.Content.Image
   alias Sweeter.Content.ModReview
-  alias Sweeter.Content.PublerSubser
   alias Sweeter.Content.RestrictedTag
   alias Sweeter.Content.Tag
   alias Sweeter.Users.User
@@ -18,6 +17,7 @@ defmodule Sweeter.Content.Item do
     field :source, :string
     field :headline, :string
     field :search_suppressed, :boolean, default: false
+    field :featured, :boolean, default: false
     belongs_to :user, Sweeter.Users.User
     has_many :reactions, Sweeter.Content.Reactions
     has_many :images, Sweeter.Content.Image
@@ -30,7 +30,7 @@ defmodule Sweeter.Content.Item do
   @doc false
   def changeset(item, attrs) do
     item
-    |> cast(attrs, [:body, :deleted, :source, :headline, :search_suppressed, :user_id])
+    |> cast(attrs, [:body, :deleted, :source, :headline, :search_suppressed, :user_id, :featured])
     |> cast_assoc(:user)
     |> validate_required([:headline])
     |> unique_constraint(:headline)
@@ -38,7 +38,18 @@ defmodule Sweeter.Content.Item do
 
   def mod_item_changeset(item, attrs) do
     item
-    |> cast(attrs, [:deleted, :source, :search_suppressed])
+    |> cast(attrs, [:deleted, :featured, :source, :search_suppressed])
+  end
+
+  def feature_changeset(item, attrs) do
+    item
+    |> Ecto.Changeset.change()
+    |> Ecto.Changeset.put_change(:featured, attrs["featured"])
+  end
+
+  def change_item_featured(%Item{} = item, attrs \\ %{}) do
+    Item.feature_changeset(item, attrs)
+    |> Repo.update()
   end
 
   def get_all do
@@ -85,6 +96,14 @@ defmodule Sweeter.Content.Item do
       "item_id" => item.id,
       "logentry" => "The #{user_handle} moderated, submitting with TAGS #{submitted["tag_ids"]} REQUIRED_TAGS #{submitted["required_tag_ids"]}.  The source is #{submitted["source"]} and search_suppressed is #{submitted["search_suppressed"]}",
       "note" => submitted["body"],
+      "moderator_id" => moderator_id})
+  end
+
+  def log_moderator_feature_change(item, moderator_id, feature_status) do
+    user_handle = User.get_moderator_handle_from_id(moderator_id)
+    ModReview.create_review(%{
+      "item_id" => item.id,
+      "logentry" => "#{user_handle} #{feature_status} this item.",
       "moderator_id" => moderator_id})
   end
 

@@ -1,8 +1,6 @@
 defmodule SweeterWeb.LoggedInIdPlug do
   import Plug.Conn
 
-  alias Sweeter.Users.User
-
   def init(opts), do: opts
 
   def call(conn, _opts) do

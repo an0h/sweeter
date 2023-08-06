@@ -23,7 +23,7 @@ defmodule SweeterWeb.ItemController do
     case Pow.Plug.current_user(conn) do
       nil ->
         render(conn, :new, changeset: changeset, known_tags: known_tags, anon: True)
-      user ->
+      _user ->
         render(conn, :new, changeset: changeset, known_tags: known_tags, anon: False)
       end
   end
@@ -63,6 +63,9 @@ defmodule SweeterWeb.ItemController do
       restricted_tags = RestrictedTag.get_restricted_tag_labels_for_item(String.to_integer(id))
       tags = Tag.get_tag_labels_for_item(String.to_integer(id))
       item_load_count = LoadCounts.fetch_item_load_count(id)
+      is_moderator = User.get_is_moderator(conn)
+      feature_link = "/item/feature/#{id}"
+      unfeature_link = "/item/unfeature/#{id}"
       case Pow.Plug.current_user(conn) do
         nil ->
           LoadCounts.increment_item_load_count(id)
@@ -73,10 +76,12 @@ defmodule SweeterWeb.ItemController do
             tags: tags,
             address: "",
             item_load_count: item_load_count,
+            is_moderator: False,
+            feature_link: "",
+            unfeature_link: "",
             moderation_changeset: %Moderation{})
         user ->
           LoadCounts.increment_item_load_count(id, user.id)
-          is_moderator = User.get_is_moderator(conn)
           moderation_changeset = Content.change_moderation(%Moderation{},
             %{"item_id" => item.id, "requestor_id" => user.id})
           conn
@@ -86,6 +91,9 @@ defmodule SweeterWeb.ItemController do
             item_load_count: item_load_count,
             tags: tags,
             address: user.address,
+            is_moderator: is_moderator,
+            feature_link: feature_link,
+            unfeature_link: unfeature_link,
             moderation_changeset: moderation_changeset)
       end
     end
@@ -149,12 +157,45 @@ defmodule SweeterWeb.ItemController do
             |> put_flash(:info, "Moderated successfully.")
             |> redirect(to: ~p"/items/#{item}")
 
-          {:error, %Ecto.Changeset{} = changeset} ->
+          {:error, %Ecto.Changeset{} = _changeset} ->
             conn
             |> put_flash(:info, "Moderatation failed.")
             |> redirect(to: ~p"/moderate_item/#{attrs.id}")
         end
       end
+  end
+
+  def feature_item(conn, %{"id" => id}) do
+    case Pow.Plug.current_user(conn) do
+      nil ->
+        conn
+        |> put_flash(:info, "Nope, nada.")
+        |> redirect(to: ~p"/items")
+      user ->
+        item = Content.get_item!(id)
+        Item.change_item_featured(item, %{"featured" => true})
+        Item.log_moderator_feature_change(item, user.id, "featured")
+        conn
+        |> put_flash(:info, "Featured successfully.")
+        |> redirect(to: "/items/#{id}")
+    end
+  end
+
+
+  def unfeature_item(conn, %{"id" => id}) do
+    case Pow.Plug.current_user(conn) do
+      nil ->
+        conn
+        |> put_flash(:info, "Nope, nada.")
+        |> redirect(to: ~p"/items")
+      user ->
+        item = Content.get_item!(id)
+        Item.change_item_featured(item, %{"featured" => false})
+        Item.log_moderator_feature_change(item, user.id,  "unfeatured")
+        conn
+        |> put_flash(:info, "Unfeatured, removed successfully.")
+        |> redirect(to: "/items/#{id}")
+    end
   end
 
   def edit(conn, %{"id" => _id}) do

@@ -76,6 +76,9 @@ defmodule SweeterWeb.Router do
     pipe_through [:browser, :protected, :moderators_only]
     get "/about_mod", SweeterWeb.PageController, :about_mod
 
+    get "/item/feature/:id", SweeterWeb.ItemController, :feature_item
+    get "/item/unfeature/:id", SweeterWeb.ItemController, :unfeature_item
+
     get "/moderate_item/:id", SweeterWeb.ItemController, :moderate_item
     put "/moderate_item/:id", SweeterWeb.ItemController, :moderator_item_update
 

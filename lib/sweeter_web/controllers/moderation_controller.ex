@@ -39,13 +39,13 @@ defmodule SweeterWeb.ModerationController do
     render(conn, :edit, moderation: moderation, changeset: changeset)
   end
 
-  def update(conn, %{"id" => id, "moderation" => moderation_params}) do
+  def update(conn, %{"id" => _id, "moderation" => _moderation_params}) do
     # moderation = Content.get_moderation!(id)
 
     # case Content.update_moderation(moderation, moderation_params) do
     #   {:ok, moderation} ->
         conn
-        |> put_flash(:info, "Moderation successfully.")
+        |> put_flash(:info, "Moderation not successful.")
         |> redirect(to: ~p"/moderations/")
 
     #   {:error, %Ecto.Changeset{} = changeset} ->
@@ -53,12 +53,12 @@ defmodule SweeterWeb.ModerationController do
     # end
   end
 
-  def delete(conn, %{"id" => id}) do
+  def delete(conn, %{"id" => _id}) do
     # moderation = Content.get_moderation!(id)
     # {:ok, _moderation} = Content.delete_moderation(moderation)
 
     conn
-    |> put_flash(:info, "Moderation successfully.")
+    |> put_flash(:info, "Moderation was not successful.")
     |> redirect(to: ~p"/moderations")
   end
 

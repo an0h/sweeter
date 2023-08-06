@@ -16,7 +16,7 @@ defmodule Sweeter.Spicy do
           _e ->
             {:error}
         end
-      {:error, %HTTPoison.Error{} = error} ->
+      {:error, %HTTPoison.Error{} = _error} ->
         {:error}
     end
   end
