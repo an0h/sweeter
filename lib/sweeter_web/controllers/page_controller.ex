@@ -1,7 +1,25 @@
 defmodule SweeterWeb.PageController do
   use SweeterWeb, :controller
 
+  alias Sweeter.Content.Item
+  alias Sweeter.Content.PublerSubser
+
   def home(conn, _params) do
+    case Pow.Plug.current_user(conn) do
+      user ->
+        items =
+          PublerSubser.subscription_feed(user.id) ++ Item.get_all_by_user(user.id)
+          |> Enum.uniq()
+        conn
+        |> render(:home, items: items)
+      nil ->
+        items = Item.get_featured_items()
+        conn
+        |> render(:home, items: items)
+    end
+  end
+
+  def about(conn, _params) do
     nodes = inspect(Node.list())
     IO.inspect nodes
     case Pow.Plug.current_user(conn) do

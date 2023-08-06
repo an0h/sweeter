@@ -100,16 +100,6 @@ defmodule Sweeter.Content.Item do
     {:ok, item}
   end
 
-  def subscription_feed(subser_id) do
-    publers = PublerSubser.publer_id_list(subser_id)
-    Repo.all(
-      from i in "items",
-        where: i.user_id in ^publers,
-        select: [i.id, i.body, i.headline, i.deleted]
-    )
-    |> item_list_struct_converter
-  end
-
   def get_all_by_user(ui) do
     Repo.all(
       from i in "items",
@@ -117,5 +107,9 @@ defmodule Sweeter.Content.Item do
         select: [i.id, i.body, i.headline, i.deleted]
     )
     |> item_list_struct_converter
+  end
+
+  def get_featured_items() do
+    Repo.all(Item)
   end
 end

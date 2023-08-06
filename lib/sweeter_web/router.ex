@@ -36,6 +36,7 @@ defmodule SweeterWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    get "/about", PageController, :about
     get "/about_api", PageController, :about_api
     get "/about_anon", PageController, :about_anon
     get "/about_tech", PageController, :about_tech
