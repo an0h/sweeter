@@ -34,3 +34,22 @@ hr {
     color: #333;  /* old IE */
     background-color: #333;  /* Modern Browsers */
 }
+
+.wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid #ff0000;  
+}
+
+.item-reactions, .item-moderation {
+    width: 50%;
+    min-height: 200px;
+    border: 1px solid #2f00ff;  
+}
+
+.item-reactions {
+    width: 100%;
+    min-height: 300px;
+    border: 1px solid #00eaff;  
+    clear: both;
+}

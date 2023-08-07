@@ -9,7 +9,10 @@ let Reactions = {
 
     listenForReactions(channel) {
         const rootElement = document.querySelector('#emoji-trigger');
-        const picker = createPicker({ rootElement });
+        const picker = createPicker({ 
+            rootElement,
+            emojiSize: '1rem'
+        });
 
         picker.addEventListener('emoji:select', event => {
             console.log(event)

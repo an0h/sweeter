@@ -45,7 +45,6 @@ defmodule Sweeter.CreditDebit do
   end
 
   def u_get_a_token(address) do
-    IO.puts "giving token"
     Sweeter.Spicy.add_spicy_token(address, "1token")
   end
 
