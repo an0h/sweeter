@@ -37,19 +37,18 @@ hr {
 
 .wrapper {
     display: flex;
-    flex-wrap: wrap;
-    border: 1px solid #ff0000;  
+    flex-wrap: wrap;  
 }
 
-.item-reactions, .item-moderation {
-    width: 50%;
-    min-height: 200px;
-    border: 1px solid #2f00ff;  
+.feature-wrap {
+    display: flex;
+    flex-wrap: wrap;  
 }
 
-.item-reactions {
-    width: 100%;
-    min-height: 300px;
-    border: 1px solid #00eaff;  
-    clear: both;
+.item-moderation {
+    width: 80%;
+    padding-left: 10%;
+    padding-right: 10%;
+    border-top: 2px dotted teal;
+    padding-top: 3%;
 }
