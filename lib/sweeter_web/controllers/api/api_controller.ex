@@ -2,15 +2,15 @@ defmodule SweeterWeb.API.V1.APIController do
   use SweeterWeb, :controller
   use OpenApiSpex.ControllerSpecs
 
+  action_fallback SweeterWeb.FallbackController
+
+  alias SweeterWeb.API.V1.Schemas.{ItemList, ItemSchema, SlugList, RestrictedSlugList}
+
   alias Sweeter.Content
   alias Sweeter.Content.Item
   alias Sweeter.Content.Tag
   alias Sweeter.Content.RestrictedTag
   alias Sweeter.CreditDebit
-
-  action_fallback SweeterWeb.FallbackController
-
-  alias SweeterWeb.API.V1.Schemas.{ItemList}
 
   tags ["api"]
 
@@ -28,20 +28,58 @@ defmodule SweeterWeb.API.V1.APIController do
     |> render("items.json", items: items)
   end
 
+  operation :api_item_list,
+    summary: "APIt",
+    parameters: [],
+    request_body: {},
+    responses: [
+      ok: {"item_list", "application/json", ItemList}
+    ]
+
   def api_item_list(conn, _) do
     items = Item.get_all()
     render(conn, "items.json", items: items)
   end
+
+  operation :api_tag_slug_list,
+    summary: "list of slugs for tags",
+    parameters: [],
+    request_body: {},
+    responses: [
+      ok: {"slug_list", "application/json", SlugList}
+    ]
 
   def api_tag_slug_list(conn, _) do
     tags = Tag.get_all()
     render(conn, "slugs.json", tags: tags)
   end
 
+  operation :api_restricted_tag_slug_list,
+    summary: "list of slugs for restricted tags",
+    parameters: [],
+    request_body: {},
+    responses: [
+      ok: {"slug_list", "application/json", RestrictedSlugList}
+    ]
+
   def api_restricted_tag_slug_list(conn, _) do
     tags = RestrictedTag.get_all()
     render(conn, "slugs.json", tags: tags)
   end
+
+  operation :api_item_create,
+    summary: "post an item. it works with tags, restricted_tags and an image",
+    parameters: [
+      headline: [in: :query, type: :string, description: "headline"],
+      body: [in: :query, type: :string, description: "body content, API only rn!! special u"],
+      source: [in: :query, type: :string, description: "pls include attribution"],
+      tag_slugs: [in: :query, type: :string, description: "comma seperated string of slugs: joke,thought"],
+      restricted_tag_slugs: [in: :query, type: :string, description: "comma seperated string of slugs: crass,violent"]
+    ],
+    request_body: {},
+    responses: [
+      ok: {"item", "application/json", ItemSchema}
+    ]
 
   def api_item_create(conn, attrs) do
     {:ok, body, _} = Plug.Conn.read_body(conn)

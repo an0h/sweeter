@@ -110,8 +110,6 @@ defmodule SweeterWeb.Router do
   scope "/api/v1", SweeterWeb.API.V1, as: :api_v1 do
     pipe_through :api
 
-    get "/openapi", OpenApiSpex.Plug.RenderSpec, []
-
     resources "/session", SessionController, singleton: true, only: [:create, :delete]
     post "/session/renew", SessionController, :renew
   end
