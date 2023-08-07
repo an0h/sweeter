@@ -58,6 +58,8 @@ defmodule SweeterWeb.Router do
   scope "/" do
     pipe_through :browser
 
+    get "/swaggerui", OpenApiSpex.Plug.SwaggerUI, path: "/api/v1/openapi"
+
     pow_routes()
     pow_extension_routes()
   end
