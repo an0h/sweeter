@@ -24,7 +24,6 @@ defmodule Sweeter.Content.Reactions do
 
   def create_item_reaction(reaction, item_id) do
     r = Map.put(reaction, :item_id, item_id)
-    IO.inspect("in the create item reaction func")
     %Reactions{}
     |> Reactions.changeset(r)
     |> Repo.insert()

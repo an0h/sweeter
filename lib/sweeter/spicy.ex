@@ -30,7 +30,7 @@ defmodule Sweeter.Spicy do
   def get_tokes_by_address(address) do
     api_service = fetchSpicy1317()
     url = "#{api_service}/cosmos/bank/v1beta1/balances/#{address}"
-    headers = [{"Content-type", "application/json"}, {"accept", "application/json"}]
+    # headers = [{"Content-type", "application/json"}, {"accept", "application/json"}]
 
     IO.puts url
     IO.puts "in this get tokens by address"

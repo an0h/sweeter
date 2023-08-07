@@ -41,6 +41,7 @@ defmodule SweeterWeb.Router do
     get "/about_anon", PageController, :about_anon
     get "/about_tech", PageController, :about_tech
     get "/energy", PageController, :energy
+    get "/plans", PageController, :plans
     get "/privacy", PageController, :privacy
 
     resources "/items", ItemController

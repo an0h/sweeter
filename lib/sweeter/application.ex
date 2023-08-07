@@ -41,7 +41,7 @@ defmodule Sweeter.Application do
     ]
 
     :mnesia.start
-    result = :mnesia.create_table(
+    :mnesia.create_table(
         User,
        [{:disc_copies, [node()]},
          attributes: [:address, :reaction_count, :api_count]

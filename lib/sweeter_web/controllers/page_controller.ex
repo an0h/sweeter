@@ -64,6 +64,11 @@ defmodule SweeterWeb.PageController do
     |> render(:energy)
   end
 
+  def plans(conn, _params) do
+    conn
+    |> render(:plans)
+  end
+
   def privacy(conn, _params) do
     conn
     |> render(:privacy)
