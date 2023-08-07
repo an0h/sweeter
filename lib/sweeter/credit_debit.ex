@@ -2,35 +2,26 @@ defmodule Sweeter.CreditDebit do
 
   def increment_api(address) do
     case get_cache_from_address(address) do
-      {:atomic, [%{
-          address: address,
-          reaction_count: reaction_count,
-          api_count: api_count}]} ->
+      {:atomic, []} ->
+        address_write(address)
+        modulus_25(address, 0)
+        0
+      {:atomic, [{User, address, reaction_count, api_count}]} ->
         new_value = api_count + 1
         address_write(address, reaction_count, new_value)
-        modulus_100(address, new_value)
+        modulus_25(address, new_value)
         new_value
-      {:aborted, {:no_exists, User}} ->
-        :mnesia.create_table(User, [:address, :reaction_count, :api_count])
-      nil ->
-        address_write(address)
-        modulus_100(address, 0)
-        0
     end
   end
 
   def increment_interaction(address) do
     case get_cache_from_address(address) do
       {:atomic, []} ->
-        IO.puts "nil match"
         address_write(address)
         modulus_10(address, 0)
         0
       {:atomic, [{User, address, reaction_count, api_count}]} ->
-        IO.puts "found address in cache and trying"
         new_value = reaction_count + 1
-        IO.puts new_value
-        IO.puts "new value"
         address_write(address, new_value, api_count)
         modulus_10(address, new_value)
         new_value
@@ -75,8 +66,8 @@ defmodule Sweeter.CreditDebit do
     end
   end
 
-  defp modulus_100(address, value) do
-    if rem(value, 100) == 0 do
+  defp modulus_25(address, value) do
+    if rem(value, 25) == 0 do
       IO.puts "giving token"
       Sweeter.Spicy.add_spicy_token(address, "1token")
     end
