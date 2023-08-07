@@ -29,23 +29,26 @@ defmodule Sweeter.Spicy do
 
   def get_tokes_by_address(address) do
     api_service = fetchSpicy1317()
-    url = "#{api_service}/cosmos/auth/v1beta1/accounts/#{address}"
+    url = "#{api_service}/cosmos/bank/v1beta1/balances/#{address}"
     headers = [{"Content-type", "application/json"}, {"accept", "application/json"}]
 
     IO.puts url
-    IO.puts "in this get cosmos by address"
-    try do
-      {status, response} =
-        HTTPoison.get(
-          url,
-          '',
-          headers
-        )
-        IO.inspect status
-        IO.inspect response
-    rescue
-      e in HTTPoison.Error ->
-        IO.inspect(e)
+    IO.puts "in this get tokens by address"
+
+    case HTTPoison.get(url) do
+      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+        case Poison.decode!(body) do
+          %{"balances" => [%{"amount" => amount}]} ->
+            {:ok, balance: amount}
+          e ->
+            IO.puts "e"
+            IO.inspect e
+            {:error}
+        end
+      {:error, %HTTPoison.Error{} = error} ->
+        IO.puts "error"
+        IO.inspect error
+        {:error}
     end
   end
 

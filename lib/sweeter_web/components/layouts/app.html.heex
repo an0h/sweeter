@@ -70,6 +70,11 @@ cherry.internetstate.city
       <a href="/about_mod" class="font-semibold leading-10 tracking-tighter font-semibold text-brand hover:underline">m i mod?</a>
     </div>
     </div>    
+    <div>
+    <%= if @tokes_balance >= 1 do %>
+    Your Tokes Balance: <%= @tokes_balance %>
+    <% end %>
+    </div>
     <div class="flex items-center gap-4 font-semibold leading-6 text-zinc-900">
     <div class="flex items-center gap-4">
       🔎 Search: 

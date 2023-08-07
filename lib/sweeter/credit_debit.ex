@@ -26,12 +26,11 @@ defmodule Sweeter.CreditDebit do
         address_write(address)
         modulus_10(address, 0)
         0
-      {:atomic, [%{
-          address: address,
-          reaction_count: reaction_count,
-          api_count: api_count}]} ->
-            IO.puts "found address in cache and trying"
+      {:atomic, [{User, address, reaction_count, api_count}]} ->
+        IO.puts "found address in cache and trying"
         new_value = reaction_count + 1
+        IO.puts new_value
+        IO.puts "new value"
         address_write(address, new_value, api_count)
         modulus_10(address, new_value)
         new_value

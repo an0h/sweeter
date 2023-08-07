@@ -10,8 +10,10 @@ defmodule SweeterWeb.LoggedInIdPlug do
       nil ->
         IO.puts "der your ogged out"
         assign(conn, :user_id, nil)
+        |> assign(:address, nil)
+        |> assign(:tokes_balance, nil)
       user ->
-        balance = Spicy.get_tokes_by_address(user.address)
+        {:ok, [balance: balance]} = Spicy.get_tokes_by_address(user.address)
         IO.inspect balance
         IO.puts "balanace balance"
         assign(conn, :user_id, user.id)
