@@ -1,5 +1,6 @@
 defmodule SweeterWeb.API.V1.APIController do
   use SweeterWeb, :controller
+  use OpenApiSpex.ControllerSpecs
 
   alias Sweeter.Content
   alias Sweeter.Content.Item
@@ -8,6 +9,18 @@ defmodule SweeterWeb.API.V1.APIController do
   alias Sweeter.CreditDebit
 
   action_fallback SweeterWeb.FallbackController
+
+  alias SweeterWeb.API.V1.Schemas.{ItemList}
+
+  tags ["api"]
+
+  operation :search,
+    summary: "Search",
+    parameters: [],
+    request_body: {},
+    responses: [
+      ok: {"item_list", "application/json", ItemList}
+    ]
 
   def search(conn, %{}) do
     items = Content.list_items()

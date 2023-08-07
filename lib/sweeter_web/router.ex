@@ -18,6 +18,7 @@ defmodule SweeterWeb.Router do
   pipeline :api do
     plug :accepts, ["json"]
     plug SweeterWeb.APIAuthPlug, otp_app: :sweeter
+    plug OpenApiSpex.Plug.PutApiSpec, module: SweeterWeb.API.V1.ApiSpec
   end
 
   pipeline :protected do
@@ -50,6 +51,8 @@ defmodule SweeterWeb.Router do
     get "/search", SearchController, :search_by_tag
     get "/search/tag/:tag_slug", SearchController, :search_by_tag
     get "/search/text/", SearchController, :search_by_term
+
+    get "/openapi", OpenApiSpex.Plug.RenderSpec, []
   end
 
   scope "/" do
@@ -96,8 +99,16 @@ defmodule SweeterWeb.Router do
     get "/:handle", SweeterWeb.ProfileController, :handle_profile
   end
 
+  scope "/api/v1", as: :api_v1 do
+    pipe_through :api
+
+    get "/openapi", OpenApiSpex.Plug.RenderSpec, []
+  end
+
   scope "/api/v1", SweeterWeb.API.V1, as: :api_v1 do
     pipe_through :api
+
+    get "/openapi", OpenApiSpex.Plug.RenderSpec, []
 
     resources "/session", SessionController, singleton: true, only: [:create, :delete]
     post "/session/renew", SessionController, :renew

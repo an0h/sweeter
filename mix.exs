@@ -55,7 +55,8 @@ defmodule Sweeter.MixProject do
       {:argon2_elixir, "~> 3.1"},
       {:swoosh, "~> 1.6"},
       {:bamboo, "~> 2.3"},
-      {:libcluster, "~> 3.3"}
+      {:libcluster, "~> 3.3"},
+      {:open_api_spex, "~> 3.16"}
     ]
   end
 
