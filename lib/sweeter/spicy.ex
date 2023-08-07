@@ -40,6 +40,10 @@ defmodule Sweeter.Spicy do
         case Poison.decode!(body) do
           %{"balances" => [%{"amount" => amount}]} ->
             {:ok, balance: amount}
+
+          %{"balances" => []} ->
+            {:ok, balance: 0}
+
           e ->
             IO.puts "e"
             IO.inspect e
