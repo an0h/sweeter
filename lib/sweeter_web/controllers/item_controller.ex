@@ -191,7 +191,7 @@ defmodule SweeterWeb.ItemController do
       user ->
         item = Content.get_item!(id)
         Item.change_item_featured(item, %{"featured" => false})
-        Item.log_moderator_feature_change(item, user.id,  "unfeatured")
+        Item.log_moderator_feature_change(item, user.id, "unfeatured")
         conn
         |> put_flash(:info, "Unfeatured, removed successfully.")
         |> redirect(to: "/items/#{id}")

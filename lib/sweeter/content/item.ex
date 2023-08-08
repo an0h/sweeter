@@ -34,6 +34,7 @@ defmodule Sweeter.Content.Item do
     |> cast_assoc(:user)
     |> validate_required([:headline])
     |> unique_constraint(:headline)
+    |> validate_length(:headline, max: 255)
   end
 
   def mod_item_changeset(item, attrs) do

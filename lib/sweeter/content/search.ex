@@ -43,12 +43,25 @@ defmodule Sweeter.Content.Search do
     Tag.find_tags_to_search()
   end
 
-  def get_items_by_tag(tag_id) do
+  def get_items_by_restricted_tag(tag_id) do
     Repo.all(
       from i in "items",
       join: rti in "restricted_tag_items",
       on: rti.item_id == i.id,
       where: rti.restricted_tag_id == ^tag_id,
+      where: i.deleted == false,
+      where: i.search_suppressed == false,
+      select: [i.id, i.inserted_at, i.body, i.headline, i.deleted, i.search_suppressed]
+    )
+    |> item_list_converter
+  end
+
+  def get_items_by_tag(tag_id) do
+    Repo.all(
+      from i in "items",
+      join: ti in "tag_items",
+      on: ti.item_id == i.id,
+      where: ti.tag_id == ^tag_id,
       where: i.deleted == false,
       where: i.search_suppressed == false,
       select: [i.id, i.inserted_at, i.body, i.headline, i.deleted, i.search_suppressed]

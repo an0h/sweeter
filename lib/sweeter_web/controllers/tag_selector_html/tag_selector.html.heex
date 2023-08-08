@@ -1,23 +1,49 @@
-<form id="select_tags" onsubmit="event.preventDefault()">
-<label class="block text-left" style="max-width: 300px;">
-  <span class="text-gray-700">Multiselect</span>
-  <select id="tag_select" class="form-multiselect block w-full mt-1" multiple onchange="selectTags()">
-  <%= for tag <- @known_tags do %>
-    <option value={tag.id}><%= tag.label %></option>
-  <% end %>
-  </select>
-</label>
-</form>
-
-<.restricted_tags />
-
+<div class="container flex flex-wrap">
+<div class="w-12/2">pls add at least one tag <br /> 
+if your content merits restricted tags and you neglect to tag it, you can lose tokes</div>
+<div id="selecting-tags" class="w-1/2">
+  <form id="select_tags" onsubmit="event.preventDefault()">
+  <label class="block text-left">
+    <span class="text-gray-700">Freeform Tags</span>
+    <select id="tag_select" class="form-multiselect block w-full mt-1" multiple onchange="selectTags()">
+    <%= for tag <- @known_tags do %>
+      <option value={tag.id}><%= tag.label %></option>
+    <% end %>
+    </select>
+  </label>
+  </form>
+  <.restricted_tags />
+</div>
+<div id="choosen-tags"  class="w-1/2">
+<div class="tagged"><ul id="tagged"></ul></div>
+<div class="rtagged"><ul id="rtagged"></ul></div>
+</div>
+</div>
 
 <script>
 function selectTags() {
-    selected_id = document.getElementById("tag_select").value;
-    let tags_list = document.getElementById("item_tag_ids").value.split(',')
-    let new_list = updateSelectedTagsList(tags_list,selected_id);
-    document.getElementById("item_tag_ids").value = new_list.toString()
+  let selected_id = document.getElementById("tag_select").value;
+  let tags_list = document.getElementById("item_tag_ids").value.split(',')
+  let new_list = updateSelectedTagsList(tags_list,selected_id);
+  document.getElementById("item_tag_ids").value = new_list.toString()
+
+  //update display
+  let tagged_ul = document.getElementById("tagged");
+  let newli = document.createElement('li');
+  newli.textContent = selected_id
+  tagged_ul.appendChild(newli)
+}
+
+function toggleRestrictedTag(restricted_tag, id) {
+  let restricted_tags_array = document.getElementById("item_restricted_tag_ids").value.split(',')
+  let new_rt_list = updateSelectedTagsList(restricted_tags_array, id.toString())
+  document.getElementById("item_restricted_tag_ids").value = new_rt_list.toString()
+
+  //update display
+  let tagged_ul = document.getElementById("rtagged");
+  let newli = document.createElement('li');
+  newli.textContent = restricted_tag
+  tagged_ul.appendChild(newli)
 }
 
 function updateSelectedTagsList(array, id) {
@@ -30,29 +56,12 @@ function updateSelectedTagsList(array, id) {
   return array;
 }
 
-function toggleRestrictedTag(restricted_tag, id) {
-    let tag = document.getElementById(restricted_tag)
-    tag.value = tag.value == "false" ? "true" : "false"
-    let restricted_tags_list = document.getElementById("item_restricted_tag_ids").value
-    let restricted_tags_array = restricted_tags_list.split(',')
-    if (tag.value == "true") {
-        toggleStyles(restricted_tag, 'teal', 'zinc')
-        restricted_tags_array.push(id)
-        console.log(restricted_tags_array)
-        document.getElementById("item_restricted_tag_ids").value = restricted_tags_array.toString()
-    } else {
-        toggleStyles(restricted_tag, 'zinc', 'teal')
-        let removedArray = restricted_tags_array.filter(item => item !== id);
-        document.getElementById("item_restricted_tag_ids").value = removedArray.toString()
-    }
-}
-
 function toggleStyles(restricted_tag, remove, add) {
-    const button = document.getElementById(restricted_tag + '_btn')
-    button.classList.remove('bg-' + remove + '-500');
-    button.classList.remove('hover:bg-' + remove + '-700');
-    button.classList.add('hover:bg-' + add + '-700');
-    button.classList.add('bg-' + add + '-500');
+  const button = document.getElementById(restricted_tag + '_btn')
+  button.classList.remove('bg-' + remove + '-500');
+  button.classList.remove('hover:bg-' + remove + '-700');
+  button.classList.add('hover:bg-' + add + '-700');
+  button.classList.add('bg-' + add + '-500');
 }
 
 </script>

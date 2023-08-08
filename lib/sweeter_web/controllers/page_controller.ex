@@ -1,14 +1,14 @@
 defmodule SweeterWeb.PageController do
   use SweeterWeb, :controller
 
-  alias Sweeter.Content.Item
+  alias Sweeter.Content.Search
   alias Sweeter.Content.PublerSubser
   alias Sweeter.Users.User
 
   def home(conn, _params) do
     case Pow.Plug.current_user(conn) do
       nil ->
-        items = Item.get_featured_items()
+        items = Search.get_items_by_tag(3)
         conn
         |> render(:home, items: items)
       user ->

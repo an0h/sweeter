@@ -1,12 +1,9 @@
 <.header>
-  Write something!
-  <:subtitle>you are required to add at least one tag, and if your content merits required tags and you neglect to tag it, you can lose tokes</:subtitle>
+  Post something!
 </.header>
 
 <.file_upload />
 
-<.item_form changeset={@changeset} action={~p"/items"} anon={@anon} />
-
-<.tag_selector known_tags={@known_tags} />
+<.item_form changeset={@changeset} action={~p"/items"} anon={@anon} known_tags={@known_tags} />
 
 <.back navigate={~p"/items"}>Back to items</.back>
