@@ -67,6 +67,7 @@ defmodule Sweeter.Content.Search do
       select: [i.id, i.inserted_at, i.body, i.headline, i.deleted, i.search_suppressed]
     )
     |> item_list_converter
+    |> Repo.preload(:images)
   end
 
   def get_all_query_matches(query) do

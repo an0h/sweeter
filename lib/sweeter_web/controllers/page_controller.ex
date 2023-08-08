@@ -11,6 +11,7 @@ defmodule SweeterWeb.PageController do
       nil ->
         # Meme is 11
         items = Search.get_items_by_tag(11)
+
         conn
         |> render(:home, items: items)
       user ->
@@ -28,9 +29,7 @@ defmodule SweeterWeb.PageController do
         true ->
           items =
             Search.get_items_by_tag(11) # Memes
-              ++ PublerSubser.subscription_feed(user.id)
-              ++ Item.get_all_by_user(user.id)
-              |> Enum.uniq()
+
           conn
           |> render(:home, items: items)
         end

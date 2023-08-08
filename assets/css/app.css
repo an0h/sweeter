@@ -54,6 +54,11 @@ hr {
 }
 
 a {
-    color: teal ;
+    color: teal;
     font-weight: bold;
+}
+
+.profile-item {
+    border-bottom: 1px solid gray;
+    padding: 3%;
 }

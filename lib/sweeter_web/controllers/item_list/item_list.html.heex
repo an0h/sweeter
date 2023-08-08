@@ -1,8 +1,14 @@
-<.table id="items" rows={@items} row_click={&JS.navigate(~p"/items/#{&1}")}>
-  <:col :let={item}><%= item.headline %></:col>
-  <:action :let={item}>
-    <div class="sr-only">
-      <.link navigate={~p"/items/#{item}"}>Show</.link>
-    </div>
-  </:action>
-</.table>
+<%= if @items do %>
+  <%= for item <- @items do %>
+  <div class="profile-item">
+  <.link navigate={~p"/items/#{item}"}>
+  <%= item.headline %>
+  <%= if item.images do %>
+    <%= for image <- item.images do %>
+    <img src={"https://sweetipfs.herokuapp.com/read?ipfscid=#{image.ipfscid}"} />
+    <% end %>
+  <% end %>
+  </.link>
+  </div>
+  <% end %>
+<% end %>

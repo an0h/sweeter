@@ -129,6 +129,7 @@ defmodule Sweeter.Content.Item do
         select: [i.id, i.body, i.headline, i.deleted]
     )
     |> item_list_struct_converter
+    |> Repo.preload(:images)
   end
 
   def get_featured_items() do

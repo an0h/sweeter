@@ -34,6 +34,7 @@ defmodule Sweeter.Content.PublerSubser do
         select: [i.id, i.body, i.headline, i.deleted]
     )
     |> Item.item_list_struct_converter
+    |> Repo.preload(:images)
   end
 
   defp publer_id_list(subser_id) do
