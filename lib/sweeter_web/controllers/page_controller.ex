@@ -1,6 +1,7 @@
 defmodule SweeterWeb.PageController do
   use SweeterWeb, :controller
 
+  alias Sweeter.Content.Item
   alias Sweeter.Content.Search
   alias Sweeter.Content.PublerSubser
   alias Sweeter.Users.User
