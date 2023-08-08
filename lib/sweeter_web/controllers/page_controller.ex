@@ -8,7 +8,8 @@ defmodule SweeterWeb.PageController do
   def home(conn, _params) do
     case Pow.Plug.current_user(conn) do
       nil ->
-        items = Search.get_items_by_tag(3)
+        # Meme is 11
+        items = Search.get_items_by_tag(11)
         conn
         |> render(:home, items: items)
       user ->
@@ -25,8 +26,10 @@ defmodule SweeterWeb.PageController do
           |> redirect(to: "/profile/edit/#{user.id}")
         true ->
           items =
-            PublerSubser.subscription_feed(user.id) ++ Item.get_all_by_user(user.id)
-            |> Enum.uniq()
+            Search.get_items_by_tag(11) # Memes
+              ++ PublerSubser.subscription_feed(user.id)
+              ++ Item.get_all_by_user(user.id)
+              |> Enum.uniq()
           conn
           |> render(:home, items: items)
         end
