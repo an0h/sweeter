@@ -26,7 +26,7 @@
       <%= end %>
     </div>
     <div>
-        <a href="/">"The Bird App? Bird City?"</a>
+        <a href="/">what if a social network were open source?</a>
     </div>
     <div class="flex gap-6 content-center">
       <a href="/items/new">
@@ -68,11 +68,11 @@ cherry.internetstate.city
       <a href="/about_api">API</a>
       <a href="/plans">Plans</a>
       <a href="/about_tech">Tech</a>
-      <a href="/about_mod" class="font-semibold leading-10 tracking-tighter font-semibold text-brand hover:underline">m i mod?</a>
+      <a href="/about_mod" class="font-semibold leading-10 tracking-tighter font-semibold text-brand hover:underline">mods only</a>
     </div>
     </div>    
     <div>
-    <%= if @tokes_balance >= 1 do %>
+    <%= if @tokes_balance != 0 do %>
     Your Tokes Balance: <%= @tokes_balance %>
     <% end %>
     </div>
@@ -83,7 +83,7 @@ cherry.internetstate.city
     </div>
     </div>
   </div>
-  <div class="flex py-3 text-sm">
+  <div class="flex py-3 text-sm border-b border-gray-100 mb-4">
     Help build internetstate.city! Check out the Elixir repo: <a href="https://github.com/an0h/sweeter" target="_blank">https://github.com/an0h/sweeter</a>
   </div>
 </footer>

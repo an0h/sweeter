@@ -58,7 +58,8 @@ defmodule Sweeter.Content.Item do
       from i in "items",
         where: i.deleted != true and i.search_suppressed != true,
         order_by: [desc: :inserted_at],
-        select: [i.id, i.body, i.headline, i.source, i.search_suppressed]
+        select: [i.id, i.body, i.headline, i.source, i.search_suppressed],
+        limit: 300
     )
     |> item_list_struct_converter
   end
@@ -126,7 +127,8 @@ defmodule Sweeter.Content.Item do
       from i in "items",
         where: i.user_id == ^ui,
         order_by: [desc: :inserted_at],
-        select: [i.id, i.body, i.headline, i.deleted]
+        select: [i.id, i.body, i.headline, i.deleted],
+        limit: 300
     )
     |> item_list_struct_converter
     |> Repo.preload(:images)
@@ -137,7 +139,8 @@ defmodule Sweeter.Content.Item do
       from i in "items",
         where: i.featured == true,
         order_by: [desc: :inserted_at],
-        select: [i.id, i.body, i.headline, i.deleted]
+        select: [i.id, i.body, i.headline, i.deleted],
+        limit: 300
     )
     |> item_list_struct_converter
   end

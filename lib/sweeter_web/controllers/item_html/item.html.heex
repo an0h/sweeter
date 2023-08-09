@@ -30,9 +30,8 @@ Restricted Tags:
     </div>
     <div id="page_views">Page Views <%= @item_load_count %></div>
     <%= raw(@item.body) %>
-    <.list>
-    <:item title="Source"><%= @item.source %></:item>
-    </.list>
+    <div id="source">Source: <%= @item.source %></div>
+    <div id="timestamp">Published: <%= @item.inserted_at %></div>
 </div>
 
 

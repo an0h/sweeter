@@ -51,7 +51,9 @@ defmodule Sweeter.Content.Search do
       where: rti.restricted_tag_id == ^tag_id,
       where: i.deleted == false,
       where: i.search_suppressed == false,
-      select: [i.id, i.inserted_at, i.body, i.headline, i.deleted, i.search_suppressed]
+      order_by: [desc: i.inserted_at],
+      select: [i.id, i.inserted_at, i.body, i.headline, i.deleted, i.search_suppressed],
+      limit: 300
     )
     |> item_list_converter
   end
@@ -64,7 +66,9 @@ defmodule Sweeter.Content.Search do
       where: ti.tag_id == ^tag_id,
       where: i.deleted == false,
       where: i.search_suppressed == false,
-      select: [i.id, i.inserted_at, i.body, i.headline, i.deleted, i.search_suppressed]
+      order_by: [desc: i.inserted_at],
+      select: [i.id, i.inserted_at, i.body, i.headline, i.deleted, i.search_suppressed],
+      limit: 300
     )
     |> item_list_converter
     |> Repo.preload(:images)
@@ -77,7 +81,9 @@ defmodule Sweeter.Content.Search do
       or_where: ilike(i.headline, ^query),
       where: i.deleted == false,
       where: i.search_suppressed == false,
-      select: [i.id, i.inserted_at, i.body, i.headline, i.deleted, i.search_suppressed]
+      order_by: [desc: i.inserted_at],
+      select: [i.id, i.inserted_at, i.body, i.headline, i.deleted, i.search_suppressed],
+      limit: 300
     )
     |> item_list_converter
   end
