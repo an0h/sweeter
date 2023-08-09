@@ -1,24 +1,30 @@
-
+<div class="container flex flex-wrap">
+<div class="w-2/2">
 <%= if @item.images do %>
   <%= for image <- @item.images do %>
   <img src={"https://sweetipfs.herokuapp.com/read?ipfscid=#{image.ipfscid}"} />
   <% end %>
 <% end %>
+</div>
 
-
-<div id="restricted_tags">
+<div id="restricted_tags" class="w-1/2 p-2">
+<%= if @restricted_tags != [] do  %>
+Restricted Tags:
 <%= for rt <- @restricted_tags do %>
-  <%= rt %>
+  <%= rt %> <br />
+<% end %>
+<% end %>
+</div>
+<div id="tags" class="w-1/2 p-2">
+<%= if @tags != [] do  %>
+<span class="smol">Tagged:</span>
+<%= for t <- @tags do %>
+<div class="tag"><%= t %></div>
+<% end %>
 <% end %>
 </div>
 
-<div id="item-contents">
-    <div class="tags">
-    <span class="smol">Tagged:</span>
-    <%= for t <- @tags do %>
-    <div class="tag"><%= t %></div>
-    <% end %>
-    </div>
+<div id="item-contents" class="p-2">
     <div id="item_headline" class="text-2xl font-bold mb-4">
     <%= @item.headline %>
     </div>
@@ -40,3 +46,5 @@
   </ul>
   <% end %>
 <% end %>
+
+</div>
