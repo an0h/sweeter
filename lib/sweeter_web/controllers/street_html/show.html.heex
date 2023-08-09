@@ -1,0 +1,15 @@
+<.header>
+  Street <%= @street.id %>
+  <:subtitle>This is a street record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/streets/#{@street}/edit"}>
+      <.button>Edit street</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Search"><%= @street.search %></:item>
+</.list>
+
+<.back navigate={~p"/streets"}>Back to streets</.back>

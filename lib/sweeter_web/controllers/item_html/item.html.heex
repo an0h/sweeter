@@ -1,9 +1,14 @@
+
+<%= if @item.images do %>
+  <%= for image <- @item.images do %>
+  <img src={"https://sweetipfs.herokuapp.com/read?ipfscid=#{image.ipfscid}"} />
+  <% end %>
+<% end %>
+
+
 <div id="restricted_tags">
 <%= for rt <- @restricted_tags do %>
-  <button 
-    class="bg-teal-700 text-white font-bold py-1 px-3 rounded">
-    <%= rt %>
-  </button>
+  <%= rt %>
 <% end %>
 </div>
 
@@ -26,11 +31,6 @@
 
 
 <.translation div_id="item-contents" />
-<%= if @item.images do %>
-  <%= for image <- @item.images do %>
-  <img src={"https://sweetipfs.herokuapp.com/read?ipfscid=#{image.ipfscid}"} />
-  <% end %>
-<% end %>
 <%= if @address != "" do %>
   <%= for modreview <- @item.modreviews do %>
   <ul>

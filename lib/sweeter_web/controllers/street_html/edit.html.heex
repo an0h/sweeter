@@ -1,0 +1,8 @@
+<.header>
+  Edit Street <%= @street.id %>
+  <:subtitle>Use this form to manage street records in your database.</:subtitle>
+</.header>
+
+<.street_form changeset={@changeset} action={~p"/streets/#{@street}"} />
+
+<.back navigate={~p"/streets"}>Back to streets</.back>

@@ -47,6 +47,7 @@ defmodule SweeterWeb.Router do
 
     resources "/items", ItemController
     resources "/searches", SearchController
+    resources "/streets", StreetController
 
     get "/search", SearchController, :search_by_tag
     get "/search/tag/:tag_slug", SearchController, :search_by_tag
