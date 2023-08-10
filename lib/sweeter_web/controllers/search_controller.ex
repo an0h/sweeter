@@ -3,6 +3,7 @@ defmodule SweeterWeb.SearchController do
 
   alias Sweeter.Content
   alias Sweeter.Content.Search
+  alias Sweeter.Content.PublerSubser
 
   def index(conn, _params) do
     tags = Search.get_suggested_searches()
@@ -80,16 +81,18 @@ defmodule SweeterWeb.SearchController do
     end
   end
 
-  def search_by_tag(conn, params) do
-    tag = params["tag_slug"]
-    if tag != nil do
-      [rtids] = Enum.filter(Search.get_tag_ids_by_slug(tag),
-        fn {_k, value} -> value == tag end)
-        |> Enum.map(fn {key, _v} -> key end)
-      items = Search.get_items_by_tag(rtids)
-      render(conn, :results, items: items)
-    else
-      render(conn, :results, items: [])
+  def subser_feed(conn, _params) do
+    case Pow.Plug.current_user(conn) do
+      nil ->
+        conn
+        |> put_flash(:info, "Login, cant help u here if i dont know u")
+        |> redirect(to: "/")
+
+      user ->
+        subscribed_items = PublerSubser.subscription_feed(user.id)
+
+        conn
+        |> render(:subser_feed, subscribed_items: subscribed_items)
     end
   end
 end

@@ -14,6 +14,9 @@
       </p>
       <%= else %>
       <p class="hover:text-zinc-700">
+        <.link href={~p"/subscriptions"} class="font-semibold text-brand hover:underline">
+          Subscriptions
+        </.link>
         <.link href={~p"/profile/#{@user_id}"} class="font-semibold text-brand hover:underline">
           View Profile
         </.link>

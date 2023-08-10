@@ -44,8 +44,6 @@ defmodule SweeterWeb.ProfileController do
     if authed_user.id == user_id do
       user = User.get_profile(user_id)
       result = User.change_user_profile(user, params)
-      IO.inspect result
-      IO.puts "change result"
       conn
       |> put_flash(:info, "Updated")
       |> redirect(to: "/profile/#{params["id"]}")
