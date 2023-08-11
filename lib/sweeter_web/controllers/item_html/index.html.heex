@@ -1,5 +1,5 @@
 <.header>
-  Listing Items
+  Published Items
   <:actions>
     <.link href={~p"/items/new"}>
       <.button>New Item</.button>
@@ -7,11 +7,4 @@
   </:actions>
 </.header>
 
-<.table id="items" rows={@items} row_click={&JS.navigate(~p"/items/#{&1}")}>
-  <:col :let={item} label="Headline"><%= item.headline %></:col>
-  <:action :let={item}>
-    <div class="sr-only">
-      <.link navigate={~p"/items/#{item}"}>Show</.link>
-    </div>
-  </:action>
-</.table>
+<.item_list items={@items} />

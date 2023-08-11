@@ -2,6 +2,7 @@ defmodule SweeterWeb.ItemHTML do
   use SweeterWeb, :html
 
   embed_templates "item_html/*"
+  embed_templates "item_list/*"
   embed_templates "file_upload_html/*"
   embed_templates "moderation_html/*"
   embed_templates "tag_selector_html/*"

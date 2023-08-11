@@ -14,6 +14,7 @@ defmodule SweeterWeb.ItemController do
 
   def index(conn, _params) do
     items = Item.get_all()
+      |> Repo.preload(:images)
     render(conn, :index, items: items)
   end
 

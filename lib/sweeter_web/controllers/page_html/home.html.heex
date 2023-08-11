@@ -2,19 +2,13 @@
 <div id="contents">
   <p>You came! to our site! to the great hopeful experiment!</p>
   <p>&nbsp;</p>
-  <p>Okay so first thing, start posting memes. pls pls? you can do it rn, without even logging in! <span class="smol">but u dont get credit for tokes in the fun game part of things if you arent, u know, identifiable</span><br />
-  Just click the bird and choose the "Meme" under Freeform tags, and it will sort into the meme stream here.
-  </p>
-  <p>&nbsp;</p>
-  <p>Or heyyyy.... there's also an API! if you signup, your login credentials work as soon as you confirm email.  curl like so:<br />
-  <pre>curl -X POST -d 'user[email]=sc@rib.e&user[password]=dapaSS!2' https://all4u.city/api/v1/session  | jq -r '.[]["access_token"]'</pre><br />
-  <a href="/swaggerui" target="_blank">(Partial) Swagger Docs for the API</a>
-  </p>
-  <p>&nbsp;</p>
-  <p>Check the footer for more on why this, how come we are now lighting up pixels on your screen</p>
+  <p><a href="/items/new">Post a meme!</a></p>
+  <p>Click above then choose the freeform tag "Meme" and create an item.  Signup and login, or dont.  Post either way pls!</p>
   <div class="mx-auto max-w-xl lg:mx-0">
   <.item_list items={@items} />
   </div>
 </div>
+
+<a href="/items">More Items</a>
 
 <.translation div_id="contents" />
