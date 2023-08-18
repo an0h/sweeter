@@ -49,6 +49,8 @@ defmodule Sweeter.Spicy do
             IO.inspect e
             {:error}
         end
+      {:ok, %HTTPoison.Response{status_code: 400, body: _body}} ->
+        {:ok, balance: 0}
       {:error, %HTTPoison.Error{} = error} ->
         IO.puts "error"
         IO.inspect error

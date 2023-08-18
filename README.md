@@ -1,5 +1,10 @@
 # Sweeter
 
+### DB Startup
+`docker run --name postgres  -e POSTGRES_PASSWORD=c0f33isyummy  -p 5432:5432 -d --rm postgres`
+`docker exec -it 5993373cff98 psql -U postgres`
+`MIX_ENV=test mix ecto.reset`
+
 To start your Phoenix server:
 
   * Run `mix setup` to install and setup dependencies

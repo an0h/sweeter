@@ -18,8 +18,12 @@ defmodule SweeterWeb.ProfileController do
 
   def handle_profile(conn, %{"handle" => handle}) do
     user = User.get_handle_profile(handle)
+    id = Integer.to_string(user.id)
+    user_authored = Item.get_all_by_user(user.id)
+    subscribe_action = "/profile/subscribe/" <> id
+    subscribed_items = PublerSubser.subscription_feed(user.id)
     conn
-    |> render(:show, user: user)
+    |> render(:show, user: user, user_authored: user_authored, subscribed_items: subscribed_items, subscribe_action: subscribe_action)
   end
 
   def edit_profile(conn, %{"id" => id}) do
