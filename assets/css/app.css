@@ -50,7 +50,8 @@ hr {
     padding-left: 10%;
     padding-right: 10%;
     border-top: 2px dotted teal;
-    padding-top: 3%;
+    border-bottom: 2px dotted teal;
+    padding: 3% 0% 3% 0%;
 }
 
 a {

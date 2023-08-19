@@ -18,6 +18,7 @@ defmodule Sweeter.Content.Item do
     field :headline, :string
     field :search_suppressed, :boolean, default: false
     field :featured, :boolean, default: false
+    field :parent_id, :integer
     belongs_to :user, Sweeter.Users.User
     has_many :reactions, Sweeter.Content.Reactions
     has_many :images, Sweeter.Content.Image
@@ -30,7 +31,7 @@ defmodule Sweeter.Content.Item do
   @doc false
   def changeset(item, attrs) do
     item
-    |> cast(attrs, [:body, :deleted, :source, :headline, :search_suppressed, :user_id, :featured])
+    |> cast(attrs, [:body, :deleted, :source, :headline, :search_suppressed, :user_id, :featured, :parent_id])
     |> cast_assoc(:user)
     |> validate_required([:headline])
     |> unique_constraint(:headline)

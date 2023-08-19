@@ -23,9 +23,9 @@ defmodule SweeterWeb.ItemController do
     known_tags = Tag.get_all()
     case Pow.Plug.current_user(conn) do
       nil ->
-        render(conn, :new, changeset: changeset, known_tags: known_tags, anon: True)
+        render(conn, :new, changeset: changeset, known_tags: known_tags, anon: True, parent_id: 0)
       _user ->
-        render(conn, :new, changeset: changeset, known_tags: known_tags, anon: False)
+        render(conn, :new, changeset: changeset, known_tags: known_tags, anon: False, parent_id: 0)
       end
   end
 
@@ -67,6 +67,8 @@ defmodule SweeterWeb.ItemController do
       is_moderator = User.get_is_moderator(conn)
       feature_link = "/item/feature/#{id}"
       unfeature_link = "/item/unfeature/#{id}"
+      changeset = Content.change_item(%Item{})
+      known_tags = Tag.get_all()
       case Pow.Plug.current_user(conn) do
         nil ->
           LoadCounts.increment_item_load_count(id)
@@ -80,6 +82,10 @@ defmodule SweeterWeb.ItemController do
             is_moderator: False,
             feature_link: "",
             unfeature_link: "",
+            changeset: changeset,
+            known_tags: known_tags,
+            anon: True,
+            parent_id: 0,
             moderation_changeset: %Moderation{})
         user ->
           LoadCounts.increment_item_load_count(id, user.id)
@@ -95,6 +101,10 @@ defmodule SweeterWeb.ItemController do
             is_moderator: is_moderator,
             feature_link: feature_link,
             unfeature_link: unfeature_link,
+            changeset: changeset,
+            known_tags: known_tags,
+            anon: True,
+            parent_id: item.id,
             moderation_changeset: moderation_changeset)
       end
     end
