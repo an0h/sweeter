@@ -16,7 +16,6 @@ defmodule SweeterWeb.PageController do
         |> render(:home, items: items)
       user ->
         profile = User.get_profile(user.id)
-        IO.inspect profile
         cond do
         profile.address == nil ->
           conn
@@ -27,8 +26,8 @@ defmodule SweeterWeb.PageController do
           |> put_flash(:info, "Update your profile, you really need to set a handle pls")
           |> redirect(to: "/profile/edit/#{user.id}")
         true ->
-          items =
-            Search.get_items_by_tag(11) # Memes
+          items = Item.get_all()
+          |> Repo.preload(:images)
 
           conn
           |> render(:home, items: items)

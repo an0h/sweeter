@@ -1,6 +1,7 @@
 defmodule SweeterWeb.ProfileController do
   use SweeterWeb, :controller
 
+  alias Sweeter.Repo
   alias Sweeter.Content.Item
   alias Sweeter.Content.PublerSubser
   alias Sweeter.Users.User

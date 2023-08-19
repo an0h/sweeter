@@ -135,6 +135,18 @@ defmodule Sweeter.Content.Item do
     |> Repo.preload(:images)
   end
 
+  def get_replies(id) do
+    Repo.all(
+      from i in "items",
+        where: i.parent_id == ^id,
+        order_by: [desc: :inserted_at],
+        select: [i.id, i.body, i.headline, i.deleted],
+        limit: 300
+    )
+    |> item_list_struct_converter
+    |> Repo.preload(:images)
+  end
+
   def get_featured_items() do
     Repo.all(
       from i in "items",

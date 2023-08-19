@@ -1,0 +1,21 @@
+<.simple_form :let={f} for={@changeset} action={@action}>
+  <.error :if={@changeset.action}>
+    Oops, something went wrong! Please check the errors below.
+  </.error>
+  <.input field={f[:headline]} type="textarea" label="Reply" />
+  <.input field={f[:source]} type="text" label="Source(s)" />
+  <%= if @anon == True do %>
+  <.input field={f[:restricted_tag_ids]} type="hidden" value="1" />
+  <% else %>
+  <.input field={f[:restricted_tag_ids]} type="hidden" />
+  <% end %>
+  <.input field={f[:ipfscids]} type="hidden" />
+  <.input field={f[:tag_ids]} type="hidden" />
+  <.input field={f[:parent_id]} type="hidden" value={@parent_id} />
+
+<.tag_selector known_tags={@known_tags} />
+  <:actions>
+    <.button class="bg-blue-500 hover:bg-blue-600 text-white font-bold p-10 py-4 px-8 rounded-lg text-lg md:text-xl lg:text-2xl xl:text-3xl">Reply</.button>
+  </:actions>
+</.simple_form>
+

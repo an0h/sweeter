@@ -22,12 +22,19 @@
     <% end %>
 </div>
 <%= if @address != "" do %>
-<div class="item-replies">
+<div class="item-reply-form">
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<.item_form changeset={@changeset} action={~p"/items"} anon={@anon} known_tags={@known_tags} parent_id={@parent_id} />
+<.item_reply_form changeset={@changeset} action={~p"/items"} anon={@anon} known_tags={@known_tags} parent_id={@parent_id} />
 </div>
 <% end %>
+<div class="item-replies">
+<%= if @replies do %>
+  <%= for reply <- @replies do %>
+    <%= reply.headline %>
+  <% end %>
+<% end %>
+</div>
 <div class="item-moderation">
     <%= if @is_moderator == true do %>
     <div class="feature-wrap">
