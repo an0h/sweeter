@@ -70,6 +70,7 @@ defmodule SweeterWeb.ItemController do
       changeset = Content.change_item(%Item{})
       known_tags = Tag.get_all()
       replies = Item.get_replies(String.to_integer(id))
+      parent = Item.get_parent(item)
       case Pow.Plug.current_user(conn) do
         nil ->
           LoadCounts.increment_item_load_count(id)
@@ -88,7 +89,8 @@ defmodule SweeterWeb.ItemController do
             anon: True,
             parent_id: 0,
             moderation_changeset: %Moderation{},
-            replies: replies)
+            replies: replies,
+            parent: parent)
         user ->
           LoadCounts.increment_item_load_count(id, user.id)
           moderation_changeset = Content.change_moderation(%Moderation{},
@@ -108,7 +110,8 @@ defmodule SweeterWeb.ItemController do
             anon: True,
             parent_id: item.id,
             moderation_changeset: moderation_changeset,
-            replies: replies)
+            replies: replies,
+            parent: parent)
       end
     end
   end

@@ -147,6 +147,14 @@ defmodule Sweeter.Content.Item do
     |> Repo.preload(:images)
   end
 
+  def get_parent(item) do
+    if item.parent_id == 0 do
+      nil
+    else
+      Repo.get!(Item, item.parent_id)
+    end
+  end
+
   def get_featured_items() do
     Repo.all(
       from i in "items",
