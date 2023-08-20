@@ -1,9 +1,9 @@
 <div class="wrapper">
-<div class="parent-post">
 <%= if @parent != nil do %>
+<div class="parent-post">
     <%= @parent.headline %>
-<% end %>
 </div>
+<% end %>
 
 <div class="item-contents lg:w-2/3 md:w-full">
     <.item item={@item} restricted_tags={@restricted_tags} tags={@tags} item_load_count={@item_load_count} address={@address} />
@@ -37,10 +37,12 @@
 <div class="item-replies">
 <%= if @replies do %>
   <%= for reply <- @replies do %>
-    <%= reply.headline %>
+    <div class="reply"><%= reply.headline %></div>
   <% end %>
 <% end %>
 </div>
+<button class="bg-teal-500 hover:bg-teal-600 text-white font-bold p-6 py-2 px-4 rounded-lg text-lg md:text-xl lg:text-2xl xl:text-3xl" phx-click={show_modal("moderation-modal")}>  moderation </button>
+<.modal id="moderation-modal">
 <div class="item-moderation">
     <%= if @is_moderator == true do %>
     <div class="feature-wrap">
@@ -69,4 +71,5 @@
     <.moderation_form changeset={@moderation_changeset} action={~p"/moderations"} />
     <% end %>
 </div>
+</.modal>
 </div>

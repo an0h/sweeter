@@ -54,6 +54,28 @@ hr {
     padding: 3% 0% 3% 0%;
 }
 
+.parent-post {
+    width: 80%;
+    padding-left: 10%;
+    padding-right: 10%;
+    border-top: 2px dotted teal;
+    border-bottom: 2px dotted teal;
+    padding: 3% 0% 3% 0%;
+}
+
+.item-replies {
+    width: 80%;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.reply {
+    width: 80%;
+    padding-left: 10%;
+    padding-right: 10%;
+    clear: both;
+}
+
 a {
     color: teal;
     font-weight: bold;

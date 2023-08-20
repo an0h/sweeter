@@ -1,3 +1,5 @@
+<button class="bg-teal-500 hover:bg-teal-600 text-white font-bold p-6 py-2 px-4 rounded-lg text-lg md:text-xl lg:text-2xl xl:text-3xl" phx-click={show_modal("reply-form-modal")}>  reply </button>
+<.modal id="reply-form-modal">
 <.simple_form :let={f} for={@changeset} action={@action}>
   <.error :if={@changeset.action}>
     Oops, something went wrong! Please check the errors below.
@@ -15,7 +17,9 @@
 
 <.tag_selector known_tags={@known_tags} />
   <:actions>
-    <.button class="bg-blue-500 hover:bg-blue-600 text-white font-bold p-10 py-4 px-8 rounded-lg text-lg md:text-xl lg:text-2xl xl:text-3xl">Reply</.button>
+    <.button class="bg-blue-500 hover:bg-blue-600 text-white font-bold p-6 py-2 px-4 rounded-lg text-lg md:text-xl lg:text-2xl xl:text-3xl">Reply</.button>
   </:actions>
 </.simple_form>
+</.modal>
+<p>&nbsp;</p>
 
