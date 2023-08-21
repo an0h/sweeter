@@ -25,4 +25,23 @@ defmodule Sweeter.Profile.Block do
     |> Block.changeset(%{blocked_id: blocked_id, blocker_id: blocker_id})
     |> Repo.insert()
   end
+
+  def unblock(blocked_id, blocker_id) do
+    query = from(b in Block, where: b.blocked_id == ^blocked_id and b.blocker_id == ^blocker_id)
+    Repo.delete_all(query)
+  end
+
+  def is_blocked(blocked_id, blocker_id) do
+    count = count_block(blocked_id, blocker_id)
+    if count >= 1 do
+      true
+    else
+      false
+    end
+  end
+
+  defp count_block(blocked_id, blocker_id) do
+    from(b in Block, where: b.blocked_id == ^blocked_id and b.blocker_id == ^blocker_id)
+    |> Repo.aggregate(:count, :id)
+  end
 end

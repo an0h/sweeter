@@ -7,7 +7,11 @@
   <form action={@subscribe_action}><.button>Subscribe</.button></form>
   <% end %>
 
+  <%= if @blocked == true do %>
+  <form action={@unblock_action}><.button>Unblock</.button></form>
+  <%= else %>
   <form action={@block_action}><.button>Block</.button></form>
+  <% end %>
 
 <% end %>
 

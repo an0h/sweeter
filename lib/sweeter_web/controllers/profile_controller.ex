@@ -3,6 +3,7 @@ defmodule SweeterWeb.ProfileController do
 
   alias Sweeter.Repo
   alias Sweeter.Content.Item
+  alias Sweeter.Profile.Block
   alias Sweeter.Profile.PublerSubser
   alias Sweeter.Users.User
 
@@ -15,9 +16,21 @@ defmodule SweeterWeb.ProfileController do
     is_subscribed = PublerSubser.is_subscribed(user.id, authed_user.id)
     is_own_profile = is_own_profile(user.id, authed_user.id)
     block_action = "/profile/block/" <> id
+    unblock_action = "/profile/unblock/" <> id
+    blocked = Block.is_blocked(user.id, authed_user.id)
     subscribed_items = PublerSubser.subscription_feed(String.to_integer(id))
     conn
-    |> render(:show, user: user, user_authored: user_authored, subscribed_items: subscribed_items, is_own_profile: is_own_profile, is_subscribed: is_subscribed, subscribe_action: subscribe_action, unsubscribe_action: unsubscribe_action, block_action: block_action)
+    |> render(:show,
+      user: user,
+      user_authored: user_authored,
+      subscribed_items: subscribed_items,
+      is_own_profile: is_own_profile,
+      is_subscribed: is_subscribed,
+      subscribe_action: subscribe_action,
+      unsubscribe_action: unsubscribe_action,
+      block_action: block_action,
+      unblock_action: unblock_action,
+      blocked: blocked)
   end
 
   def handle_profile(conn, %{"handle" => handle}) do
@@ -30,9 +43,21 @@ defmodule SweeterWeb.ProfileController do
     is_subscribed = PublerSubser.is_subscribed(user.id, authed_user.id)
     is_own_profile = is_own_profile(user.id, authed_user.id)
     block_action = "/profile/block/" <> id
+    unblock_action = "/profile/unblock/" <> id
+    blocked = Block.is_blocked(user.id, authed_user.id)
     subscribed_items = PublerSubser.subscription_feed(user.id)
     conn
-    |> render(:show, user: user, user_authored: user_authored, subscribed_items: subscribed_items, is_own_profile: is_own_profile, is_subscribed: is_subscribed, subscribe_action: subscribe_action, unsubscribe_action: unsubscribe_action, block_action: block_action)
+    |> render(:show,
+      user: user,
+      user_authored: user_authored,
+      subscribed_items: subscribed_items,
+      is_own_profile: is_own_profile,
+      is_subscribed: is_subscribed,
+      subscribe_action: subscribe_action,
+      unsubscribe_action: unsubscribe_action,
+      block_action: block_action,
+      unblock_action: unblock_action,
+      blocked: blocked)
   end
 
   defp is_own_profile(user_id, authed_user_id) do
@@ -140,19 +165,42 @@ defmodule SweeterWeb.ProfileController do
           |> put_flash(:info, "block not added")
           |> redirect(to: "/profile/#{id}")
         else
+          case Block.create_block(id, user.id) do
+            {:ok, _block} ->
+              conn
+              |> put_flash(:info, "blocked")
+              |> redirect(to: "/profile/#{id}")
+            {:error, %{}} ->
+              conn
+              |> put_flash(:info, "unsuccessful")
+              |> redirect(to: "/profile/#{id}")
+          end
+        end
+    end
+  end
+
+  def unblock(conn, %{"id" => id}) do
+    case Pow.Plug.current_user(conn) do
+      nil ->
+        conn
+        |> put_flash(:info, "Login")
+        |> redirect(to: "/items")
+      user ->
+        if user.id == id do
           conn
-          |> put_flash(:info, "Should have blocked")
+          |> put_flash(:info, "no block")
           |> redirect(to: "/profile/#{id}")
-          # case PublerSubser.subser(id, user.id) do
-          #   {:ok, _pubsub} ->
-          #     conn
-          #     |> put_flash(:info, "You were subscribed")
-          #     |> redirect(to: "/profile/#{id}")
-          #   {:error, %{}} ->
-          #     conn
-          #     |> put_flash(:info, "you were NOT subscribed")
-          #     |> redirect(to: "/profile/#{id}")
-          # end
+        else
+          case Block.unblock(id, user.id) do
+            {_, nil} ->
+              conn
+              |> put_flash(:info, "Unblocked")
+              |> redirect(to: "/profile/#{id}")
+            {:error} ->
+              conn
+              |> put_flash(:info, "unsuccessful")
+              |> redirect(to: "/profile/#{id}")
+          end
         end
     end
   end
