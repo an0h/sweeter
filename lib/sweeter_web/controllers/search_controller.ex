@@ -3,7 +3,7 @@ defmodule SweeterWeb.SearchController do
 
   alias Sweeter.Content
   alias Sweeter.Content.Search
-  alias Sweeter.Content.PublerSubser
+  alias Sweeter.Profile.PublerSubser
 
   def index(conn, _params) do
     tags = Search.get_suggested_searches()

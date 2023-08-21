@@ -57,7 +57,7 @@ defmodule Sweeter.Content.Item do
   def get_all do
     Repo.all(
       from i in "items",
-        where: i.deleted != true and i.search_suppressed != true,
+        where: i.deleted != true and i.search_suppressed != true and i.parent_id == 0,
         order_by: [desc: :inserted_at],
         select: [i.id, i.body, i.headline, i.source, i.search_suppressed],
         limit: 300

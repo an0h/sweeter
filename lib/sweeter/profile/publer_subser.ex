@@ -1,4 +1,4 @@
-defmodule Sweeter.Content.PublerSubser do
+defmodule Sweeter.Profile.PublerSubser do
   # Because PubSub is already an Elixir concept
   # Publer and Subser
   use Ecto.Schema
@@ -7,7 +7,7 @@ defmodule Sweeter.Content.PublerSubser do
   alias Sweeter.Repo
 
   alias Sweeter.Content.Item
-  alias Sweeter.Content.PublerSubser
+  alias Sweeter.Profile.PublerSubser
 
 
   schema "publer_subser" do
@@ -49,5 +49,24 @@ defmodule Sweeter.Content.PublerSubser do
     %PublerSubser{}
     |> PublerSubser.changeset(%{publer_id: publer_id, subser_id: subser_id})
     |> Repo.insert()
+  end
+
+  def unsubser(publer_id, subser_id) do
+    query = from(p in PublerSubser, where: p.publer_id == ^publer_id and p.subser_id == ^subser_id)
+    Repo.delete_all(query)
+  end
+
+  def is_subscribed(publer_id, subser_id) do
+    count = count_publer_subsers(publer_id, subser_id)
+    if count >= 1 do
+      true
+    else
+      false
+    end
+  end
+
+  defp count_publer_subsers(publer_id, subser_id) do
+    from(p in PublerSubser, where: p.publer_id == ^publer_id and p.subser_id == ^subser_id)
+    |> Repo.aggregate(:count, :id)
   end
 end

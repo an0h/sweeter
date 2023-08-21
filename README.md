@@ -27,6 +27,7 @@ https://abulasar.com/adding-infinite-scroll-in-phoenix-liveview-app
 https://blog.differentpla.net/blog/2022/01/08/libcluster-kubernetes/
 https://www.welcometothejungle.com/fr/articles/redis-mnesia-distributed-database
 https://dev.to/alvaromontoro/create-a-tag-cloud-with-html-and-css-1e90
+https://codepen.io/drehimself/pen/vpeVMx
 
 ```
 curl -X POST -d 'user[email]=sc@rib.e&user[password]=dapaSS!2' http://localhost:4000/api/v1/session  | jq -r '.[]["access_token"]'

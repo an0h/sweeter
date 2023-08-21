@@ -1,6 +1,16 @@
 <div class="mx-auto max-w-sm">
 <%= @user.handle %>
-<form action={@subscribe_action}><.button>Subscribe</.button></form>
+<%= if @is_own_profile == false do %>
+  <%= if @is_subscribed == true do %>
+  <form action={@unsubscribe_action}><.button>Unsubscribe</.button></form>
+  <%= else %>
+  <form action={@subscribe_action}><.button>Subscribe</.button></form>
+  <% end %>
+
+  <form action={@block_action}><.button>Block</.button></form>
+
+<% end %>
+
 <%= if @user.profile_pic_cid != nil do %>
   <img src={"https://sweetipfs.herokuapp.com/read?ipfscid=#{@user.profile_pic_cid}"} />
 <% end %>

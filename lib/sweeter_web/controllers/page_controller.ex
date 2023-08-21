@@ -3,7 +3,7 @@ defmodule SweeterWeb.PageController do
 
   alias Sweeter.Content.Item
   alias Sweeter.Content.Search
-  alias Sweeter.Content.PublerSubser
+  alias Sweeter.Profile.PublerSubser
   alias Sweeter.Users.User
 
   def home(conn, _params) do

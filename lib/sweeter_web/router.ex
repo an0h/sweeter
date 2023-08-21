@@ -71,6 +71,8 @@ defmodule SweeterWeb.Router do
     get "/subscriptions", SweeterWeb.SearchController, :subser_feed
 
     get "/profile/subscribe/:id", SweeterWeb.ProfileController, :subscribe
+    get "/profile/unsubscribe/:id", SweeterWeb.ProfileController, :unsubscribe
+    get "/profile/block/:id", SweeterWeb.ProfileController, :block
     get "/profile/:id", SweeterWeb.ProfileController, :show_profile
     get "/profile/edit/:id", SweeterWeb.ProfileController, :edit_profile
     put "/profile/update", SweeterWeb.ProfileController, :update_profile
