@@ -10,54 +10,68 @@ defmodule SweeterWeb.ProfileController do
   def show_profile(conn, %{"id" => id}) do
     user = User.get_profile(id)
     authed_user = Pow.Plug.current_user(conn)
-    user_authored = Item.get_all_by_user(String.to_integer(id))
-    subscribe_action = "/profile/subscribe/" <> id
-    unsubscribe_action = "/profile/unsubscribe/" <> id
-    is_subscribed = PublerSubser.is_subscribed(user.id, authed_user.id)
-    is_own_profile = is_own_profile(user.id, authed_user.id)
-    block_action = "/profile/block/" <> id
-    unblock_action = "/profile/unblock/" <> id
-    blocked = Block.is_blocked(user.id, authed_user.id)
-    subscribed_items = PublerSubser.subscription_feed(String.to_integer(id))
-    conn
-    |> render(:show,
-      user: user,
-      user_authored: user_authored,
-      subscribed_items: subscribed_items,
-      is_own_profile: is_own_profile,
-      is_subscribed: is_subscribed,
-      subscribe_action: subscribe_action,
-      unsubscribe_action: unsubscribe_action,
-      block_action: block_action,
-      unblock_action: unblock_action,
-      blocked: blocked)
+
+    if Block.is_blocked(authed_user.id, user.id) == true do
+      conn
+      |> put_flash(:info, "Not available")
+      |> redirect(to: "/items")
+    else
+      user_authored = Item.get_all_by_user(String.to_integer(id))
+      subscribe_action = "/profile/subscribe/" <> id
+      unsubscribe_action = "/profile/unsubscribe/" <> id
+      is_subscribed = PublerSubser.is_subscribed(user.id, authed_user.id)
+      is_own_profile = is_own_profile(user.id, authed_user.id)
+      block_action = "/profile/block/" <> id
+      unblock_action = "/profile/unblock/" <> id
+      blocked = Block.is_blocked(user.id, authed_user.id)
+      subscribed_items = PublerSubser.subscription_feed(String.to_integer(id))
+      conn
+      |> render(:show,
+        user: user,
+        user_authored: user_authored,
+        subscribed_items: subscribed_items,
+        is_own_profile: is_own_profile,
+        is_subscribed: is_subscribed,
+        subscribe_action: subscribe_action,
+        unsubscribe_action: unsubscribe_action,
+        block_action: block_action,
+        unblock_action: unblock_action,
+        blocked: blocked)
+    end
   end
 
   def handle_profile(conn, %{"handle" => handle}) do
     user = User.get_handle_profile(handle)
     authed_user = Pow.Plug.current_user(conn)
-    id = Integer.to_string(user.id)
-    user_authored = Item.get_all_by_user(user.id)
-    subscribe_action = "/profile/subscribe/" <> id
-    unsubscribe_action = "/profile/unsubscribe/" <> id
-    is_subscribed = PublerSubser.is_subscribed(user.id, authed_user.id)
-    is_own_profile = is_own_profile(user.id, authed_user.id)
-    block_action = "/profile/block/" <> id
-    unblock_action = "/profile/unblock/" <> id
-    blocked = Block.is_blocked(user.id, authed_user.id)
-    subscribed_items = PublerSubser.subscription_feed(user.id)
-    conn
-    |> render(:show,
-      user: user,
-      user_authored: user_authored,
-      subscribed_items: subscribed_items,
-      is_own_profile: is_own_profile,
-      is_subscribed: is_subscribed,
-      subscribe_action: subscribe_action,
-      unsubscribe_action: unsubscribe_action,
-      block_action: block_action,
-      unblock_action: unblock_action,
-      blocked: blocked)
+
+    if Block.is_blocked(authed_user.id, user.id) == true do
+      conn
+      |> put_flash(:info, "Not available")
+      |> redirect(to: "/items")
+    else
+      id = Integer.to_string(user.id)
+      user_authored = Item.get_all_by_user(user.id)
+      subscribe_action = "/profile/subscribe/" <> id
+      unsubscribe_action = "/profile/unsubscribe/" <> id
+      is_subscribed = PublerSubser.is_subscribed(user.id, authed_user.id)
+      is_own_profile = is_own_profile(user.id, authed_user.id)
+      block_action = "/profile/block/" <> id
+      unblock_action = "/profile/unblock/" <> id
+      blocked = Block.is_blocked(user.id, authed_user.id)
+      subscribed_items = PublerSubser.subscription_feed(user.id)
+      conn
+      |> render(:show,
+        user: user,
+        user_authored: user_authored,
+        subscribed_items: subscribed_items,
+        is_own_profile: is_own_profile,
+        is_subscribed: is_subscribed,
+        subscribe_action: subscribe_action,
+        unsubscribe_action: unsubscribe_action,
+        block_action: block_action,
+        unblock_action: unblock_action,
+        blocked: blocked)
+    end
   end
 
   defp is_own_profile(user_id, authed_user_id) do
