@@ -10,8 +10,8 @@ defmodule SweeterWeb.PageController do
   def home(conn, _params) do
     case Pow.Plug.current_user(conn) do
       nil ->
-        # Meme is 11
-        items = Search.get_items_by_tag(11)
+        items = Item.get_all()
+        |> Repo.preload(:images)
 
         conn
         |> render(:home, items: items)

@@ -9,6 +9,7 @@ defmodule Sweeter.Content.Item do
   alias Sweeter.Content.ModReview
   alias Sweeter.Content.RestrictedTag
   alias Sweeter.Content.Tag
+  alias Sweeter.Profile.Block
   alias Sweeter.Users.User
 
   schema "items" do
@@ -164,5 +165,9 @@ defmodule Sweeter.Content.Item do
         limit: 300
     )
     |> item_list_struct_converter
+  end
+
+  defp strip_blocks() do
+
   end
 end

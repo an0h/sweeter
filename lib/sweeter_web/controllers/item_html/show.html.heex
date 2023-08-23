@@ -2,6 +2,9 @@
 <%= if @parent != nil do %>
 <div class="parent-post">
     <%= @parent.headline %>
+    <.link href={~p"/items/#{@parent.id}"} >
+    link
+    </.link>
 </div>
 <% end %>
 
@@ -37,7 +40,11 @@
 <div class="item-replies">
 <%= if @replies do %>
   <%= for reply <- @replies do %>
-    <div class="reply"><%= reply.headline %></div>
+    <div class="reply"><%= reply.headline %>
+    <.link href={~p"/items/#{reply.id}"} >
+    link
+    </.link>
+    </div>
   <% end %>
 <% end %>
 </div>

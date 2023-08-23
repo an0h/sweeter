@@ -20,6 +20,11 @@ defmodule Sweeter.Profile.Block do
     |> validate_required([:blocked_id, :blocker_id])
   end
 
+  def get_blocks_for_user(blocker_id) do
+    query = from(b in Block, where: b.blocker_id == ^blocker_id)
+    Repo.all(query)
+  end
+
   def create_block(blocked_id, blocker_id) do
     %Block{}
     |> Block.changeset(%{blocked_id: blocked_id, blocker_id: blocker_id})

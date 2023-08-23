@@ -1,6 +1,7 @@
 defmodule SweeterWeb.SearchController do
   use SweeterWeb, :controller
 
+  alias Sweeter.Repo
   alias Sweeter.Content
   alias Sweeter.Content.Search
   alias Sweeter.Profile.PublerSubser
@@ -65,6 +66,7 @@ defmodule SweeterWeb.SearchController do
   def search_by_term(conn, %{"text" => term}) do
     search_term = "%#{term}%"
     matches = Search.get_all_query_matches(search_term)
+      |> Repo.preload(:images)
     render(conn, :results, items: matches)
   end
 
