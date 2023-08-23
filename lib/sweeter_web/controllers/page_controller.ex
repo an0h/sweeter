@@ -10,7 +10,7 @@ defmodule SweeterWeb.PageController do
   def home(conn, _params) do
     case Pow.Plug.current_user(conn) do
       nil ->
-        items = Item.get_all()
+        items = Item.get_all_logged_out()
         |> Repo.preload(:images)
 
         conn
@@ -27,7 +27,7 @@ defmodule SweeterWeb.PageController do
           |> put_flash(:info, "Update your profile, you really need to set a handle pls")
           |> redirect(to: "/profile/edit/#{user.id}")
         true ->
-          items = Item.get_all()
+          items = Item.get_all_logged_out()
           |> Repo.preload(:images)
 
           conn

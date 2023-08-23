@@ -55,27 +55,27 @@ defmodule Sweeter.Content.Item do
     |> Repo.update()
   end
 
-  def get_all do
+  def get_all_logged_out() do
     Repo.all(
       from i in "items",
         where: i.deleted != true and i.search_suppressed != true and i.parent_id == 0,
         order_by: [desc: :inserted_at],
-        select: [i.id, i.body, i.headline, i.source, i.search_suppressed],
+        select: [i.id, i.body, i.headline, i.source, i.search_suppressed, i.user_id],
         limit: 300
     )
     |> item_list_struct_converter
   end
 
-  def item_list_struct_converter(item_list) do
-    Enum.map(
-      item_list,
-      fn item ->
-        [:id, :body, :headline, :source, :search_suppressed]
-        |> Enum.zip(item)
-        |> Map.new()
-        |> Map.merge(%Item{}, fn _k, i, _empty -> i end)
-      end
+  def get_all_logged_in(user_id) do
+    Repo.all(
+      from i in "items",
+        where: i.deleted != true and i.search_suppressed != true and i.parent_id == 0,
+        order_by: [desc: :inserted_at],
+        select: [i.id, i.body, i.headline, i.source, i.search_suppressed, i.user_id],
+        limit: 300
     )
+    |> item_list_struct_converter
+    |> strip_blocks(user_id)
   end
 
   def create_item(attrs \\ %{}) do
@@ -129,7 +129,7 @@ defmodule Sweeter.Content.Item do
       from i in "items",
         where: i.user_id == ^ui,
         order_by: [desc: :inserted_at],
-        select: [i.id, i.body, i.headline, i.deleted],
+        select: [i.id, i.body, i.headline, i.deleted, i.user_id],
         limit: 300
     )
     |> item_list_struct_converter
@@ -141,7 +141,7 @@ defmodule Sweeter.Content.Item do
       from i in "items",
         where: i.parent_id == ^id,
         order_by: [desc: :inserted_at],
-        select: [i.id, i.body, i.headline, i.deleted],
+        select: [i.id, i.body, i.headline, i.deleted, i.user_id],
         limit: 300
     )
     |> item_list_struct_converter
@@ -161,13 +161,28 @@ defmodule Sweeter.Content.Item do
       from i in "items",
         where: i.featured == true,
         order_by: [desc: :inserted_at],
-        select: [i.id, i.body, i.headline, i.deleted],
+        select: [i.id, i.body, i.headline, i.deleted, i.user_id],
         limit: 300
     )
     |> item_list_struct_converter
   end
 
-  defp strip_blocks() do
+  def item_list_struct_converter(item_list) do
+    Enum.map(
+      item_list,
+      fn item ->
+        [:id, :body, :headline, :source, :search_suppressed, :user_id]
+        |> Enum.zip(item)
+        |> Map.new()
+        |> Map.merge(%Item{}, fn _k, i, _empty -> i end)
+      end
+    )
+  end
 
+  defp strip_blocks(items, user_id) do
+    blocks =  Block.get_blocks_for_user(user_id)
+    Enum.filter(items, fn item ->
+      !Enum.member?(blocks, item.user_id)
+    end)
   end
 end

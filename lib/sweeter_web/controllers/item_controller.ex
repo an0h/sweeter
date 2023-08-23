@@ -13,9 +13,17 @@ defmodule SweeterWeb.ItemController do
   alias Sweeter.CreditDebit
 
   def index(conn, _params) do
-    items = Item.get_all()
-      |> Repo.preload(:images)
-    render(conn, :index, items: items)
+
+    case Pow.Plug.current_user(conn) do
+      nil ->
+        items = Item.get_all_logged_out()
+          |> Repo.preload(:images)
+        render(conn, :index, items: items)
+      user ->
+        items = Item.get_all_logged_in(user.id)
+          |> Repo.preload(:images)
+        render(conn, :index, items: items)
+    end
   end
 
   def new(conn, _params) do

@@ -37,7 +37,7 @@ defmodule SweeterWeb.API.V1.APIController do
     ]
 
   def api_item_list(conn, _) do
-    items = Item.get_all()
+    items = Item.get_all_logged_out()
     render(conn, "items.json", items: items)
   end
 

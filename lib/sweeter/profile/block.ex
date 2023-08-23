@@ -21,7 +21,10 @@ defmodule Sweeter.Profile.Block do
   end
 
   def get_blocks_for_user(blocker_id) do
-    query = from(b in Block, where: b.blocker_id == ^blocker_id)
+    query = from(
+      b in Block,
+      where: b.blocker_id == ^blocker_id,
+      select: b.blocked_id)
     Repo.all(query)
   end
 
