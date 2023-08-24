@@ -46,6 +46,11 @@ defmodule Sweeter.Application do
        [{:disc_copies, [node()]},
          attributes: [:address, :reaction_count, :api_count]
        ])
+    :mnesia.create_table(
+        Handles,
+      [{:disc_copies, [node()]},
+        attributes: [:user_id, :handle]
+      ])
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options

@@ -95,7 +95,7 @@ defmodule Sweeter.Content.Item do
   end
 
   def log_moderator_item_update(submitted, item, moderator_id) do
-    user_handle = User.get_moderator_handle_from_id(moderator_id)
+    user_handle = User.get_handle_from_id(moderator_id)
     ModReview.create_review(%{
       "item_id" => item.id,
       "logentry" => "The #{user_handle} moderated, submitting with TAGS #{submitted["tag_ids"]} REQUIRED_TAGS #{submitted["required_tag_ids"]}.  The source is #{submitted["source"]} and search_suppressed is #{submitted["search_suppressed"]}",
@@ -104,7 +104,7 @@ defmodule Sweeter.Content.Item do
   end
 
   def log_moderator_feature_change(item, moderator_id, feature_status) do
-    user_handle = User.get_moderator_handle_from_id(moderator_id)
+    user_handle = User.get_handle_from_id(moderator_id)
     ModReview.create_review(%{
       "item_id" => item.id,
       "logentry" => "#{user_handle} #{feature_status} this item.",
@@ -139,13 +139,18 @@ defmodule Sweeter.Content.Item do
   def get_replies(id) do
     Repo.all(
       from i in "items",
-        where: i.parent_id == ^id,
+        where: i.parent_id == ^id and i.deleted != true and i.search_suppressed != true,
         order_by: [desc: :inserted_at],
         select: [i.id, i.body, i.headline, i.deleted, i.user_id],
         limit: 300
     )
     |> item_list_struct_converter
     |> Repo.preload(:images)
+  end
+
+  def get_replies_filter_blocks(id, user_id) do
+    get_replies(id)
+    |> strip_blocks(user_id)
   end
 
   def get_parent(item) do

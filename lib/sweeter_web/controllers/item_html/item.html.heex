@@ -7,6 +7,17 @@
 <% end %>
 </div>
 
+<div id="item-contents" class="p-2">
+    <div id="item_headline" class="text-2xl font-bold mb-4">
+    <%= @item.headline %>
+    </div>
+    <div class="author">By: <.link href={~p"/#{@handle}"}><%= @handle %></.link></div>
+    <div id="page_views">Page Views <%= @item_load_count %></div>
+    <%= raw(@item.body) %>
+    <div id="source">Source: <%= @item.source %></div>
+    <div id="timestamp">Published: <%= @item.inserted_at %></div>
+</div>
+
 <div id="restricted_tags" class="w-1/2 p-2">
 <%= if @restricted_tags != [] do  %>
 Restricted Tags:
@@ -22,16 +33,6 @@ Restricted Tags:
 <div class="tag"><%= t %></div>
 <% end %>
 <% end %>
-</div>
-
-<div id="item-contents" class="p-2">
-    <div id="item_headline" class="text-2xl font-bold mb-4">
-    <%= @item.headline %>
-    </div>
-    <div id="page_views">Page Views <%= @item_load_count %></div>
-    <%= raw(@item.body) %>
-    <div id="source">Source: <%= @item.source %></div>
-    <div id="timestamp">Published: <%= @item.inserted_at %></div>
 </div>
 
 

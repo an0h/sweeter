@@ -77,10 +77,11 @@ defmodule SweeterWeb.ItemController do
       unfeature_link = "/item/unfeature/#{id}"
       changeset = Content.change_item(%Item{})
       known_tags = Tag.get_all()
-      replies = Item.get_replies(String.to_integer(id))
       parent = Item.get_parent(item)
+      handle = User.get_handle_from_id(item.id)
       case Pow.Plug.current_user(conn) do
         nil ->
+          replies = Item.get_replies(String.to_integer(id))
           LoadCounts.increment_item_load_count(id)
           conn
           |> render(:show,
@@ -98,8 +99,10 @@ defmodule SweeterWeb.ItemController do
             parent_id: 0,
             moderation_changeset: %Moderation{},
             replies: replies,
-            parent: parent)
+            parent: parent,
+            handle: handle)
         user ->
+          replies = Item.get_replies_filter_blocks(String.to_integer(id), user.id)
           LoadCounts.increment_item_load_count(id, user.id)
           moderation_changeset = Content.change_moderation(%Moderation{},
             %{"item_id" => item.id, "requestor_id" => user.id})
@@ -119,7 +122,8 @@ defmodule SweeterWeb.ItemController do
             parent_id: item.id,
             moderation_changeset: moderation_changeset,
             replies: replies,
-            parent: parent)
+            parent: parent,
+            handle: handle)
       end
     end
   end

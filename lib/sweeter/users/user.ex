@@ -66,12 +66,37 @@ defmodule Sweeter.Users.User do
   end
 
   def get_handle_from_id(id) do
-    user = Repo.get!(User, id)
-    user.handle
+    case read_cache_handle(id) do
+      {:aborted, {:no_exists, Handles}} ->
+        case Repo.get(User, id) do
+          nil ->
+            "anon"
+          user ->
+            handle = get_handle_or_email(user)
+            cache_handle(id, handle)
+            handle
+        end
+
+      handle ->
+        handle
+    end
   end
 
-  def get_moderator_handle_from_id(id) do
-    user = Repo.get!(User, id)
+  defp read_cache_handle(id) do
+    data_to_read = fn ->
+      :mnesia.read({Handles, id})
+    end
+    :mnesia.transaction(data_to_read)
+  end
+
+  defp cache_handle(id, handle) do
+    data_to_write = fn ->
+      :mnesia.write({Handles, id, handle})
+    end
+    :mnesia.transaction(data_to_write)
+  end
+
+  defp get_handle_or_email(user) do
     if user.handle == nil or user.handle == "" do
       user.email
     else
