@@ -15,7 +15,7 @@
     <% else %>
     <div class="author">By: <.link href={~p"/#{@handle}"}><%= @handle %></.link></div>
     <% end %>
-    <div class="item-body"><%= raw(@item.body) %></div>
+    <div class="item-body"><pre><%= raw(@item.body) %></pre></div>
     <div class="source smol">Source: <%= @item.source %></div>
     <div class="page-views smol">Page Views <%= @item_load_count %></div>
     <div class="restricted-tags">

@@ -26,29 +26,14 @@
     <input type="hidden" id="item_id" value={@item.id}>
     <input type="hidden" id="address" value={@address}>
     </div>
-    <%= if @item.search_suppressed == true do %>
-    Search is suppressed, add 👍 and maybe it will be added to search results? (*not implemented)
-    <% end %>
+</div>
+<div class="search-suppressed">
+<%= if @item.search_suppressed == true do %>
+Search is suppressed, add 👍 and maybe it will be added to search results? (*not implemented)
+<% end %>
 </div>
 <%= if @address != "" do %>
-<div class="item-reply-form">
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<.item_reply_form changeset={@changeset} action={~p"/items"} anon={@anon} known_tags={@known_tags} parent_id={@parent_id} />
-</div>
-<% end %>
-<div class="item-replies">
-<%= if @replies do %>
-  <%= for reply <- @replies do %>
-    <div class="reply"><%= reply.headline %>
-    <.link href={~p"/items/#{reply.id}"} >
-    link
-    </.link>
-    </div>
-  <% end %>
-<% end %>
-</div>
-<button class="bg-teal-500 hover:bg-teal-600 text-white font-bold p-6 py-2 px-4 rounded-lg text-lg md:text-xl lg:text-2xl xl:text-3xl" phx-click={show_modal("moderation-modal")}>  moderation </button>
+<div class="moderation-button pt-2 pr-2 "><button class="bg-teal-500 hover:bg-teal-600 text-white font-bold p-6 py-2 px-4 rounded-lg text-lg md:text-xl lg:text-2xl xl:text-3xl" phx-click={show_modal("moderation-modal")}>moderation</button></div>
 <.modal id="moderation-modal">
 <div class="item-moderation">
     <%= if @is_moderator == true do %>
@@ -79,4 +64,19 @@
     <% end %>
 </div>
 </.modal>
+<div class="item-reply-form pt-2">
+<.item_reply_form changeset={@changeset} action={~p"/items"} anon={@anon} known_tags={@known_tags} parent_id={@parent_id} />
+</div>
+<% end %>
+<div class="item-replies">
+<%= if @replies do %>
+  <%= for reply <- @replies do %>
+    <div class="reply"><%= reply.headline %>
+    <.link href={~p"/items/#{reply.id}"} >
+    link
+    </.link>
+    </div>
+  <% end %>
+<% end %>
+</div>
 </div>
