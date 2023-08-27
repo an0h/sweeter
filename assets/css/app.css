@@ -45,6 +45,10 @@ hr {
     flex-wrap: wrap;  
 }
 
+.item-headline {
+    width: 100%;
+}
+
 .item-moderation {
     width: 80%;
     padding-left: 10%;
@@ -67,6 +71,23 @@ hr {
     width: 80%;
     padding-left: 10%;
     padding-right: 10%;
+}
+
+.author, .item_headline, .page_views, .source, .timestamp{
+    padding-bottom: 3%;
+}
+
+.item_body {
+    padding: 3%;
+}
+
+.item-contents {
+    width: 100%;
+}
+
+.translation-button{
+    width: 100%;
+    clear: both;
 }
 
 .reply {

@@ -1,38 +1,39 @@
 <div class="container flex flex-wrap">
-<div class="w-2/2">
 <%= if @item.images do %>
   <%= for image <- @item.images do %>
   <img src={"https://sweetipfs.herokuapp.com/read?ipfscid=#{image.ipfscid}"} />
   <% end %>
 <% end %>
-</div>
 
-<div id="item-contents" class="p-2">
-    <div id="item_headline" class="text-2xl font-bold mb-4">
+<div id="item-contents">
+    <div class="item-headline text-2xl font-bold">
     <%= @item.headline %>
     </div>
+    <%= if @handle == "anon" do %>
+    <div class="author">By: <%= @handle %></div>
+    <div class="timestamp smol">Published: <%= Calendar.strftime(@item.inserted_at, "%y/%m/%d %I:%M") %></div>
+    <% else %>
     <div class="author">By: <.link href={~p"/#{@handle}"}><%= @handle %></.link></div>
-    <div id="page_views">Page Views <%= @item_load_count %></div>
-    <%= raw(@item.body) %>
-    <div id="source">Source: <%= @item.source %></div>
-    <div id="timestamp">Published: <%= @item.inserted_at %></div>
-</div>
-
-<div id="restricted_tags" class="w-1/2 p-2">
-<%= if @restricted_tags != [] do  %>
-Restricted Tags:
-<%= for rt <- @restricted_tags do %>
-  <%= rt %> <br />
-<% end %>
-<% end %>
-</div>
-<div id="tags" class="w-1/2 p-2">
-<%= if @tags != [] do  %>
-<span class="smol">Tagged:</span>
-<%= for t <- @tags do %>
-<div class="tag"><%= t %></div>
-<% end %>
-<% end %>
+    <% end %>
+    <div class="item-body"><%= raw(@item.body) %></div>
+    <div class="source smol">Source: <%= @item.source %></div>
+    <div class="page-views smol">Page Views <%= @item_load_count %></div>
+    <div class="restricted-tags">
+    <%= if @restricted_tags != [] do  %>
+    Restricted Tags:
+    <%= for rt <- @restricted_tags do %>
+      <%= rt %> <br />
+    <% end %>
+    <% end %>
+    </div>
+    <div id="tags" class="w-1/2 p-2">
+    <%= if @tags != [] do  %>
+    <span class="smol">Tagged:</span>
+    <%= for t <- @tags do %>
+    <div class="tag"><%= t %></div>
+    <% end %>
+    <% end %>
+    </div>
 </div>
 
 

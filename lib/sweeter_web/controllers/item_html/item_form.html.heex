@@ -2,7 +2,8 @@
   <.error :if={@changeset.action}>
     Oops, something went wrong! Please check the errors below.
   </.error>
-  <.input field={f[:headline]} type="textarea" label="Tweeeet Headline (char limit 255)" />
+  <.input field={f[:headline]} type="text" label="Headline (char limit 255)" />
+  <.input field={f[:body]} type="textarea" label="Content" />
   <.input field={f[:source]} type="text" label="Source (pls cite as appropriate, ty)" />
   <%= if @anon == True do %>
   <.input field={f[:restricted_tag_ids]} type="hidden" value="1" />
