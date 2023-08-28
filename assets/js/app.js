@@ -82,7 +82,7 @@ if (translate_button) {
         let targetLang = document.getElementById('target_lang').value
         let text = fetchItemText()
         let xhr = new XMLHttpRequest()
-        xhr.open("POST", "https://translate.internetstate.city/translate", true)
+        xhr.open("POST", "https://translate.all4u.city/translate", true)
         xhr.onreadystatechange = function() {
                 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
                     let translation = JSON.parse(xhr.responseText)
