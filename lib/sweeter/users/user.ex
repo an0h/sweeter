@@ -77,6 +77,9 @@ defmodule Sweeter.Users.User do
             handle
         end
 
+      {:atomic, []} ->
+        "anon"
+
       handle ->
         handle
     end
