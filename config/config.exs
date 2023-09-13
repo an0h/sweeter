@@ -13,7 +13,7 @@ config :sweeter,
 # Configures the endpoint
 config :sweeter, SweeterWeb.Endpoint,
   url: [host: "0.0.0.0"],
-  check_origin: ["//0.0.0.0:4000", "//localhost:4000", "//sweeter:4000", "//0.0.0.0", "//localhost", "//sweeter", "//cherry.internetstate.city", "//all4u.city"],
+  check_origin: ["//0.0.0.0:4000", "//localhost:4000", "//sweeter:4000", "//0.0.0.0", "//localhost", "//sweeter", "//cherry.internetstate.city", "//all4u.city", "//internetstate.info"],
   render_errors: [
     formats: [html: SweeterWeb.ErrorHTML, json: SweeterWeb.ErrorJSON],
     layout: false
