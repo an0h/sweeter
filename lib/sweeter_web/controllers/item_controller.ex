@@ -150,11 +150,14 @@ defmodule SweeterWeb.ItemController do
             restricted_tags = RestrictedTag.get_restricted_tag_slugs_for_item(String.to_integer(id))
             tags = Tag.get_tag_slugs_for_item(String.to_integer(id))
             item_load_count = LoadCounts.fetch_item_load_count(id)
-
+            handle = User.get_handle_from_id(item.id)
             changeset = Content.change_item(item)
+
+            IO.puts("this is here")
             conn
             |> render(:moderate,
               item: item,
+              handle: handle,
               restricted_tags: restricted_tags,
               item_load_count: item_load_count,
               tags: tags,

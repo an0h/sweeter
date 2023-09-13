@@ -40,11 +40,11 @@
 <.translation div_id="item-contents" />
 <%= if @address != "" do %>
   <%= for modreview <- @item.modreviews do %>
-  <ul>
-  <li><%= modreview.inserted_at %></li>
-  <li><%= modreview.logentry %></li>
-  <li><%= modreview.note %></li>
-  </ul>
+  Time: <%= Calendar.strftime(modreview.inserted_at, "%y/%m/%d %I:%M") %>
+  <%= modreview.logentry %><br />
+  <%= modreview.note %>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
   <% end %>
 <% end %>
 

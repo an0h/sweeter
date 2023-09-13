@@ -107,6 +107,20 @@ a {
     padding: 3%;
 }
 
+.profile-image-wrapper {
+    border: 1px solid teal;
+    border-radius: 4%;
+    background-color: rgb(226, 248, 248);
+}
+
+.profile-image-contents {
+    padding: 4%;
+}
+
+.feature-wrap {
+    padding-top: 4%;
+}
+
 pre{
     white-space:pre-wrap;
 }

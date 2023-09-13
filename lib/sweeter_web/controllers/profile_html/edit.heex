@@ -2,8 +2,14 @@
   Edit Your Profile
 </.header>
 
+<div class="profile-image-wrapper">
+<div class="profile-image-contents">
+<p>Add your profile image</p>
+<.file_upload />
+</div>
+</div>
+<p>&nbsp;</p>
 <.profile_form changeset={@changeset} action={~p"/profile/update"} />
 
-<.file_upload />
 
 <.back navigate={~p"/items"}>Back to items</.back>

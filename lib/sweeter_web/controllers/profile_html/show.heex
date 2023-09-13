@@ -12,7 +12,10 @@
   <%= else %>
   <form action={@block_action}><.button>Block</.button></form>
   <% end %>
-
+<% else %>
+  <.link href={~p"/profile/edit/#{@user_id}"} class="font-semibold text-brand hover:underline">
+    Edit Profile
+  </.link>
 <% end %>
 
 <%= if @user.profile_pic_cid != nil do %>
