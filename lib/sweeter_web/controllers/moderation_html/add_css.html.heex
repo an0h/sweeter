@@ -1,0 +1,20 @@
+<p>You're a moderator! You can upload css sheets for all profiles to select from.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<div class="cssuploader">
+<form action="http://sweetipfs.herokuapp.com/create" method="post" id="file-form" enctype="multipart/form-data">
+  <input type="file" id="upload" name="upload">
+  <input type="submit" value="attach css" class="phx-submit-loading:opacity-75 rounded-lg bg-zinc-900 hover:bg-zinc-700 py-2 px-3 text-sm font-semibold leading-6 text-white active:text-white/80 ">
+</form>
+</div>
+<.simple_form :let={f} for={@changeset} action={@action}>
+  <.error :if={@changeset.action}>
+    Oops, something went wrong! Please check the errors below.
+  </.error>
+  <.input field={f[:ipfscid]} type="hidden" />
+  <.input field={f[:name]} type="text" label="Name" />
+  <:actions>
+    <.button>Create Style</.button>
+  </:actions>
+</.simple_form>
+

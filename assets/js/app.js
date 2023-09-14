@@ -57,7 +57,6 @@ if (document.getElementById('file-form')) {
         xhr.open("POST", url + "create", true);
         xhr.onreadystatechange = function() {
             if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                console.log("Image uploaded successfully.")
                 let ipfscid = xhr.responseText
                 console.log("The file was upload to ipfscid " + ipfscid)
                 if (document.getElementById('item_ipfscids')) {
@@ -65,6 +64,9 @@ if (document.getElementById('file-form')) {
                 }
                 if (document.getElementById('user_profile_pic_cid')) {
                     document.getElementById('user_profile_pic_cid').value = ipfscid
+                }
+                if (document.getElementById('css_sheet_ipfscid')) {
+                    document.getElementById('css_sheet_ipfscid').value = ipfscid
                 }
                 var image = document.createElement("img");
                 image.setAttribute("src", url + "/read?ipfscid=" + ipfscid);

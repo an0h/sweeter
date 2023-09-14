@@ -98,6 +98,9 @@ defmodule SweeterWeb.Router do
     get "/moderator/create_tag", SweeterWeb.ModerationController, :new_tag
     post "/moderator/create_tag", SweeterWeb.ModerationController, :create_tag
 
+    get "/moderator/create_style", SweeterWeb.ModerationController, :new_css
+    post "/moderator/create_css", SweeterWeb.ModerationController, :create_css
+
     get "/moderator/pending", SweeterWeb.ModerationController, :list_pending_moderations
   end
 

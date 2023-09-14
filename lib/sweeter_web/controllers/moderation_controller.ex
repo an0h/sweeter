@@ -2,6 +2,7 @@ defmodule SweeterWeb.ModerationController do
   use SweeterWeb, :controller
 
   alias Sweeter.Content
+  alias Sweeter.Content.CssSheet
   alias Sweeter.Content.Moderation
   alias Sweeter.Content.Tag
   alias Sweeter.Users.User
@@ -99,6 +100,27 @@ defmodule SweeterWeb.ModerationController do
       user_id ->
         tags = Tag.get_all_submitted_by(user_id)
         render(conn, :list_tags, tags: tags)
+    end
+  end
+
+  def new_css(conn, _params) do
+    changeset = CssSheet.changeset(%CssSheet{},%{})
+    render(conn, :add_css, changeset: changeset, action: "/moderator/create_css")
+  end
+
+  def create_css(conn, params) do
+    case User.get_moderator_id(conn) do
+      false ->
+        conn
+        |> put_flash(:info, "youre not a mod")
+        |> redirect(to: ~p"/items")
+      user_id ->
+        css_sheet = Map.put(params["css_sheet"], "user_id", user_id)
+        IO.inspect css_sheet
+        CssSheet.create_style(css_sheet)
+        conn
+        |> put_flash(:info, "css sheet created")
+        |> redirect(to: ~p"/about_mod")
     end
   end
 end

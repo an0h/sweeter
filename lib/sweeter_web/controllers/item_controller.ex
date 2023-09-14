@@ -153,7 +153,6 @@ defmodule SweeterWeb.ItemController do
             handle = User.get_handle_from_id(item.id)
             changeset = Content.change_item(item)
 
-            IO.puts("this is here")
             conn
             |> render(:moderate,
               item: item,
