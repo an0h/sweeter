@@ -24,6 +24,7 @@ defmodule Sweeter.Users.User do
     field :profile_pic_cid, :string
     field :blurb, :string
     field :location, :string
+    field :css_ipfscid, :string
     has_many :items, Sweeter.Content.Item
 
     timestamps()
@@ -38,7 +39,7 @@ defmodule Sweeter.Users.User do
 
   def profile_changeset(user, attrs) do
     user
-    |> cast(attrs, [:age, :address, :blurb, :handle, :location, :name, :is_admin, :is_moderator, :profile_pic_cid, :timeout_until])
+    |> cast(attrs, [:age, :address, :blurb, :handle, :location, :name, :is_admin, :is_moderator, :profile_pic_cid, :timeout_until, :css_ipfscid])
     |> unique_constraint(:handle)
   end
 

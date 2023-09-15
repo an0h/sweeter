@@ -2,6 +2,7 @@ defmodule SweeterWeb.ProfileController do
   use SweeterWeb, :controller
 
   alias Sweeter.Repo
+  alias Sweeter.Content.CssSheet
   alias Sweeter.Content.Item
   alias Sweeter.Profile.Block
   alias Sweeter.Profile.PublerSubser
@@ -88,8 +89,10 @@ defmodule SweeterWeb.ProfileController do
     if authed_user.id == user_id do
       user = User.get_profile(id)
       changeset = User.change_user(user)
+      cssStyles = CssSheet.list_styles()
+      IO.inspect cssStyles
       conn
-      |> render(:edit, user: user, changeset: changeset)
+      |> render(:edit, user: user, changeset: changeset, cssStyles: cssStyles)
     else
       # @TODO debit a toke
       conn

@@ -7,6 +7,7 @@
   <.input field={f[:handle]} type="text" label="handle" />
   <.input field={f[:blurb]} type="text" label="blurb" />
   <.input field={f[:location]} type="text" label="location" />
+  <.input field={f[:css_ipfscid]} type="select" options={@cssStyles} label="CSS Display Sheet" />
   <.input field={f[:profile_pic_cid]} type="hidden" />
   <:actions>
     <.button>Save Item</.button>

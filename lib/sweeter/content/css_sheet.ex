@@ -17,7 +17,7 @@ defmodule Sweeter.Content.CssSheet do
   @doc false
   def changeset(css_sheet, attrs) do
     css_sheet
-    |> cast(attrs, [:name, :ipfscid,:user_id])
+    |> cast(attrs, [:name, :ipfscid, :user_id])
     |> validate_required([:name, :ipfscid])
   end
 
@@ -27,4 +27,11 @@ defmodule Sweeter.Content.CssSheet do
     |> Repo.insert()
   end
 
+  def list_styles() do
+    Repo.all(
+      from c in "css_sheets",
+        select: {c.name, c.ipfscid},
+        limit: 300
+    )
+  end
 end

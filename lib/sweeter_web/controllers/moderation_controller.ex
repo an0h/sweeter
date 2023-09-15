@@ -116,7 +116,6 @@ defmodule SweeterWeb.ModerationController do
         |> redirect(to: ~p"/items")
       user_id ->
         css_sheet = Map.put(params["css_sheet"], "user_id", user_id)
-        IO.inspect css_sheet
         CssSheet.create_style(css_sheet)
         conn
         |> put_flash(:info, "css sheet created")

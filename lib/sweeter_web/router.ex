@@ -33,6 +33,10 @@ defmodule SweeterWeb.Router do
     plug SweeterWeb.ModeratorPlug
   end
 
+  pipeline :css_customizer do
+    plug SweeterWeb.CssCustomizerPlug
+  end
+
   scope "/", SweeterWeb do
     pipe_through :browser
 
@@ -74,7 +78,6 @@ defmodule SweeterWeb.Router do
     get "/profile/unsubscribe/:id", SweeterWeb.ProfileController, :unsubscribe
     get "/profile/block/:id", SweeterWeb.ProfileController, :block
     get "/profile/unblock/:id", SweeterWeb.ProfileController, :unblock
-    get "/profile/:id", SweeterWeb.ProfileController, :show_profile
     get "/profile/edit/:id", SweeterWeb.ProfileController, :edit_profile
     put "/profile/update", SweeterWeb.ProfileController, :update_profile
 
@@ -105,9 +108,11 @@ defmodule SweeterWeb.Router do
   end
 
   scope "/" do
-    pipe_through [:browser, :protected]
+    pipe_through [:browser, :protected, :css_customizer]
 
     get "/:handle", SweeterWeb.ProfileController, :handle_profile
+
+    get "/profile/:id", SweeterWeb.ProfileController, :show_profile
   end
 
   scope "/api/v1", as: :api_v1 do

@@ -8,6 +8,9 @@
       <%= assigns[:page_title] || "Sweeter" %>
     </.live_title>
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
+    <%= if Map.has_key?(assigns, :css_sheet_path)  do %>
+    <link rel="stylesheet" href={@css_sheet_path} />
+    <% end %>
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
     </script>
     <link href="https://cdn.jsdelivr.net/npm/@tailwindcss/custom-forms@0.2.1/dist/custom-forms.css" rel="stylesheet">
