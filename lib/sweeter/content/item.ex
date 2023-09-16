@@ -79,19 +79,25 @@ defmodule Sweeter.Content.Item do
   end
 
   def create_item(attrs \\ %{}) do
-    {:ok, item} = %Item{}
-      |> Item.changeset(attrs)
-      |> Repo.insert()
-    if attrs["ipfscids"] != nil do
-      Image.create_item_image(item.id, attrs["ipfscids"], attrs["imagealt"])
-    end
-    if attrs["restricted_tag_ids"] != nil do
-      RestrictedTag.restricted_tag_item(item.id, attrs["restricted_tag_ids"])
-    end
-    if attrs["tag_ids"] != nil do
-      Tag.tag_item(item.id, attrs["tag_ids"])
-    end
-    {:ok, item}
+    case  %Item{}
+        |> Item.changeset(attrs)
+        |> Repo.insert() do
+      {:ok, item} ->
+        if attrs["ipfscids"] != nil do
+          Image.create_item_image(item.id, attrs["ipfscids"], attrs["imagealt"])
+        end
+        if attrs["restricted_tag_ids"] != nil do
+          RestrictedTag.restricted_tag_item(item.id, attrs["restricted_tag_ids"])
+        end
+        if attrs["tag_ids"] != nil do
+          Tag.tag_item(item.id, attrs["tag_ids"])
+        end
+        {:ok, item}
+      {:error, %Ecto.Changeset{} = changeset} ->
+        IO.inspect changeset
+        IO.puts "in errror at least now?"
+        {:error, changeset}
+      end
   end
 
   def log_moderator_item_update(submitted, item, moderator_id) do

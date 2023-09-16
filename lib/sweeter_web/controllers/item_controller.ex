@@ -40,20 +40,22 @@ defmodule SweeterWeb.ItemController do
   def create(conn, %{"item" => item_params}) do
     case Pow.Plug.current_user(conn) do
       nil ->
-        write_item(conn, item_params)
+        write_item(conn, item_params, True)
       user ->
-        write_item(conn, item_params |> Map.put("user_id", user.id))
+        write_item(conn, item_params |> Map.put("user_id", user.id), False)
     end
   end
 
-  defp write_item(conn, item_params) do
+  defp write_item(conn, item_params, anon) do
     case Item.create_item(item_params) do
       {:ok, item} ->
         conn
         |> put_flash(:info, "Item created successfully.")
         |> redirect(to: ~p"/items/#{item}")
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :new, changeset: changeset)
+      {:error, changeset} ->
+        IO.puts "arrrgghh"
+        known_tags = Tag.get_all()
+        render(conn, :new, changeset: changeset, known_tags: known_tags, anon: anon, parent_id: 0)
     end
   end
 
