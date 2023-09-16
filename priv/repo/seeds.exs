@@ -12,7 +12,7 @@
 
 alias Sweeter.Content.Tag
 alias Sweeter.Content.RestrictedTag
-
+alias Sweeter.Content.CssSheet
 
 RestrictedTag.create_restricted_tag(%{"label" => "Anonymous", "slug" => "anonymous"})
 RestrictedTag.create_restricted_tag(%{"label" => "Controversial", "slug" => "controversial"})
@@ -32,3 +32,5 @@ Tag.create_tag(%{"label" => "Poem", "slug" => "poem"})
 Tag.create_tag(%{"label" => "Story", "slug" => "story"})
 Tag.create_tag(%{"label" => "Strike", "slug" => "strike"})
 Tag.create_tag(%{"label" => "Thought", "slug" => "thought"})
+
+CssSheet.create_style(%{"name" => "none", "ipfscid" => "0"})
