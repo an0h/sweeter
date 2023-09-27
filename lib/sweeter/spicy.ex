@@ -20,6 +20,8 @@ defmodule Sweeter.Spicy do
             IO.inspect e
             {:error}
         end
+      {:ok, %HTTPoison.Response{status_code: 500, body: _body}} ->
+        {:error}
       {:error, %HTTPoison.Error{} = error} ->
         IO.puts "error"
         IO.inspect error

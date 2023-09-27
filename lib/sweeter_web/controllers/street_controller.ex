@@ -3,11 +3,12 @@ defmodule SweeterWeb.StreetController do
 
   alias Sweeter.Cities
   alias Sweeter.Cities.Street
+  alias Sweeter.Content
   alias Sweeter.Content.Item
   alias Sweeter.Content.Search
 
   def index(conn, _params) do
-    items = Search.get_items_by_tag(11)
+    items = Content.list_items()
     render(conn, :index, items: items)
   end
 
