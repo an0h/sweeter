@@ -34,3 +34,6 @@ Tag.create_tag(%{"label" => "Strike", "slug" => "strike"})
 Tag.create_tag(%{"label" => "Thought", "slug" => "thought"})
 
 CssSheet.create_style(%{"name" => "none", "ipfscid" => "0"})
+CssSheet.create_style(%{"name" => "blue", "ipfscid" => "QmNZ7RMny1aFq69B8cGUwLyzihq1u29mD7dykdef7XF8cW"})
+CssSheet.create_style(%{"name" => "dark", "ipfscid" => "QmNqL42wUWguXF1ocdLHdRHYxzcsG24SM21BVotyBQkGEG"})
+CssSheet.create_style(%{"name" => "green", "ipfscid" => "QmeQsECyXJDtkxo5wjGANgrQxaDirxaLzUXX6hQEpsnxpP"})
