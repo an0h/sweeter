@@ -8,8 +8,8 @@ defmodule SweeterWeb.StreetController do
   alias Sweeter.Content.Search
 
   def index(conn, _params) do
-    items = Content.list_items()
-    render(conn, :index, items: items)
+    streets = Cities.list_streets()
+    render(conn, :index, streets: streets)
   end
 
   def new(conn, _params) do

@@ -1,10 +1,10 @@
 
 
-<.table id="items" rows={@items} row_click={&JS.navigate(~p"/items/#{&1}")}>
-  <:col :let={item} ><%= item.headline %></:col>
-  <:action :let={item}>
+<.table id="streets" rows={@streets} row_click={&JS.navigate(~p"/streets/#{&1}")}>
+  <:col :let={street} ><%= street.search %></:col>
+  <:action :let={street}>
     <div class="sr-only">
-      <.link navigate={~p"/items/#{item}"}>Show</.link>
+      <.link navigate={~p"/streets/#{street}"}>Show</.link>
     </div>
   </:action>
 </.table>
