@@ -1,0 +1,131 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* This file is for your main application CSS */
+
+body {
+    background-color: #303030;
+    color: 	#F5F5F5
+}
+
+.reactions {
+    max-width: 376px;
+}
+
+.reactions ul li{
+    list-style: none;
+    float: left;
+    padding-right: 10px;
+}
+
+.reaction-count {
+    font-size: 8px;
+}
+
+.add-reactions {
+    clear:both;
+    margin-bottom: 5%;
+}
+
+.smol {
+    font-size: smaller;
+}
+
+hr {
+    border: none;
+    height: 5px;
+    /* Set the hr color */
+    color: #333;  /* old IE */
+    background-color: #333;  /* Modern Browsers */
+}
+
+.wrapper {
+    display: flex;
+    flex-wrap: wrap;  
+}
+
+.feature-wrap {
+    display: flex;
+    flex-wrap: wrap;  
+}
+
+.item-headline {
+    width: 100%;
+}
+
+.item-moderation {
+    width: 80%;
+    padding-left: 10%;
+    padding-right: 10%;
+    border-top: 2px dotted teal;
+    border-bottom: 2px dotted teal;
+    padding: 3% 0% 3% 0%;
+}
+
+.parent-post {
+    width: 80%;
+    padding-left: 10%;
+    padding-right: 10%;
+    border-top: 2px dotted teal;
+    border-bottom: 2px dotted teal;
+    padding: 3% 0% 3% 0%;
+}
+
+.item-replies {
+    width: 80%;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.author, .item_headline, .page_views, .source, .timestamp{
+    padding-bottom: 3%;
+}
+
+.item_body {
+    padding: 3%;
+}
+
+.item-contents {
+    width: 100%;
+}
+
+.translation-button{
+    width: 100%;
+    clear: both;
+}
+
+.reply {
+    width: 80%;
+    padding-left: 10%;
+    padding-right: 10%;
+    clear: both;
+}
+
+a {
+    color: teal;
+    font-weight: bold;
+}
+
+.profile-item {
+    border-bottom: 1px solid gray;
+    padding: 3%;
+}
+
+.profile-image-wrapper {
+    border: 1px solid teal;
+    border-radius: 4%;
+    background-color: rgb(226, 248, 248);
+}
+
+.profile-image-contents {
+    padding: 4%;
+}
+
+.feature-wrap {
+    padding-top: 4%;
+}
+
+pre{
+    white-space:pre-wrap;
+}
