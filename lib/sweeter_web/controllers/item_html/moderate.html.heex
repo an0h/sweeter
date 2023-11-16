@@ -62,12 +62,12 @@ moderators can add tags to items
   </:actions>
 </.simple_form>
 <br />
-<h4 class="text-2xl font-bold text-zinc-500">Moderation Requests</h4>
+<h4 class="text-2xl font-bold text-slate-500">Moderation Requests</h4>
 <ul>
   <%= for moderation <- @item.moderations do %>
-  <li class="border-b border-zinc-500">
+  <li class="border-b border-slate-500">
   <input type="checkbox" onClick="associateModeration()" class="form-checkbox text-teal-500 h-5 w-5">
-  <span class="text-zinc-500">Category: <b><%= moderation.category %></b><br />
+  <span class="text-slate-500">Category: <b><%= moderation.category %></b><br />
   Reason: <%= moderation.reason %></span>
   </li>
   <% end %>
