@@ -5,7 +5,7 @@ if your content merits restricted tags and you neglect tagging, you can lose tok
 <div id="selecting-tags" class="w-1/2">
   <form id="select_tags" onsubmit="event.preventDefault()">
   <label class="block text-left">
-    <span class="text-gray-700">Freeform Tags</span>
+    <span class="text-white-700">Freeform Tags</span>
     <select id="tag_select" class="form-multiselect block w-full mt-1" multiple onchange="selectTags()">
     <%= for tag <- @known_tags do %>
       <option value={tag.id}><%= tag.label %></option>

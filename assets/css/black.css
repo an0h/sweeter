@@ -129,3 +129,7 @@ a {
 pre{
     white-space:pre-wrap;
 }
+
+option {
+    background-color: teal;
+}
