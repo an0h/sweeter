@@ -1,13 +1,11 @@
 defmodule SweeterWeb.ReactionComponents do
-  use Phoenix.LiveComponent
+  use Phoenix.Component
 
-  # Include the picmo library in your JavaScript assets
-  def mount(%{root: _root} = _params, _session, socket) do
-    {:ok, socket}
-  end
+  alias Phoenix.LiveView.JS
+  import SweeterWeb.Gettext
 
   # Include the LiveComponent in your heex template
-  def render(assigns) do
+  def reactioncomponent(assigns) do
     ~L"""
     <div>
     the render of reactioncomponents

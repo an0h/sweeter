@@ -93,6 +93,7 @@ defmodule SweeterWeb do
       import Phoenix.HTML
       # Core UI components and translation
       import SweeterWeb.CoreComponents
+      import SweeterWeb.ReactionComponents
       import SweeterWeb.Gettext
 
       # Shortcut for generating JS commands
