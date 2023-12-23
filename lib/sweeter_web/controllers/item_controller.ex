@@ -18,6 +18,7 @@ defmodule SweeterWeb.ItemController do
       nil ->
         items = Item.get_all_logged_out()
           |> Repo.preload(:images)
+          |> Repo.preload(:reactions)
         render(conn, :index, items: items)
       user ->
         items = Item.get_all_logged_in(user.id)

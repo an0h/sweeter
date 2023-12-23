@@ -5,7 +5,21 @@ defmodule SweeterWeb.ReactionComponents do
   import SweeterWeb.Gettext
 
   # Include the LiveComponent in your heex template
-  def reactioncomponent(assigns) do
+  @spec displayreaction(any()) :: Phoenix.LiveView.Rendered.t()
+  def displayreaction(assigns) do
+    ~H"""
+    <div id="your-reaction"></div>
+    <div class="reactions">
+    <ul>
+    <%= for reaction <- @item.reactions do %>
+    <li><%= reaction.emoji %></li>
+    <% end %>
+    </ul>
+    </div>
+    """
+  end
+
+  def displayreactionwithcount(assigns) do
     ~H"""
     <div id="your-reaction"></div>
     <div class="reactions">
@@ -15,6 +29,11 @@ defmodule SweeterWeb.ReactionComponents do
     <% end %>
     </ul>
     </div>
+    """
+  end
+
+  def addreaction(assigns) do
+    ~H"""
     <div class="add-reactions">
     <div id="emoji-trigger">your reactions</div>
     <input type="hidden" id="item_id" value={@item.id}>
