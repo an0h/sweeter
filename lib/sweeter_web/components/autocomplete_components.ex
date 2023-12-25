@@ -1,0 +1,49 @@
+defmodule SweeterWeb.AutocompleteComponents do
+  use Phoenix.Component
+
+  alias Phoenix.LiveView.JS
+  alias Sweeter.Content.Tag
+  import SweeterWeb.Gettext
+
+  @spec autocomplete_bar(any()) :: Phoenix.LiveView.Rendered.t()
+  def autocomplete_bar(assigns) do
+    tags = Tag.find_tags_to_search()
+    ~H"""
+    <form phx-change="suggest" phx-submit="search">
+      <input type="text" name="q" list="matches" placeholder="Search..." />
+      <datalist id="matches">
+        <%= for match <- tags do %>
+          <option value={match.id}><%= match.label %></option>
+        <% end %>
+      </datalist>
+
+    </form>
+    """
+  end
+
+  defp get_tag_suggestions() do
+    tags = Tag.find_tags_to_search()
+    IO.inspect tags
+    tags
+    True
+  end
+
+  def mount(_params, _session, socket) do
+    {:ok, assign(socket, query: nil, result: nil, loading: false, matches: [])}
+  end
+
+  def handle_event("suggest", %{"q" => query}, socket) when byte_size(query) <= 100 do
+    tags = Tag.find_tags_to_search()
+    {:noreply, assign(socket, matches: tags)}
+  end
+
+  def handle_event("search", %{"q" => query}, socket) when byte_size(query) <= 100 do
+    send(self(), {:search, query})
+    {:noreply, assign(socket, query: query, result: "Searching...", loading: true, matches: [])}
+  end
+
+  def handle_info({:search, query}, socket) do
+    # {result, _} = System.cmd("dict", ["#{query}"], stderr_to_stdout: true)
+    {:noreply, assign(socket, loading: false, result: {}, matches: [])}
+  end
+end
