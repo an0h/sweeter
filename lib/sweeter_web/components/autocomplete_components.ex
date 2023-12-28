@@ -21,12 +21,27 @@ defmodule SweeterWeb.AutocompleteComponents do
     <script>
     function populateTags(){
       console.log("populate tags")
-  let selected_id = document.getElementById("tags_list").value;
-  let tags_list = document.getElementById("item_tag_ids").value.split(',')
-  let selected_tag = updateSelectedTagsList(tags_list,selected_id);
-  let new_list = selected_tag.list
-  console.log(new_list)
-  document.getElementById("item_tag_ids").value = new_list.toString()
+      let selected_id = document.getElementById("tags_list").value;
+      let tags_list = document.getElementById("item_tag_ids").value.split(',')
+      let selected_tag = updateSelectedTagsList(tags_list,selected_id);
+      let new_list = selected_tag.list
+      console.log(new_list)
+      displayTags(selected_id)
+      document.getElementById("item_tag_ids").value = new_list.toString()
+    }
+
+    function displayTags(new_list){
+      tagEl = document.getElementById("matches")
+      var options = tagEl.getElementsByTagName('option');
+
+      // Loop through options and access their values and text content
+      for (var i = 1; i < options.length; i++) {
+        var optionValue = options[i].value
+        var optionText = options[i].textContent
+        if (new_list.includes(parseInt(optionValue))) {
+          console.log(optionText)
+        }
+      }
     }
     </script>
     """
