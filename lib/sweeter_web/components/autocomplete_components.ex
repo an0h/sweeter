@@ -10,7 +10,7 @@ defmodule SweeterWeb.AutocompleteComponents do
     tags = Tag.find_tags_to_search()
     ~H"""
     <form phx-change="suggest" phx-submit="search">
-      <input id="tags_list" type="text" name="q" list="matches" onchange="populateTags()" placeholder="Search..." />
+      <input id="tags_list" type="text" name="q" list="matches" onchange="populateTags()" placeholder="Add Tags..." />
       <datalist id="matches">
         <%= for match <- tags do %>
           <option value={match.id}><%= match.label %></option>
@@ -18,6 +18,7 @@ defmodule SweeterWeb.AutocompleteComponents do
       </datalist>
 
     </form>
+    <div id="associated-tags"></div>
     <script>
     function populateTags(){
       console.log("populate tags")
@@ -31,10 +32,13 @@ defmodule SweeterWeb.AutocompleteComponents do
     }
 
     function displayTags(new_list){
-      tagEl = document.getElementById("matches")
-      var options = tagEl.getElementsByTagName('option');
+      let associated = document.getElementById('associated-tags')
+      datalist = document.getElementById("matches")
+      var options = datalist.getElementsByTagName('option')
 
       console.log(new_list)
+
+      document.getElementById('tags_list').value = ''
 
       for (var i = 0; i < options.length; i++) {
         var optionValue = options[i].value
