@@ -34,17 +34,16 @@ defmodule SweeterWeb.AutocompleteComponents do
     function displayTags(new_list){
       let associated = document.getElementById('associated-tags')
       datalist = document.getElementById("matches")
-      var options = datalist.getElementsByTagName('option')
-
-      console.log(new_list)
+      let options = datalist.getElementsByTagName('option')
 
       document.getElementById('tags_list').value = ''
+      associated.innerHTML = '';
 
-      for (var i = 0; i < options.length; i++) {
-        var optionValue = options[i].value
-        var optionText = options[i].textContent
+      for (let i = 0; i < options.length; i++) {
+        let optionValue = options[i].value
+        let optionText = options[i].textContent
         if (new_list.includes(optionValue)) {
-          console.log(optionText)
+          associated.innerHTML += optionText + ', ';
         }
       }
     }
