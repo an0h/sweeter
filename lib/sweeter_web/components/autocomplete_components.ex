@@ -47,9 +47,6 @@ defmodule SweeterWeb.AutocompleteComponents do
         }
       }
     }
-
-      // Attach the event handler to the button click event
-    document.getElementById('matches').addEventListener('touchstart', populateTags);
     </script>
     """
   end
