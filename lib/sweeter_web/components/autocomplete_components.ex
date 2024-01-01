@@ -7,12 +7,12 @@ defmodule SweeterWeb.AutocompleteComponents do
 
   @spec autocomplete_bar(any()) :: Phoenix.LiveView.Rendered.t()
   def autocomplete_bar(assigns) do
-    tags = Tag.find_tags_to_search()
+    assigns = assign(assigns, :tags, Tag.find_tags_to_search())
     ~H"""
     <form phx-change="suggest" phx-submit="search">
       <input id="tags_list" type="text" name="q" list="matches" onchange="populateTags()" placeholder="Add Tags..." />
       <datalist id="matches">
-        <%= for match <- tags do %>
+        <%= for match <- @tags do %>
           <option value={match.id}><%= match.label %></option>
         <% end %>
       </datalist>
@@ -49,13 +49,6 @@ defmodule SweeterWeb.AutocompleteComponents do
     }
     </script>
     """
-  end
-
-  defp get_tag_suggestions() do
-    tags = Tag.find_tags_to_search()
-    IO.inspect tags
-    tags
-    True
   end
 
   def mount(_params, _session, socket) do
