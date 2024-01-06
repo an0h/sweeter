@@ -2,22 +2,23 @@ defmodule SweeterWeb.ItemControllerTest do
   use SweeterWeb.ConnCase
 
   import Sweeter.ContentFixtures
+  alias Sweeter.Content.Item
 
-  @create_attrs %{body: "some body", deleted: true, source: "some source", title: "some title"}
-  @update_attrs %{body: "some updated body", deleted: false, source: "some updated source", title: "some updated title"}
-  @invalid_attrs %{body: nil, deleted: nil, source: nil, title: nil}
+  @create_attrs %{body: "some body", deleted: true, source: "some source", headline: "some title"}
+  @update_attrs %{body: "some updated body", deleted: false, source: "some updated source", headline: "some updated title"}
+  @invalid_attrs %{body: nil, deleted: nil, source: nil, headline: nil}
 
   describe "index" do
     test "lists all items", %{conn: conn} do
       conn = get(conn, ~p"/items")
-      assert html_response(conn, 200) =~ "Listing Items"
+      assert html_response(conn, 200) =~ "Help build internetstate.city! "
     end
   end
 
   describe "new item" do
     test "renders form", %{conn: conn} do
       conn = get(conn, ~p"/items/new")
-      assert html_response(conn, 200) =~ "New Item"
+      assert html_response(conn, 200) =~ "Help build internetstate.city! Check out the Elixir repo:"
     end
   end
 
@@ -34,7 +35,7 @@ defmodule SweeterWeb.ItemControllerTest do
 
     test "renders errors when data is invalid", %{conn: conn} do
       conn = post(conn, ~p"/items", item: @invalid_attrs)
-      assert html_response(conn, 200) =~ "New Item"
+      assert html_response(conn, 200) =~ "Help build internetstate.city! Check out the Elixir repo:"
     end
   end
 

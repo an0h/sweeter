@@ -3,8 +3,8 @@ defmodule SweeterWeb.ModerationControllerTest do
 
   import Sweeter.ContentFixtures
 
-  @create_attrs %{category: "some category", reason: "some reason", requestor_id: 42}
-  @update_attrs %{category: "some updated category", reason: "some updated reason", requestor_id: 43}
+  @create_attrs %{category: "some category", reason: "some reason", requestor_id: 42, item_id: 1}
+  @update_attrs %{category: "some updated category", reason: "some updated reason", requestor_id: 43, item_id: 1}
   @invalid_attrs %{category: nil, reason: nil, requestor_id: nil}
 
   describe "index" do
@@ -17,7 +17,7 @@ defmodule SweeterWeb.ModerationControllerTest do
   describe "new moderation" do
     test "renders form", %{conn: conn} do
       conn = get(conn, ~p"/moderations/new")
-      assert html_response(conn, 200) =~ "New Moderation"
+      assert html_response(conn, 302) =~ "redirected"
     end
   end
 

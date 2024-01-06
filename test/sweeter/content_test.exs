@@ -2,9 +2,9 @@ defmodule Sweeter.ContentTest do
   use Sweeter.DataCase
 
   alias Sweeter.Content
+  alias Sweeter.Content.Item
 
   describe "items" do
-    alias Sweeter.Content.Item
 
     import Sweeter.ContentFixtures
 

@@ -7,7 +7,7 @@ import Config
 # Run `mix help test` for more information.
 config :sweeter, Sweeter.Repo,
   username: "postgres",
-  password: "postgres",
+  password: "c0f33isyummy",
   hostname: "localhost",
   database: "sweeter_test#{System.get_env("MIX_TEST_PARTITION")}",
   pool: Ecto.Adapters.SQL.Sandbox,

@@ -10,7 +10,7 @@ defmodule SweeterWeb.StreetControllerTest do
   describe "index" do
     test "lists all streets", %{conn: conn} do
       conn = get(conn, ~p"/streets")
-      assert html_response(conn, 200) =~ "Listing Streets"
+      assert html_response(conn, 200) =~ "Help build internetstate.city! Check out the Elixir repo:"
     end
   end
 

@@ -14,9 +14,9 @@ defmodule Sweeter.ContentFixtures do
         body: "some body",
         deleted: true,
         source: "some source",
-        title: "some title"
+        headline: "some title"
       })
-      |> Sweeter.Content.create_item()
+      |> Sweeter.Content.Item.create_item()
 
     item
   end
@@ -30,7 +30,8 @@ defmodule Sweeter.ContentFixtures do
       |> Enum.into(%{
         category: "some category",
         reason: "some reason",
-        requestor_id: 42
+        requestor_id: 42,
+        item_id: 1
       })
       |> Sweeter.Content.create_moderation()
 

@@ -3,6 +3,6 @@ defmodule SweeterWeb.PageControllerTest do
 
   test "GET /", %{conn: conn} do
     conn = get(conn, ~p"/")
-    assert html_response(conn, 200) =~ "Peace of mind from prototype to production"
+    assert html_response(conn, 200) =~ "Help build internetstate.city! Check out the Elixir repo:"
   end
 end
