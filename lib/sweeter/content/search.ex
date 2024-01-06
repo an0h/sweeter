@@ -56,6 +56,8 @@ defmodule Sweeter.Content.Search do
       limit: 300
     )
     |> item_list_converter
+    |> Repo.preload(:images)
+    |> Repo.preload(:reactions)
   end
 
   def get_items_by_tag(tag_id) do
@@ -72,6 +74,7 @@ defmodule Sweeter.Content.Search do
     )
     |> item_list_converter
     |> Repo.preload(:images)
+    |> Repo.preload(:reactions)
   end
 
   def get_all_query_matches(query) do

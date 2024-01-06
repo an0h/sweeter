@@ -67,6 +67,7 @@ defmodule SweeterWeb.SearchController do
     search_term = "%#{term}%"
     matches = Search.get_all_query_matches(search_term)
       |> Repo.preload(:images)
+      |> Repo.preload(:reactions)
     render(conn, :results, items: matches)
   end
 
