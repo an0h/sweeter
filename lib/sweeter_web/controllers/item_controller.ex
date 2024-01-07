@@ -23,6 +23,7 @@ defmodule SweeterWeb.ItemController do
       user ->
         items = Item.get_all_logged_in(user.id)
           |> Repo.preload(:images)
+          |> Repo.preload(:reactions)
         render(conn, :index, items: items)
     end
   end
@@ -63,6 +64,7 @@ defmodule SweeterWeb.ItemController do
   def show(conn, %{"id" => id}) do
     item = Content.get_item!(id)
     |> Repo.preload(:images)
+    |> Repo.preload(:reactions)
     |> Repo.preload(:moderations)
     |> Repo.preload(:modreviews)
     if item.deleted == true do

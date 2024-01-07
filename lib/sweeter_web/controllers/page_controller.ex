@@ -30,6 +30,7 @@ defmodule SweeterWeb.PageController do
         true ->
           items = Item.get_all_logged_out()
           |> Repo.preload(:images)
+          |> Repo.preload(:reactions)
 
           conn
           |> render(:home, items: items)
