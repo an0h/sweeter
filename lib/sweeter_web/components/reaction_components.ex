@@ -8,7 +8,6 @@ defmodule SweeterWeb.ReactionComponents do
   @spec displayreaction(any()) :: Phoenix.LiveView.Rendered.t()
   def displayreaction(assigns) do
     ~H"""
-    <div id="your-reaction"></div>
     <div class="reactions">
     <ul>
     <%= for reaction <- @item.reactions do %>
@@ -21,7 +20,6 @@ defmodule SweeterWeb.ReactionComponents do
 
   def displayreactionwithcount(assigns) do
     ~H"""
-    <div id="your-reaction"></div>
     <div class="reactions">
     <ul>
     <%= for reaction <- @item.reactions do %>

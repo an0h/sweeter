@@ -25,13 +25,14 @@ defmodule Sweeter.ContentFixtures do
   Generate a moderation.
   """
   def moderation_fixture(attrs \\ %{}) do
+    item = item_fixture()
     {:ok, moderation} =
       attrs
       |> Enum.into(%{
         category: "some category",
         reason: "some reason",
         requestor_id: 42,
-        item_id: 1
+        item_id: item.id
       })
       |> Sweeter.Content.create_moderation()
 

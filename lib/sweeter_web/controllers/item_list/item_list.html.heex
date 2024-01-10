@@ -1,15 +1,20 @@
 <%= if @items do %>
+  <div class="max-w-2xl mx-auto">
   <%= for item <- @items do %>
-  <div class="profile-item">
-  <.link navigate={~p"/items/#{item}"}>
-  <%= item.headline %>
+  <div class="bg-zinc-800 rounded-lg shadow-md p-6 mb-4 flex items-center">
+  <div class="mr-4">
+  <h3 class="text-xl font-semibold mb-2"><.link navigate={~p"/items/#{item}"}><%= item.headline %></.link></h3>
+  <p class="text-gray-400 text-sm mt-2">Timestamp: <%= Calendar.strftime(item.inserted_at, "%y/%m/%d %I:%M") %></p>
+  </div>
+  <div class="mr-4">
   <%= if item.images do %>
     <%= for image <- item.images do %>
     <img src={"https://sweetipfs.herokuapp.com/read?ipfscid=#{image.ipfscid}"} />
     <% end %>
   <% end %>
-  <.displayreaction item={item} />
-  </.link>
+  </div>
+  <span class="text-3xl"><.displayreaction item={item} /></span>
   </div>
   <% end %>
+  </div>
 <% end %>

@@ -60,7 +60,7 @@ defmodule Sweeter.Content.Item do
       from i in "items",
         where: i.deleted != true and i.search_suppressed != true and i.parent_id == 0,
         order_by: [desc: :inserted_at],
-        select: [i.id, i.body, i.headline, i.source, i.search_suppressed, i.user_id],
+        select: [i.id, i.body, i.headline, i.source, i.search_suppressed, i.user_id, i.inserted_at],
         limit: 300
     )
     |> item_list_struct_converter
@@ -71,7 +71,7 @@ defmodule Sweeter.Content.Item do
       from i in "items",
         where: i.deleted != true and i.search_suppressed != true and i.parent_id == 0,
         order_by: [desc: :inserted_at],
-        select: [i.id, i.body, i.headline, i.source, i.search_suppressed, i.user_id],
+        select: [i.id, i.body, i.headline, i.source, i.search_suppressed, i.user_id, i.inserted_at],
         limit: 300
     )
     |> item_list_struct_converter
@@ -135,7 +135,7 @@ defmodule Sweeter.Content.Item do
       from i in "items",
         where: i.user_id == ^ui,
         order_by: [desc: :inserted_at],
-        select: [i.id, i.body, i.headline, i.deleted, i.user_id],
+        select: [i.id, i.body, i.headline, i.deleted, i.user_id, i.inserted_at],
         limit: 300
     )
     |> item_list_struct_converter
@@ -147,7 +147,7 @@ defmodule Sweeter.Content.Item do
       from i in "items",
         where: i.parent_id == ^id and i.deleted != true and i.search_suppressed != true,
         order_by: [desc: :inserted_at],
-        select: [i.id, i.body, i.headline, i.deleted, i.user_id],
+        select: [i.id, i.body, i.headline, i.deleted, i.user_id, i.inserted_at],
         limit: 300
     )
     |> item_list_struct_converter
@@ -172,7 +172,7 @@ defmodule Sweeter.Content.Item do
       from i in "items",
         where: i.featured == true,
         order_by: [desc: :inserted_at],
-        select: [i.id, i.body, i.headline, i.deleted, i.user_id],
+        select: [i.id, i.body, i.headline, i.deleted, i.user_id, i.inserted_at],
         limit: 300
     )
     |> item_list_struct_converter
@@ -182,7 +182,7 @@ defmodule Sweeter.Content.Item do
     Enum.map(
       item_list,
       fn item ->
-        [:id, :body, :headline, :source, :search_suppressed, :user_id]
+        [:id, :body, :headline, :source, :search_suppressed, :user_id, :inserted_at]
         |> Enum.zip(item)
         |> Map.new()
         |> Map.merge(%Item{}, fn _k, i, _empty -> i end)
