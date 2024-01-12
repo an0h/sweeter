@@ -31,10 +31,11 @@ defmodule Sweeter.Profile.PublerSubser do
       from i in "items",
         where: i.user_id in ^publist,
         order_by: [desc: :inserted_at],
-        select: [i.id, i.body, i.headline, i.deleted]
+        select: [i.id, i.body, i.headline, i.deleted, i.inserted_at]
     )
     |> Item.item_list_struct_converter
     |> Repo.preload(:images)
+    |> Repo.preload(:reactions)
   end
 
   defp publer_id_list(subser_id) do

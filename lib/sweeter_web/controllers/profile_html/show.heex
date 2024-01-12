@@ -12,6 +12,9 @@
   <%= else %>
   <form action={@block_action}><.button>Block</.button></form>
   <% end %>
+
+  <form action={@censor_action}><.button>Censor</.button></form>
+
 <% else %>
   <.link href={~p"/profile/edit/#{@user_id}"} class="font-semibold text-brand hover:underline">
     Edit Profile

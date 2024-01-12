@@ -56,12 +56,27 @@ defmodule Sweeter.Content.Item do
   end
 
   def get_all_logged_out() do
+    page_size = 20
+    page_number = 1
     Repo.all(
       from i in "items",
         where: i.deleted != true and i.search_suppressed != true and i.parent_id == 0,
         order_by: [desc: :inserted_at],
         select: [i.id, i.body, i.headline, i.source, i.search_suppressed, i.user_id, i.inserted_at],
-        limit: 300
+        limit: ^page_size,
+        offset: (^page_number - 1) * ^page_size
+    )
+    |> item_list_struct_converter
+  end
+
+  def get_all_logged_out(page_size, page_number) do
+    Repo.all(
+      from i in "items",
+        where: i.deleted != true and i.search_suppressed != true and i.parent_id == 0,
+        order_by: [desc: :inserted_at],
+        select: [i.id, i.body, i.headline, i.source, i.search_suppressed, i.user_id, i.inserted_at],
+        limit: ^page_size,
+        offset: (^page_number - 1) * ^page_size
     )
     |> item_list_struct_converter
   end
@@ -140,6 +155,7 @@ defmodule Sweeter.Content.Item do
     )
     |> item_list_struct_converter
     |> Repo.preload(:images)
+    |> Repo.preload(:reactions)
   end
 
   def get_replies(id) do
