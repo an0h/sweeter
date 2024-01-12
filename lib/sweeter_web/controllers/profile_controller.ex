@@ -206,4 +206,23 @@ defmodule SweeterWeb.ProfileController do
         end
     end
   end
+
+  def censor(conn, %{"id" => id}) do
+    case Pow.Plug.current_user(conn) do
+      nil ->
+        conn
+        |> put_flash(:info, "Login")
+        |> redirect(to: "/items")
+      user ->
+        if user.id == id do
+          conn
+          |> put_flash(:info, "no block")
+          |> redirect(to: "/profile/#{id}")
+        else
+          handle = User.get_handle_from_id(id)
+          conn
+          |> render(:censored, handle: handle)
+        end
+    end
+  end
 end
