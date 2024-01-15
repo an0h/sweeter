@@ -84,6 +84,43 @@ defmodule Sweeter.Spicy do
     Poison.decode!(response.body)
   end
 
+  def take_spicy_token(address, value) do
+    IO.puts "in take token"
+    headers = [
+      {"accept", "application/json"},
+      {"Content-Type", "application/json"}
+    ]
+
+    # Assuming 'from_address' is the address from which you're sending tokens
+    # and 'your_password' is the password for the 'from_address' account.
+    from_address = "cosmos_sender_address"
+    your_password = "your_password"
+
+    body = %{
+      "base_req" => %{
+        "from" => from_address,
+        "chain_id" => "your_chain_id",
+        "gas" => "auto",
+        "gas_adjustment" => "1.2",
+        "gas_prices" => [%{"denom" => "token", "amount" => "0.025"}]
+      },
+      "amount" => [%{"denom" => "token", "amount" => value}],
+      "from_address" => from_address,
+      "to_address" => address
+    }
+
+    cosmos1317 = fetchSpicy1317()
+    api_service = fetchSpicy1317()
+    url = "#{api_service}/cosmos/bank/v1beta1/balances/#{address}"
+    # Replace 'localhost:1317' with the address of your Cosmos full node
+    url = "#{cosmos1317}/cosmos/bank/accounts/#{from_address}/transfers"
+
+    response = HTTPoison.post!(url, Poison.encode!(body), headers)
+
+    IO.inspect response
+    Poison.decode!(response.body)
+  end
+
   defp buildurl(email, mnemonic) do
     spicy_service = fetchSpicy5555()
     if mnemonic == nil or mnemonic == "" do
