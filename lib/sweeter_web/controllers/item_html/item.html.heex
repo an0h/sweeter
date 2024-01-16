@@ -34,10 +34,7 @@
     <% end %>
     <% end %>
     </div>
-</div>
 
-
-<.translation div_id="item-contents" />
 <%= if @address != "" do %>
   <%= for modreview <- @item.modreviews do %>
   Time: <%= Calendar.strftime(modreview.inserted_at, "%y/%m/%d %I:%M") %>
@@ -47,5 +44,7 @@
   <p>&nbsp;</p>
   <% end %>
 <% end %>
+</div>
 
+<.translation div_id="item-contents" />
 </div>
