@@ -136,12 +136,5 @@ option {
 }
 
 input[list="matches"] {
-    width: 12em;
-    border: none;
-    background: #eee;
-}
-select {
-    width: 12em;
-    margin: 0;
-    margin-left: -12.75em;
+    color: #333;
 }

@@ -134,6 +134,8 @@ defmodule SweeterWeb.ItemController do
   end
 
   def moderate_item(conn, %{"id" => id}) do
+    feature_link = "/item/feature/#{id}"
+    unfeature_link = "/item/unfeature/#{id}"
     case Pow.Plug.current_user(conn) do
       nil ->
         conn
@@ -166,6 +168,8 @@ defmodule SweeterWeb.ItemController do
               item_load_count: item_load_count,
               tags: tags,
               address: user.address,
+              feature_link: feature_link,
+              unfeature_link: unfeature_link,
               action: "/moderate_item/#{id}",
               changeset: changeset)
           else
@@ -213,7 +217,7 @@ defmodule SweeterWeb.ItemController do
         Item.log_moderator_feature_change(item, user.id, "featured")
         conn
         |> put_flash(:info, "Featured successfully.")
-        |> redirect(to: "/items/#{id}")
+        |> redirect(to: "/moderate_item/#{id}")
     end
   end
 
@@ -230,7 +234,7 @@ defmodule SweeterWeb.ItemController do
         Item.log_moderator_feature_change(item, user.id, "unfeatured")
         conn
         |> put_flash(:info, "Unfeatured, removed successfully.")
-        |> redirect(to: "/items/#{id}")
+        |> redirect(to: "/moderate_item/#{id}")
     end
   end
 

@@ -1,3 +1,4 @@
+ <div class="max-w-2xl mx-auto">
 <div class="wrapper">
 <%= if @parent != nil do %>
 <div class="parent-post">
@@ -7,7 +8,8 @@
     </.link>
 </div>
 <% end %>
-
+<div class="bg-zinc-800 text-white rounded-lg shadow-md p-6 mb-4">
+        
 <div class="item-wrapper lg:w-2/3 md:w-full">
     <.item item={@item} restricted_tags={@restricted_tags} tags={@tags} item_load_count={@item_load_count} address={@address} handle={@handle} />
 </div>
@@ -27,10 +29,6 @@ Search is suppressed, add 👍 and maybe it will be added to search results? (*n
 <.modal id="moderation-modal">
 <div class="item-moderation">
     <%= if @is_moderator == true do %>
-
-    <.link href={~p"/moderate_item/#{@item.id}"} class="font-semibold text-brand hover:underline">
-        Moderate Item
-    </.link>
     <div class="feature-wrap">
     <div class="lg:w-1/3 md:w-full">
         <%= if @item.featured == true do %>
@@ -46,7 +44,10 @@ Search is suppressed, add 👍 and maybe it will be added to search results? (*n
     <div class="lg:w-2/3 md:w-full">
     As a moderator, you can promote content by featuring it.<br />
     Likewise you can unfeature items.<br />
-    This action generates a logline.
+    This action generates a logline.<br />
+    <.link href={~p"/moderate_item/#{@item.id}"} class="font-semibold text-brand hover:underline">
+    More Item Moderation
+    </.link>
     </div>
     </div>
     <% end %>
@@ -72,5 +73,7 @@ Search is suppressed, add 👍 and maybe it will be added to search results? (*n
     </div>
   <% end %>
 <% end %>
+</div>
+</div>
 </div>
 </div>

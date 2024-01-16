@@ -39,14 +39,24 @@ moderators can add tags to items
 </div>
 -->
 
+<div>
 <.simple_form :let={f} for={@changeset} action={@action}>
   <.error :if={@changeset.action}>
     Oops, something went wrong! Please check the errors below.
   </.error>
   <!-- using this field is a terrible hack, because it is actually the item's body but, shrug -->
   <.input field={f[:body]} value="" type="textarea" label="Moderation Action Notes and Reasoning" />
-  As a moderator, you can update the item source and the search supressed status for items you are moderating.
-  A log with your actions and handle (or email if you didnt set a handle) is displayed to logged in users.
+  As a moderator, you can update the item <b>source</b> and the <b>search supressed</b> and <b>featured</b> status for items you are moderating.
+  A log with your actions and handle (or email if you didnt set a handle) is displayed to logged in users.<br />  
+  <%= if @item.featured == true do %>
+  <a href={@unfeature_link} class="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded">
+  Remove from Featured
+  </a>
+  <%= else  %>
+  <a href={@feature_link} class="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded">
+  Feature
+  </a>
+  <% end %>
   <.input field={f[:source]} type="text" label="Source" />
   <.input field={f[:search_suppressed]} label="Search Suppressed?" type="select" options={
         [
@@ -61,6 +71,7 @@ moderators can add tags to items
     <.button>Save Item</.button>
   </:actions>
 </.simple_form>
+</div>
 <br />
 <h4 class="text-2xl font-bold text-slate-500">Moderation Requests</h4>
 <ul>
