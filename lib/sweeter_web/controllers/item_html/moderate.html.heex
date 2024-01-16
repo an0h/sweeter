@@ -1,6 +1,8 @@
-<.item item={@item} restricted_tags={@restricted_tags} tags={@tags} item_load_count={@item_load_count} address={@address} handle={@handle} />
-<hr />
 <h1 class="text-3xl font-bold text-teal-500">Moderator Zone</h1>
+<hr />
+
+<.item item={@item} restricted_tags={@restricted_tags} tags={@tags} item_load_count={@item_load_count} address={@address} handle={@handle} />
+
 <%= if @item.search_suppressed == true do %>
 Search is currently suppressed
 <% end %>
@@ -46,24 +48,24 @@ moderators can add tags to items
   </.error>
   <!-- using this field is a terrible hack, because it is actually the item's body but, shrug -->
   <.input field={f[:body]} value="" type="textarea" label="Moderation Action Notes and Reasoning" />
-  As a moderator, you can update the item <b>source</b> and the <b>search supressed</b> and <b>featured</b> status for items you are moderating.
-  A log with your actions and handle (or email if you didnt set a handle) is displayed to logged in users.<br />  
+  <p> As a moderator, you can update the item <b>source</b> and the <b>search supressed</b> and <b>featured</b> status for items you are moderating.
+  A log with your actions and handle (or email if you didnt set a handle) is displayed to logged in users. </p><br /> 
   <%= if @item.featured == true do %>
   <a href={@unfeature_link} class="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded">
   Remove from Featured
-  </a>
+  </a><br /><br />
   <%= else  %>
   <a href={@feature_link} class="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded">
   Feature
   </a>
   <% end %>
-  <.input field={f[:source]} type="text" label="Source" />
   <.input field={f[:search_suppressed]} label="Search Suppressed?" type="select" options={
         [
           {true, true},
           {false, false}
         ]
       }  />
+  <.input field={f[:source]} type="text" label="Source" />
   <.input field={f[:moderation_ids]} type="hidden" value="modriddd" />
   <.input field={f[:restricted_tag_ids]} type="hidden" value={Enum.join(@restricted_tags, ",")} />
   <.input field={f[:tag_ids]} type="hidden" value={Enum.join(@tags, ",")} />
