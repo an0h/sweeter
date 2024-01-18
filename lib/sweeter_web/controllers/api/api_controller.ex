@@ -97,6 +97,7 @@ defmodule SweeterWeb.API.V1.APIController do
         "imagealt" => "",
         "format" => "",
         "source" => "api",
+        "parent_id" => 0,
         "ipfscids" => ipfscid,
         "user_id" => user_id,
         "tag_ids" => tag_ids,
