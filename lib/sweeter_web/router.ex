@@ -49,6 +49,7 @@ defmodule SweeterWeb.Router do
     get "/plans", PageController, :plans
     get "/privacy", PageController, :privacy
 
+    get "/items/page/:page", ItemController, :paginating
     resources "/items", ItemController
     resources "/searches", SearchController
     resources "/streets", StreetController

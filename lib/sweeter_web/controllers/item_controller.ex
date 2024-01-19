@@ -28,6 +28,21 @@ defmodule SweeterWeb.ItemController do
     end
   end
 
+  def paginating(conn, %{"page" => page}) do
+    case Pow.Plug.current_user(conn) do
+      nil ->
+        items = Item.get_all_logged_out(20, page)
+          |> Repo.preload(:images)
+          |> Repo.preload(:reactions)
+        render(conn, :index, items: items)
+      user ->
+        items = Item.get_all_logged_in(user.id)
+          |> Repo.preload(:images)
+          |> Repo.preload(:reactions)
+        render(conn, :index, items: items)
+    end
+  end
+
   def new(conn, _params) do
     changeset = Content.change_item(%Item{})
     known_tags = Tag.get_all()
