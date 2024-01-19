@@ -5,6 +5,7 @@
       <.button>New Item</.button>
     </.link>
   </:actions>
+<.link navigate={~p"/items/page/#{@prev}"}>prev</.link>  <.link navigate={~p"/items/page/#{@next}"}>next</.link>
 </.header>
 
-<.item_list items={@items} />
+<.item_list items={@items} page={@page} prev={@prev} next={@next} />

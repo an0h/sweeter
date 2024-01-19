@@ -56,7 +56,7 @@ defmodule Sweeter.Content.Item do
   end
 
   def get_all_logged_out() do
-    page_size = 20
+    page_size = 100
     page_number = 1
     Repo.all(
       from i in "items",

@@ -16,10 +16,12 @@ defmodule SweeterWeb.ItemController do
 
     case Pow.Plug.current_user(conn) do
       nil ->
-        items = Item.get_all_logged_out()
+        next = 2
+        prev = 0
+        items = Item.get_all_logged_out(50, 1)
           |> Repo.preload(:images)
           |> Repo.preload(:reactions)
-        render(conn, :index, items: items)
+        render(conn, :index, items: items, page: 1, next: next, prev: prev)
       user ->
         items = Item.get_all_logged_in(user.id)
           |> Repo.preload(:images)
@@ -31,10 +33,15 @@ defmodule SweeterWeb.ItemController do
   def paginating(conn, %{"page" => page}) do
     case Pow.Plug.current_user(conn) do
       nil ->
-        items = Item.get_all_logged_out(20, page)
+        {page_int, _} = Integer.parse(page)
+        next = page_int + 1
+        prev = page_int - 1
+IO.puts prev
+IO.puts "prev"
+        items = Item.get_all_logged_out(50, page)
           |> Repo.preload(:images)
           |> Repo.preload(:reactions)
-        render(conn, :index, items: items)
+        render(conn, :index, items: items, page: page, next: next, prev: prev)
       user ->
         items = Item.get_all_logged_in(user.id)
           |> Repo.preload(:images)
