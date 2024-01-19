@@ -8,14 +8,14 @@ defmodule SweeterWeb.PageController do
   alias Sweeter.Users.User
 
   def home(conn, _params) do
+    next = 2
+    prev = 0
     case Pow.Plug.current_user(conn) do
       nil ->
-        items = Item.get_all_logged_out()
-        |> Repo.preload(:images)
-        |> Repo.preload(:reactions)
-
-        conn
-        |> render(:home, items: items)
+        items = Item.get_all_logged_out(50, "1")
+          |> Repo.preload(:images)
+          |> Repo.preload(:reactions)
+        render(conn, :home, items: items, page: 1, next: next, prev: prev)
       user ->
         profile = User.get_profile(user.id)
         cond do
@@ -28,12 +28,12 @@ defmodule SweeterWeb.PageController do
           |> put_flash(:info, "Update your profile, you really need to set a handle pls")
           |> redirect(to: "/profile/edit/#{user.id}")
         true ->
-          items = Item.get_all_logged_out()
+          items = Item.get_all_logged_out(50, "1")
           |> Repo.preload(:images)
           |> Repo.preload(:reactions)
 
           conn
-          |> render(:home, items: items)
+          |> render(conn, :home, items: items, page: 1, next: next, prev: prev)
         end
     end
   end

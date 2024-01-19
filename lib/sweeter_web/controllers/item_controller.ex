@@ -13,11 +13,10 @@ defmodule SweeterWeb.ItemController do
   alias Sweeter.CreditDebit
 
   def index(conn, _params) do
-
+    next = 2
+    prev = 0
     case Pow.Plug.current_user(conn) do
       nil ->
-        next = 2
-        prev = 0
         items = Item.get_all_logged_out(50, 1)
           |> Repo.preload(:images)
           |> Repo.preload(:reactions)
@@ -26,18 +25,16 @@ defmodule SweeterWeb.ItemController do
         items = Item.get_all_logged_in(user.id)
           |> Repo.preload(:images)
           |> Repo.preload(:reactions)
-        render(conn, :index, items: items)
+        render(conn, :index, items: items, page: 1, next: next, prev: prev)
     end
   end
 
   def paginating(conn, %{"page" => page}) do
+    {page_int, _} = Integer.parse(page)
+    next = page_int + 1
+    prev = page_int - 1
     case Pow.Plug.current_user(conn) do
       nil ->
-        {page_int, _} = Integer.parse(page)
-        next = page_int + 1
-        prev = page_int - 1
-IO.puts prev
-IO.puts "prev"
         items = Item.get_all_logged_out(50, page)
           |> Repo.preload(:images)
           |> Repo.preload(:reactions)
@@ -46,7 +43,7 @@ IO.puts "prev"
         items = Item.get_all_logged_in(user.id)
           |> Repo.preload(:images)
           |> Repo.preload(:reactions)
-        render(conn, :index, items: items)
+          render(conn, :index, items: items, page: page, next: next, prev: prev)
     end
   end
 

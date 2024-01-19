@@ -18,4 +18,7 @@
   <% end %>
   </div>
 <% end %>
-<.link navigate={~p"/items/page/#{@prev}"}>prev</.link>  <.link navigate={~p"/items/page/#{@next}"}>next</.link>
+<%= if @prev != 0 do %>
+<.link navigate={~p"/items/page/#{@prev}"}>prev</.link>
+<% end %>
+  <.link navigate={~p"/items/page/#{@next}"}>next</.link>
