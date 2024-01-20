@@ -64,23 +64,27 @@ defmodule SweeterWeb.SearchController do
   end
 
   def search_by_term(conn, %{"text" => term}) do
+    next = 2
+    prev = 0
     search_term = "%#{term}%"
     matches = Search.get_all_query_matches(search_term)
       |> Repo.preload(:images)
       |> Repo.preload(:reactions)
-    render(conn, :results, items: matches)
+    render(conn, :results, items: matches, page: 1, next: next, prev: prev)
   end
 
   def search_by_tag(conn, params) do
+    next = 2
+    prev = 0
     tag = params["tag_slug"]
     if tag != nil do
       [rtids] = Enum.filter(Search.restricted_tag_ids(),
         fn {_k, value} -> value == tag end)
         |> Enum.map(fn {key, _v} -> key end)
       items = Search.get_items_by_restricted_tag(rtids)
-      render(conn, :results, items: items)
+      render(conn, :results, items: items, page: 1, next: next, prev: prev)
     else
-      render(conn, :results, items: [])
+      render(conn, :results, items: [], page: 1, next: next, prev: prev)
     end
   end
 
