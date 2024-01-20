@@ -17,7 +17,7 @@ defmodule SweeterWeb.ItemController do
     prev = 0
     case Pow.Plug.current_user(conn) do
       nil ->
-        items = Item.get_all_logged_out(50, 1)
+        items = Item.get_all_logged_out(50, "1")
           |> Repo.preload(:images)
           |> Repo.preload(:reactions)
         render(conn, :index, items: items, page: 1, next: next, prev: prev)
