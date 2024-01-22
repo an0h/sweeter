@@ -11,4 +11,9 @@
   <.link navigate={~p"/items/page/#{@next}"}>next</.link>
 </.header>
 
-<.item_list items={@items} page={@page} prev={@prev} next={@next} />
+<.item_list items={@items} />
+
+<%= if @prev != 0 do %>
+<.link navigate={~p"/items/page/#{@prev}"}>prev</.link>
+<% end %>
+  <.link navigate={~p"/items/page/#{@next}"}>next</.link>

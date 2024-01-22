@@ -166,9 +166,9 @@ defmodule Sweeter.Content.Item do
   def get_all_by_user(ui) do
     Repo.all(
       from i in "items",
-        where: i.user_id == ^ui,
+        where: i.deleted != true and i.search_suppressed != true and i.user_id == ^ui,
         order_by: [desc: :inserted_at],
-        select: [i.id, i.body, i.headline, i.deleted, i.user_id, i.inserted_at],
+        select: [i.id, i.body, i.headline, i.source, i.search_suppressed, i.user_id, i.inserted_at],
         limit: 300
     )
     |> item_list_struct_converter

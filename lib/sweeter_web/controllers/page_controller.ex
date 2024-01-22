@@ -28,12 +28,11 @@ defmodule SweeterWeb.PageController do
           |> put_flash(:info, "Update your profile, you really need to set a handle pls")
           |> redirect(to: "/profile/edit/#{user.id}")
         true ->
-          items = Item.get_all_logged_out(50, "1")
+          items = Item.get_all_logged_in(user.id)
           |> Repo.preload(:images)
           |> Repo.preload(:reactions)
 
-          conn
-          |> render(conn, :home, items: items, page: 1, next: next, prev: prev)
+          render(conn, :home, items: items, page: 1, next: next, prev: prev)
         end
     end
   end

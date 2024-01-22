@@ -36,6 +36,8 @@ defmodule SweeterWeb.ProfileController do
 
   defp serve_profile(conn, id, user, authed_user) do
     user_authored = Item.get_all_by_user(String.to_integer(id))
+
+    IO.inspect user_authored
     subscribe_action = "/profile/subscribe/" <> id
     unsubscribe_action = "/profile/unsubscribe/" <> id
     is_subscribed = PublerSubser.is_subscribed(user.id, authed_user.id)

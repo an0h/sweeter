@@ -1,4 +1,4 @@
-<%= if @items do %>
+<%= if @items != [] do %>
   <div class="max-w-2xl mx-auto">
   <%= for item <- @items do %>
   <div class="bg-zinc-800 rounded-lg shadow-md p-6 mb-4 flex items-center">
@@ -18,7 +18,3 @@
   <% end %>
   </div>
 <% end %>
-<%= if @prev != 0 do %>
-<.link navigate={~p"/items/page/#{@prev}"}>prev</.link>
-<% end %>
-  <.link navigate={~p"/items/page/#{@next}"}>next</.link>

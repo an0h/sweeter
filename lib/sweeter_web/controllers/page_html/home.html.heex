@@ -7,7 +7,11 @@
 <p>&nbsp;</p>
 <h3 class="text-lg font-semibold leading-8">Tweeeets</h3>
 <div class="mx-auto max-w-xl lg:mx-0">
-  <.item_list items={@items} page={@page} prev={@prev} next={@next} />
+  <.item_list items={@items} />
+<%= if @prev != 0 do %>
+<.link navigate={~p"/items/page/#{@prev}"}>prev</.link>
+<% end %>
+  <.link navigate={~p"/items/page/#{@next}"}>next</.link>
   </div>
 </div>
 <div class="mx-auto max-w-xl lg:mx-0">
