@@ -67,7 +67,8 @@ config :sweeter, :pow,
   repo: Sweeter.Repo,
   extensions: [PowResetPassword, PowEmailConfirmation],
   controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks,
-  cache_store_backend: Pow.Store.Backend.MnesiaCache
+  cache_store_backend: Pow.Store.Backend.MnesiaCache,
+  session_ttl: 60 * 60 * 24
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
