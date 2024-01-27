@@ -81,7 +81,9 @@ defmodule SweeterWeb.SearchController do
       [rtids] = Enum.filter(Search.restricted_tag_ids(),
         fn {_k, value} -> value == tag end)
         |> Enum.map(fn {key, _v} -> key end)
-      items = Search.get_items_by_restricted_tag(rtids)
+      rt_items = Search.get_items_by_restricted_tag(rtids)
+      tag_items = Search.get_items_by_tag(tag)
+      items = rt_items ++ tag_items
       render(conn, :results, items: items, page: 1, next: next, prev: prev)
     else
       render(conn, :results, items: [], page: 1, next: next, prev: prev)
