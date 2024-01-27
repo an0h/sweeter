@@ -70,7 +70,7 @@ defmodule Sweeter.Users.User do
 
   def get_handle_profile(handle) do
     try do
-      Repo.get_by!(User, handle: handle)
+        Repo.get_by!(User, handle: handle)
     rescue
       _ ->
         nil

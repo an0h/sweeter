@@ -40,7 +40,7 @@ defmodule SweeterWeb.ProfileController do
           |> put_flash(:info, "Not available")
           |> redirect(to: "/items")
         else
-          serve_profile(conn, user.id, user, authed_user)
+          serve_profile(conn, Integer.to_string(user.id), user, authed_user)
         end
     end
   end
