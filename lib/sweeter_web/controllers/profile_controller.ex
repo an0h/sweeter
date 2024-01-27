@@ -10,28 +10,38 @@ defmodule SweeterWeb.ProfileController do
   alias Sweeter.Censor.Records
 
   def show_profile(conn, %{"id" => id}) do
-    user = User.get_profile(id)
-    authed_user = Pow.Plug.current_user(conn)
-
-    if Block.is_blocked(authed_user.id, user.id) == true do
-      conn
-      |> put_flash(:info, "Not available")
-      |> redirect(to: "/items")
-    else
-      serve_profile(conn, id, user, authed_user)
+    case User.get_profile(id) do
+      nil ->
+        conn
+        |> put_flash(:error, "User not found")
+        |> redirect(to: "/items")
+      user ->
+        authed_user = Pow.Plug.current_user(conn)
+        if Block.is_blocked(authed_user.id, user.id) == true do
+          conn
+          |> put_flash(:info, "Not available")
+          |> redirect(to: "/items")
+        else
+          serve_profile(conn, id, user, authed_user)
+        end
     end
   end
 
   def handle_profile(conn, %{"handle" => handle}) do
-    user = User.get_handle_profile(handle)
-    authed_user = Pow.Plug.current_user(conn)
-
-    if Block.is_blocked(authed_user.id, user.id) == true do
-      conn
-      |> put_flash(:info, "Not available")
-      |> redirect(to: "/items")
-    else
-      serve_profile(conn, user.id, user, authed_user)
+    case User.get_handle_profile(handle) do
+      nil ->
+        conn
+        |> put_flash(:error, "User not found")
+        |> redirect(to: "/items")
+      user ->
+        authed_user = Pow.Plug.current_user(conn)
+        if Block.is_blocked(authed_user.id, user.id) == true do
+          conn
+          |> put_flash(:info, "Not available")
+          |> redirect(to: "/items")
+        else
+          serve_profile(conn, user.id, user, authed_user)
+        end
     end
   end
 

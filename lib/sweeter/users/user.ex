@@ -60,11 +60,21 @@ defmodule Sweeter.Users.User do
   end
 
   def get_profile(id) do
-    Repo.get!(User, id)
+    try do
+      Repo.get!(User, id)
+    rescue
+      _ ->
+        nil
+    end
   end
 
   def get_handle_profile(handle) do
-    Repo.get_by!(User, handle: handle)
+    try do
+      Repo.get_by!(User, handle: handle)
+    rescue
+      _ ->
+        nil
+    end
   end
 
   def get_handle_from_id(id) do
