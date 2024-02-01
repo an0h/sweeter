@@ -22,6 +22,7 @@ RestrictedTag.create_restricted_tag(%{"label" => "Violent", "slug" => "violent"}
 
 Tag.create_tag(%{"label" => "Anecdote", "slug" => "anecdote"})
 Tag.create_tag(%{"label" => "Argument", "slug" => "argument"})
+Tag.create_tag(%{"label" => "Automated", "slug" => "automated"})
 Tag.create_tag(%{"label" => "Documentation", "slug" => "documentation"})
 Tag.create_tag(%{"label" => "Image", "slug" => "image"})
 Tag.create_tag(%{"label" => "Information", "slug" => "information"})
