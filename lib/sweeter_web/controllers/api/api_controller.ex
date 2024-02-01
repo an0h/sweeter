@@ -87,7 +87,8 @@ defmodule SweeterWeb.API.V1.APIController do
     if attrs["media"] do
       associate_links(attrs["media"])
     end
-    tag_ids = Tag.get_tag_ids_by_slug(attrs["tag_slugs"])
+    slugs = attrs["tag_slugs"] <> ",automated"
+    tag_ids = Tag.get_tag_ids_by_slug(slugs)
       |> Enum.join(",")
     restricted_tag_ids = RestrictedTag.get_restricted_tag_ids_by_slug(attrs["restricted_tag_slugs"])
       |> Enum.join(",")
