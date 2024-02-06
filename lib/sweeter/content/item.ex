@@ -206,10 +206,12 @@ defmodule Sweeter.Content.Item do
       from i in "items",
         where: i.featured == true,
         order_by: [desc: :inserted_at],
-        select: [i.id, i.body, i.headline, i.deleted, i.user_id, i.inserted_at],
-        limit: 300
+        select: [i.id, i.body, i.headline, i.source, i.search_suppressed, i.user_id, i.inserted_at],
+        limit: 50
     )
     |> item_list_struct_converter
+    |> Repo.preload(:images)
+    |> Repo.preload(:reactions)
   end
 
   def item_list_struct_converter(item_list) do

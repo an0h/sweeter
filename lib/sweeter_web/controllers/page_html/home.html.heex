@@ -1,21 +1,23 @@
-<.flash_group flash={@flash} />
-<div id="contents">
-  <p>This is a social network with a blockchain in it. Needs members. Needs work.</p>
-  <p>Do something to help? Post here.</p>
-  <p>Program something to post here using the API?</p>
-<p>&nbsp;</p>
-<div class="mx-auto max-w-xl lg:mx-0">
-  <.item_list items={@items} />
-<%= if @prev != 0 do %>
-<.link navigate={~p"/items/page/#{@prev}"}>prev</.link>
-<% end %>
-  <.link navigate={~p"/items/page/#{@next}"}>next</.link>
-  </div>
-</div>
-<div class="mx-auto max-w-xl lg:mx-0">
-<p>&nbsp;</p>
-<a class="text-lg font-semibold leading-8 text-teal-800" href="/items">View All Items</a>
-</div>
 <div>
-<.translation div_id="contents" />
+  <div id="contents">
+    <.flash_group flash={@flash} />
+    <p>This is a social network with a blockchain in it. Needs members. Needs work.</p>
+    <p>Do something to help? Post here.</p>
+    <p>Program something to post here using the API?</p>
+    <p>&nbsp;</p>
+  </div>
+  <.translation div_id="contents" />
+  <div class="flex">
+    <div class="flex-1 pt-10 pr-4">
+      <.item_list items={@items} />
+      <%= if @prev != 0 do %>
+      <.link navigate={~p"/items/page/#{@prev}"}>prev</.link>
+      <% end %>
+      <.link navigate={~p"/items/page/#{@next}"}>next</.link>
+      <a class="text-lg font-semibold leading-8 text-teal-800" href="/items">View All Items</a>
+    </div>
+    <div class="flex-1 pt-10">
+      <.item_list items={@featured} />
+    </div>
+  </div>
 </div>

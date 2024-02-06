@@ -10,12 +10,13 @@ defmodule SweeterWeb.PageController do
   def home(conn, _params) do
     next = 2
     prev = 0
+    featured = Item.get_featured_items()
     case Pow.Plug.current_user(conn) do
       nil ->
         items = Item.get_all_logged_out(50, "1")
           |> Repo.preload(:images)
           |> Repo.preload(:reactions)
-        render(conn, :home, items: items, page: 1, next: next, prev: prev)
+        render(conn, :home, items: items, page: 1, next: next, prev: prev, featured: featured)
       user ->
         profile = User.get_profile(user.id)
         cond do
@@ -32,7 +33,7 @@ defmodule SweeterWeb.PageController do
           |> Repo.preload(:images)
           |> Repo.preload(:reactions)
 
-          render(conn, :home, items: items, page: 1, next: next, prev: prev)
+          render(conn, :home, items: items, page: 1, next: next, prev: prev, featured: featured)
         end
     end
   end
