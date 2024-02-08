@@ -85,8 +85,9 @@ config :sweeter, :pow,
   mailer_backend: SweeterWeb.Pow.Mailer1
 
 config :sweeter, SweeterWeb.Pow.Mailer1,
-  adapter: Bamboo.MandrillAdapter,
-  api_key: System.get_env("MANDARILL_KEY"),
+  adapter: Bamboo.MailgunAdapter,
+  api_key: System.get_env("MAILGUN_KEY"),
+  domain: "mail.all4u.city",
   hackney_opts: [
     recv_timeout: :timer.minutes(1)
   ]

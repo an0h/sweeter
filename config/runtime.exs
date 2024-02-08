@@ -71,8 +71,9 @@ if config_env() == :prod do
     mailer_backend: SweeterWeb.Pow.Mailer
 
   config :sweeter, SweeterWeb.Pow.Mailer,
-    adapter: Bamboo.MandrillAdapter,
-    api_key: System.get_env("MANDARILL_KEY"),
+    adapter: Bamboo.MailgunAdapter,
+    api_key: System.get_env("MAILGUN_KEY"),
+    domain: "mail.all4u.city",
     hackney_opts: [
       recv_timeout: :timer.minutes(1)
     ]
