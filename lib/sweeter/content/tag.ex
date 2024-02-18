@@ -103,6 +103,17 @@ defmodule Sweeter.Content.Tag do
     |> iterate_tags(item_id)
   end
 
+  def popular_tags() do
+    Repo.all(
+      from ti in "tag_items",
+      join: t in "tags",
+      on: ti.tag_id == t.id,
+      where: fragment("? > NOW() - INTERVAL '24 hours'", ti.inserted_at),
+      group_by: t.id,
+      select: %{count: count(ti.id), label: t.label}
+    )
+  end
+
   def parse_tags(string) do
     string
     |> String.split(",")
