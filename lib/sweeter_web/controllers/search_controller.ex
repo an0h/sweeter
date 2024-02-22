@@ -4,6 +4,7 @@ defmodule SweeterWeb.SearchController do
   alias Sweeter.Repo
   alias Sweeter.Content
   alias Sweeter.Content.Search
+  alias Sweeter.Content.Tag
   alias Sweeter.Profile.PublerSubser
 
   def index(conn, _params) do
@@ -78,13 +79,9 @@ defmodule SweeterWeb.SearchController do
     prev = 0
     tag = params["tag_slug"]
     if tag != nil do
-      [rtids] = Enum.filter(Search.restricted_tag_ids(),
-        fn {_k, value} -> value == tag end)
-        |> Enum.map(fn {key, _v} -> key end)
-      rt_items = Search.get_items_by_restricted_tag(rtids)
-      tag_items = Search.get_items_by_tag(tag)
-      items = rt_items ++ tag_items
-      render(conn, :results, items: items, page: 1, next: next, prev: prev)
+      tag_id = Tag.get_tag_id_by_slug(tag)
+      tag_items = Search.get_items_by_tag(tag_id)
+      render(conn, :results, items: tag_items, page: 1, next: next, prev: prev)
     else
       render(conn, :results, items: [], page: 1, next: next, prev: prev)
     end
