@@ -92,6 +92,9 @@ defmodule Sweeter.Users.User do
       {:atomic, []} ->
         "anon"
 
+      {:atomic, [{Handles, _id, handle}]} ->
+        handle
+
       handle ->
         handle
     end
