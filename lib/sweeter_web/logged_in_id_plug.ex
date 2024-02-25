@@ -2,6 +2,7 @@ defmodule SweeterWeb.LoggedInIdPlug do
   import Plug.Conn
 
   alias Sweeter.Spicy
+  alias Sweeter.Users.User
 
   def init(opts), do: opts
 
@@ -12,10 +13,11 @@ defmodule SweeterWeb.LoggedInIdPlug do
         |> assign(:address, nil)
         |> assign(:tokes_balance, nil)
       user ->
-        case Spicy.get_tokes_by_address(user.address) do
+        profile = User.get_profile(user.id)
+        case Spicy.get_tokes_by_address(profile.address) do
           {:ok, [balance: balance]} ->
             assign(conn, :user_id, user.id)
-            |> assign(:address, user.address)
+            |> assign(:address, profile.address)
             |> assign(:tokes_balance, balance)
           {:error} ->
             assign(conn, :user_id, nil)
