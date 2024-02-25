@@ -9,6 +9,8 @@ defmodule SweeterWeb.ProfileController do
   alias Sweeter.Users.User
   alias Sweeter.Censor.Records
 
+  alias Sweeter.CreditDebit
+
   def show_profile(conn, %{"id" => id}) do
     case User.get_profile(id) do
       nil ->

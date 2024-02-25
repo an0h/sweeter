@@ -129,7 +129,6 @@ defmodule Sweeter.Users.User do
       nil ->
         false
       user ->
-        IO.inspect user
         profile = User.get_profile(user.id)
         profile.is_admin || profile.is_moderator
     end

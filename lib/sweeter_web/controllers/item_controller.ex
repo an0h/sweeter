@@ -126,6 +126,7 @@ defmodule SweeterWeb.ItemController do
             parent: parent,
             handle: handle)
         user ->
+          profile = User.get_profile(user.id)
           replies = Item.get_replies_filter_blocks(String.to_integer(id), user.id)
           LoadCounts.increment_item_load_count(id, user.id)
           moderation_changeset = Content.change_moderation(%Moderation{},
@@ -136,7 +137,7 @@ defmodule SweeterWeb.ItemController do
             restricted_tags: restricted_tags,
             item_load_count: item_load_count,
             tags: tags,
-            address: user.address,
+            address: profile.address,
             is_moderator: is_moderator,
             feature_link: feature_link,
             unfeature_link: unfeature_link,
