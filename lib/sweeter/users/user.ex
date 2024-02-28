@@ -27,6 +27,7 @@ defmodule Sweeter.Users.User do
     field :css_ipfscid, :string
     field :profile_type, :string
     field :seed_phrase, :string
+    field :key, :string
     has_many :items, Sweeter.Content.Item
 
     timestamps()
@@ -41,7 +42,7 @@ defmodule Sweeter.Users.User do
 
   def profile_changeset(user, attrs) do
     user
-    |> cast(attrs, [:age, :address, :blurb, :handle, :location, :name, :is_admin, :is_moderator, :profile_pic_cid, :timeout_until, :css_ipfscid, :profile_type, :seed_phrase])
+    |> cast(attrs, [:age, :address, :blurb, :handle, :location, :name, :is_admin, :is_moderator, :profile_pic_cid, :timeout_until, :css_ipfscid, :profile_type, :seed_phrase, :key])
     |> unique_constraint(:handle)
   end
 
@@ -54,10 +55,11 @@ defmodule Sweeter.Users.User do
     |> Repo.update()
   end
 
-  def change_user_address(user, address, mnemonic) do
+  def change_user_address(user, address, key, mnemonic) do
     user
     |> Ecto.Changeset.change()
     |> Ecto.Changeset.put_change(:address, address)
+    |> Ecto.Changeset.put_change(:key, key)
     |> Ecto.Changeset.put_change(:seed_phrase, mnemonic)
   end
 

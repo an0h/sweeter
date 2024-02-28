@@ -19,8 +19,8 @@ defmodule SweeterWeb.SpicyController do
       |> render(:show, mnemonic: '', address: '')
     else
       %{"_csrf_token" =>  _, "mnemonic" => mnemonic} = params
-      with {:ok, address: address, mnemonic: mnemonic} <- Spicy.get_new_user_address(user.email, mnemonic) do
-        User.change_user_address(user, address, mnemonic) |> Repo.update()
+      with {:ok, address: address, key: key, mnemonic: mnemonic} <- Spicy.get_new_user_address(user.email, mnemonic) do
+        User.change_user_address(user, address, key, mnemonic) |> Repo.update()
         CreditDebit.add_tokens(address, 100)
         render(conn, :show, mnemonic: mnemonic, address: address)
       else

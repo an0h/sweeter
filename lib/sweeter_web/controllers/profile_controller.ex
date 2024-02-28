@@ -8,8 +8,8 @@ defmodule SweeterWeb.ProfileController do
   alias Sweeter.Profile.PublerSubser
   alias Sweeter.Users.User
   alias Sweeter.Censor.Records
-
   alias Sweeter.CreditDebit
+  alias Sweeter.Spicy
 
   def show_profile(conn, %{"id" => id}) do
     case User.get_profile(id) do
@@ -19,6 +19,8 @@ defmodule SweeterWeb.ProfileController do
         |> redirect(to: "/items")
       user ->
         authed_user = Pow.Plug.current_user(conn)
+        IO.inspect user
+        IO.inspect authed_user
         if Block.is_blocked(authed_user.id, user.id) == true do
           conn
           |> put_flash(:info, "Not available")
@@ -232,8 +234,10 @@ defmodule SweeterWeb.ProfileController do
           |> put_flash(:info, "you cant censor yourself")
           |> redirect(to: "/profile/#{id}")
         else
+          # profile = User.get_profile(id)
           Records.make_record("comment", user.id, id)
           handle = User.get_handle_from_id(id)
+          # Spicy.take_spicy_token(profile.address, profile.seed_phrase, 1)
           conn
           |> render(:censored, handle: handle)
         end
