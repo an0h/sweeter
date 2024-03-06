@@ -86,11 +86,10 @@ defmodule Sweeter.Spicy do
     Poison.decode!(response.body)
   end
 
-  def take_spicy_token(address, mnemonic, value) do
+  def take_spicy_token(address, key, value) do
     IO.puts "in take token"
 
     cosmos1317 = fetchSpicy1317()
-    api_service = fetchSpicy1317()
 
     headers = [
       {"accept", "application/json"},
@@ -100,61 +99,17 @@ defmodule Sweeter.Spicy do
     # Assuming 'from_address' is the address from which you're sending tokens
     # and 'your_password' is the password for the 'from_address' account.
     from_address = address
-    to_address = "cosmos1t0lu9glnq8kls0ufpwhzl0h89ken07h5ksegfe"
+    to_address = "cosmos1dt8kd7hjp458nxe9avhyy2yhmt4zg5a2p5mfkr"
 
     body = %{
-      "tx" => %{
-        "body" => %{
-          "messages" => [
-            %{
-              "@type" => "/cosmos.bank.v1beta1.MsgSend",
-              "from_address" => from_address,
-              "to_address" => to_address,
-              "amount" => [
-                %{
-                  "denom" => "token",
-                  "amount" => value
-                }
-              ]
-            }
-          ],
-          "memo" => "Sent via the Cosmos REST API"
-        },
-        "auth_info" => %{
-          "signer_infos" => [
-            %{
-              "public_key" => %{
-                "@type" => "/cosmos.crypto.secp256k1.PubKey",
-                "key" => "<public-key>"
-              },
-              "mode_info" => %{
-                "single" => %{
-                  "mode" => "SIGN_MODE_DIRECT"
-                }
-              },
-              "sequence" => "0"
-            }
-          ],
-          "fee" => %{
-            "amount" => [
-              %{
-                "denom" => "token",
-                "amount" => "5000"
-              }
-            ],
-            "gas_limit" => "200000"
-          }
-        },
-        "signatures" => [
-          "<signature>"
-        ]
+      "base_req" => %{
+        "from" => from_address,
+        "chain_id" => "spicy-1"
       },
-      "mode" => "sync"
+      "amount" => [%{"denom" => "stake", "amount" => 10}]
     }
 
-    url = "#{api_service}/cosmos/bank/v1beta1/balances/#{address}"
-    # Replace 'localhost:1317' with the address of your Cosmos full node
-    url = "#{cosmos1317}/cosmos/bank/accounts/#{from_address}/transfers"
+    url = "#{cosmos1317}/bank/accounts/#{to_address}/transfers"
 
     response = HTTPoison.post!(url, Poison.encode!(body), headers)
 
