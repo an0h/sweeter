@@ -1,9 +1,9 @@
 defmodule SweeterWeb.AutocompleteComponents do
   use Phoenix.Component
 
-  alias Phoenix.LiveView.JS
+  # alias Phoenix.LiveView.JS
   alias Sweeter.Content.Tag
-  import SweeterWeb.Gettext
+  # import SweeterWeb.Gettext
 
   @spec autocomplete_bar(any()) :: Phoenix.LiveView.Rendered.t()
   def autocomplete_bar(assigns) do
@@ -65,7 +65,7 @@ defmodule SweeterWeb.AutocompleteComponents do
     {:noreply, assign(socket, query: query, result: "Searching...", loading: true, matches: [])}
   end
 
-  def handle_info({:search, query}, socket) do
+  def handle_info({:search, _query}, socket) do
     # {result, _} = System.cmd("dict", ["#{query}"], stderr_to_stdout: true)
     {:noreply, assign(socket, loading: false, result: {}, matches: [])}
   end

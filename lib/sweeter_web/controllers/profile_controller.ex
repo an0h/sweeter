@@ -1,15 +1,15 @@
 defmodule SweeterWeb.ProfileController do
   use SweeterWeb, :controller
 
-  alias Sweeter.Repo
+  # alias Sweeter.Repo
   alias Sweeter.Content.CssSheet
   alias Sweeter.Content.Item
   alias Sweeter.Profile.Block
   alias Sweeter.Profile.PublerSubser
   alias Sweeter.Users.User
   alias Sweeter.Censor.Records
-  alias Sweeter.CreditDebit
-  alias Sweeter.Spicy
+  # alias Sweeter.CreditDebit
+  # alias Sweeter.Spicy
 
   def show_profile(conn, %{"id" => id}) do
     case User.get_profile(id) do
@@ -105,8 +105,8 @@ defmodule SweeterWeb.ProfileController do
     authed_user = Pow.Plug.current_user(conn)
     {user_id, _} = Integer.parse(params["id"])
     if authed_user.id == user_id do
-      user = User.get_profile(user_id)
-      result = User.change_user_profile(user, params)
+      # user = User.get_profile(user_id)
+      # result = User.change_user_profile(user, params)
       conn
       |> put_flash(:info, "Updated")
       |> redirect(to: "/profile/#{params["id"]}")

@@ -52,18 +52,18 @@ defmodule SweeterWeb.ItemController do
     known_tags = Tag.get_all()
     case Pow.Plug.current_user(conn) do
       nil ->
-        render(conn, :new, changeset: changeset, known_tags: known_tags, anon: True, parent_id: 0)
+        render(conn, :new, changeset: changeset, known_tags: known_tags, anon: true, parent_id: 0)
       _user ->
-        render(conn, :new, changeset: changeset, known_tags: known_tags, anon: False, parent_id: 0)
+        render(conn, :new, changeset: changeset, known_tags: known_tags, anon: false, parent_id: 0)
       end
   end
 
   def create(conn, %{"item" => item_params}) do
     case Pow.Plug.current_user(conn) do
       nil ->
-        write_item(conn, item_params, True)
+        write_item(conn, item_params, true)
       user ->
-        write_item(conn, item_params |> Map.put("user_id", user.id), False)
+        write_item(conn, item_params |> Map.put("user_id", user.id), false)
     end
   end
 
@@ -114,12 +114,12 @@ defmodule SweeterWeb.ItemController do
             tags: tags,
             address: "",
             item_load_count: item_load_count,
-            is_moderator: False,
+            is_moderator: false,
             feature_link: "",
             unfeature_link: "",
             changeset: changeset,
             known_tags: known_tags,
-            anon: True,
+            anon: true,
             parent_id: 0,
             moderation_changeset: %Moderation{},
             replies: replies,
@@ -143,7 +143,7 @@ defmodule SweeterWeb.ItemController do
             unfeature_link: unfeature_link,
             changeset: changeset,
             known_tags: known_tags,
-            anon: True,
+            anon: true,
             parent_id: item.id,
             moderation_changeset: moderation_changeset,
             replies: replies,

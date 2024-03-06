@@ -5,7 +5,7 @@ defmodule SweeterWeb.CssCustomizerPlug do
 
   def init(opts), do: opts
 
-  def call(conn, opts) do
+  def call(conn, _opts) do
     case conn.path_info do
       [ _ , id ] ->
         case User.get_profile(id) do

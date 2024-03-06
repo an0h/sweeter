@@ -3,9 +3,9 @@ defmodule SweeterWeb.PageController do
 
   alias Sweeter.Repo
   alias Sweeter.Content.Item
-  alias Sweeter.Content.Search
+  # alias Sweeter.Content.Search
   alias Sweeter.Content.Tag
-  alias Sweeter.Profile.PublerSubser
+  # alias Sweeter.Profile.PublerSubser
   alias Sweeter.Users.User
 
   def home(conn, _params) do

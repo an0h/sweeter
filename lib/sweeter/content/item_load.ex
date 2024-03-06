@@ -47,7 +47,7 @@ defmodule Sweeter.Content.LoadCounts do
   end
 
   def increment_item_load_count(item_id) do
-    result = %LoadCounts{}
+    %LoadCounts{}
     |> LoadCounts.changeset(%{item_id: String.to_integer(item_id)})
     |> Repo.insert()
     nil

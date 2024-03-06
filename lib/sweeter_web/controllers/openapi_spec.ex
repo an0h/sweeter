@@ -1,5 +1,5 @@
 defmodule SweeterWeb.API.V1.ApiSpec do
-  alias OpenApiSpex.{Components, Info, OpenApi, Paths, Server}
+  alias OpenApiSpex.{Info, OpenApi, Paths, Server}
   alias SweeterWeb.{Endpoint, Router}
   @behaviour OpenApi
 

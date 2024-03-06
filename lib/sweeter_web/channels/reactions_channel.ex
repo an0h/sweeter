@@ -35,7 +35,7 @@ defmodule SweeterWeb.ReactionsChannel do
     IO.inspect("got to the reaction handle in")
     broadcast(socket, "react", payload)
     %{"item_id" => item_id, "emoji" => emoji, "description" => description, "address" => address} = payload
-    response = Reactions.create_item_reaction(%{emoji: emoji, description: description}, item_id)
+    Reactions.create_item_reaction(%{emoji: emoji, description: description}, item_id)
     CreditDebit.increment_interaction(address)
     {:noreply, socket}
   end

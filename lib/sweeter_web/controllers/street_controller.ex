@@ -3,9 +3,9 @@ defmodule SweeterWeb.StreetController do
 
   alias Sweeter.Cities
   alias Sweeter.Cities.Street
-  alias Sweeter.Content
-  alias Sweeter.Content.Item
-  alias Sweeter.Content.Search
+  # alias Sweeter.Content
+  # alias Sweeter.Content.Item
+  # alias Sweeter.Content.Search
 
   def index(conn, _params) do
     streets = Cities.list_streets()

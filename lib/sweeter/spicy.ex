@@ -86,7 +86,7 @@ defmodule Sweeter.Spicy do
     Poison.decode!(response.body)
   end
 
-  def take_spicy_token(address, key, value) do
+  def take_spicy_token(address, _key, _value) do
     IO.puts "in take token"
 
     cosmos1317 = fetchSpicy1317()

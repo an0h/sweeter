@@ -121,7 +121,7 @@ defmodule SweeterWeb.API.V1.Schemas do
         data: %Schema{type: :list, description: "list of snake case slugs"}
       },
       example: %{
-        "slugs": [
+        slugs: [
             "anecdote",
             "argument",
             "documentation",
@@ -148,7 +148,7 @@ defmodule SweeterWeb.API.V1.Schemas do
         data: %Schema{type: :list, description: "list of snake case slugs"}
       },
       example: %{
-        "slugs": [
+        slugs: [
           "anonymous",
           "controversial",
           "crass",

@@ -1,8 +1,8 @@
 defmodule SweeterWeb.ReactionComponents do
   use Phoenix.Component
 
-  alias Phoenix.LiveView.JS
-  import SweeterWeb.Gettext
+  # alias Phoenix.LiveView.JS
+  # import SweeterWeb.Gettext
 
   # Include the LiveComponent in your heex template
   @spec displayreaction(any()) :: Phoenix.LiveView.Rendered.t()
