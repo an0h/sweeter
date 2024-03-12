@@ -8,6 +8,8 @@
   },
   "author": "",
   "dependencies": {
-    "picmo": "^5.8.5"
+    "jquery": "^3.7.1",
+    "picmo": "^5.8.5",
+    "wordcloud": "^1.1.1"
   }
 }

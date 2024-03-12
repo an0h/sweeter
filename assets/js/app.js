@@ -24,6 +24,8 @@ import topbar from "../vendor/topbar"
 import socket from "./user_socket"
 import Reactions from "./reactions"
 
+import WordCloud from "../vendor/wordcloud"
+
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}})
 
@@ -107,3 +109,5 @@ if (translate_button) {
 
     })
 }
+
+WordCloud(document.getElementById('canvas'), { list: [['foo', 12], ['bar', 6]] } );
