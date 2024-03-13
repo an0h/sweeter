@@ -101,4 +101,9 @@ defmodule SweeterWeb.SearchController do
         |> render(:subser_feed, subscribed_items: subscribed_items)
     end
   end
+
+  def popular_tags(conn, _params) do
+    tags = Tag.popular_tags()
+    json(conn, %{list: tags})
+  end
 end

@@ -110,4 +110,20 @@ if (translate_button) {
     })
 }
 
-WordCloud(document.getElementById('canvas'), { list: [['foo', 12], ['bar', 6]] } );
+
+fetch('http://localhost:4000/tag/popular_tags')
+  .then(response => response.json())
+  .then(data => {
+    // Assuming data is in the format { list: [['foo', 12], ['bar', 6]] }
+
+    var obj = data.list;
+
+    console.log(typeof(obj));
+
+    console.log(obj);
+
+    var list = obj.map(tag => [tag.label, tag.count]);
+
+    WordCloud(document.getElementById('canvas'), { list: list } );
+  })
+  .catch(error => console.error('Error:', error));

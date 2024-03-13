@@ -58,6 +58,8 @@ defmodule SweeterWeb.Router do
     get "/search/tag/:tag_slug", SearchController, :search_by_tag
     get "/search/text/", SearchController, :search_by_term
 
+    get "/tag/popular_tags", SearchController, :popular_tags
+
     get "/openapi", OpenApiSpex.Plug.RenderSpec, []
   end
 
