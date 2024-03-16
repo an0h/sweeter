@@ -115,10 +115,8 @@ if (wordcloudCanvas) {
     fetch('http://localhost:4000/tag/popular_tags')
     .then(response => response.json())
     .then(data => {
-
         var list = data.list.map(tag => [tag.label, tag.count]);
-console.log(list)
-        WordCloud(document.getElementById('canvas'), { list: list } );
+        WordCloud(wordcloudCanvas, { list: list } );
     })
     .catch(error => console.error('Error:', error))
 }
