@@ -12,8 +12,6 @@ defmodule SweeterWeb.PageController do
     next = 2
     prev = 0
     featured = Item.get_featured_items()
-    popular_tags = Tag.popular_tags()
-    IO.inspect(popular_tags)
     case Pow.Plug.current_user(conn) do
       nil ->
         items = Item.get_all_logged_out(50, "1")

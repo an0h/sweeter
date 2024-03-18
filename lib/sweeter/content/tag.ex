@@ -122,7 +122,7 @@ defmodule Sweeter.Content.Tag do
       on: ti.tag_id == t.id,
       # where: fragment("? > NOW() - INTERVAL '24 hours'", ti.inserted_at),
       group_by: t.id,
-      select: %{count: count(ti.id), label: t.label}
+      select: %{count: count(ti.id), label: t.label, slug: t.slug}
     )
   end
 
