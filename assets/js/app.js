@@ -122,7 +122,15 @@ if (wordcloudCanvas) {
         var list = data.list.map(tag => [tag.label, tag.count < 5 ? tag.count + 5 : tag.count, `http://${domain}/search/tag/${tag.slug}`]);
         console.log(list)
         WordCloud(wordcloudCanvas, { list: list, 
-            backgroundColor: '#303030' } );
+            backgroundColor: '#303030',
+            click: (item) => { clickitem(item); }
+        } );
     })
     .catch(error => console.error('Error:', error))
+    
+}
+
+function clickitem(item){
+    console.log(item)
+    window.open(item[2], '_self');
 }
