@@ -105,8 +105,8 @@ defmodule SweeterWeb.ProfileController do
     authed_user = Pow.Plug.current_user(conn)
     {user_id, _} = Integer.parse(params["id"])
     if authed_user.id == user_id do
-      # user = User.get_profile(user_id)
-      # result = User.change_user_profile(user, params)
+      user = User.get_profile(user_id)
+      User.change_user_profile(user, params)
       conn
       |> put_flash(:info, "Updated")
       |> redirect(to: "/profile/#{params["id"]}")
