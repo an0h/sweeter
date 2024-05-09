@@ -76,69 +76,22 @@ defmodule Sweeter.Spicy do
 
     response = HTTPoison.get!(url, headers)
 
-    # Access the response status code, headers, and body
-    # status_code = response.status_code
-    # response_headers = response.headers
-    # response_body =
-    IO.puts "before response"
-    IO.inspect response
-    IO.puts "after response"
     Poison.decode!(response.body)
   end
 
-  def add_spicy_token_faucet(address, value) do
+  def take_spicy_token(address) do
 
-    IO.puts "in add token faucet"
-    headers = [
-      {"accept", "application/json"},
-      {"Content-Type", "application/json"}
-    ]
-
-    body = %{
-      "address" => address,
-      "coins" => [value]
-    }
-    faucet = fetchSpicy4500()
-
-    response = HTTPoison.post!(faucet, Poison.encode!(body), headers)
-
-    # Access the response status code, headers, and body
-    # status_code = response.status_code
-    # response_headers = response.headers
-    # response_body =
-      IO.inspect response
-    Poison.decode!(response.body)
-  end
-
-  def take_spicy_token(address, _key, _value) do
     IO.puts "in take token"
-
-    cosmos1317 = fetchSpicy1317()
-
     headers = [
       {"accept", "application/json"},
       {"Content-Type", "application/json"}
     ]
 
-    # Assuming 'from_address' is the address from which you're sending tokens
-    # and 'your_password' is the password for the 'from_address' account.
-    from_address = address
-    to_address = "cosmos1dt8kd7hjp458nxe9avhyy2yhmt4zg5a2p5mfkr"
+    url = buildurlSendToken("cosmos1ut70cd0krgtr4pxjvz5jyc2jnh7788gyl8p7mc", address, "1token")
 
-    body = %{
-      "base_req" => %{
-        "from" => from_address,
-        "chain_id" => "spicy-1"
-      },
-      "amount" => [%{"denom" => "stake", "amount" => 10}]
-    }
+    IO.puts url
 
-    url = "#{cosmos1317}/bank/accounts/#{to_address}/transfers"
-
-    response = HTTPoison.post!(url, Poison.encode!(body), headers)
-
-    IO.inspect response
-    Poison.decode!(response.body)
+    HTTPoison.get!(url, headers)
   end
 
   defp buildurlRegister(email, mnemonic) do

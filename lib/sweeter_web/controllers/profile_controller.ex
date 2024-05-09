@@ -9,7 +9,7 @@ defmodule SweeterWeb.ProfileController do
   alias Sweeter.Users.User
   alias Sweeter.Censor.Records
   # alias Sweeter.CreditDebit
-  # alias Sweeter.Spicy
+  alias Sweeter.Spicy
 
   def show_profile(conn, %{"id" => id}) do
     case User.get_profile(id) do
@@ -234,10 +234,12 @@ defmodule SweeterWeb.ProfileController do
           |> put_flash(:info, "you cant censor yourself")
           |> redirect(to: "/profile/#{id}")
         else
-          # profile = User.get_profile(id)
+          profile = User.get_profile(id)
+          IO.inspect profile.address
+          IO.inspect profile
           Records.make_record("comment", user.id, id)
           handle = User.get_handle_from_id(id)
-          # Spicy.take_spicy_token(profile.address, profile.seed_phrase, 1)
+          Spicy.take_spicy_token(profile.address)
           conn
           |> render(:censored, handle: handle)
         end
