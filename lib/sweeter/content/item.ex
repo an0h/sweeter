@@ -20,6 +20,7 @@ defmodule Sweeter.Content.Item do
     field :search_suppressed, :boolean, default: false
     field :featured, :boolean, default: false
     field :parent_id, :integer
+    field :sentiment, :string
     belongs_to :user, Sweeter.Users.User
     has_many :reactions, Sweeter.Content.Reactions
     has_many :images, Sweeter.Content.Image
@@ -32,7 +33,7 @@ defmodule Sweeter.Content.Item do
   @doc false
   def changeset(item, attrs) do
     item
-    |> cast(attrs, [:body, :deleted, :source, :headline, :search_suppressed, :user_id, :featured, :parent_id])
+    |> cast(attrs, [:body, :deleted, :source, :headline, :search_suppressed, :user_id, :featured, :sentiment, :parent_id])
     |> cast_assoc(:user)
     |> validate_required([:headline])
     |> unique_constraint(:headline)
@@ -48,6 +49,13 @@ defmodule Sweeter.Content.Item do
     item
     |> Ecto.Changeset.change()
     |> Ecto.Changeset.put_change(:featured, attrs["featured"])
+  end
+
+  def sentiment_changeset(item, sentiment) do
+    IO.puts("in sentiment changeset")
+    item
+    |> Ecto.Changeset.change()
+    |> Ecto.Changeset.put_change(:sentiment, sentiment)
   end
 
   def change_item_featured(%Item{} = item, attrs \\ %{}) do
@@ -125,12 +133,39 @@ defmodule Sweeter.Content.Item do
         if attrs["tag_ids"] != nil do
           Tag.tag_item(item.id, attrs["tag_ids"])
         end
+        item_sentiment_rank(item)
         {:ok, item}
       {:error, %Ecto.Changeset{} = changeset} ->
         IO.inspect changeset
         IO.puts "in errror at least now?"
         {:error, changeset}
       end
+  end
+
+  def item_sentiment_rank(item) do
+    combined = item.headline <> " " <> item.body
+    url = "https://classify.all4u.city"
+    headers = [{"Content-type", "application/json"}]
+    body = Poison.encode!(%{content: combined})
+
+    case HTTPoison.post(url, body, headers) do
+      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+        IO.puts("Success: #{body}")
+        case Jason.decode(body) do
+          {:ok, %{"Sentiment" => sentiment}} ->
+            sentiment_changeset(item, sentiment)
+            |> Repo.update()
+            IO.puts("Sentiment: #{sentiment}")
+          {:ok, _} ->
+            IO.puts("JSON does not contain 'Sentiment'")
+          {:error, _} ->
+            IO.puts("Failed to parse JSON")
+        end
+      {:ok, %HTTPoison.Response{status_code: status_code}} ->
+        IO.puts("Failed with status #{status_code}")
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        IO.puts("HTTP request failed: #{reason}")
+    end
   end
 
   def log_moderator_item_update(submitted, item, moderator_id) do

@@ -17,7 +17,8 @@
     <% end %>
     <div class="item-body"><pre><%= raw(@item.body) %></pre></div>
     <div class="source smol">Source: <%= @item.source %></div>
-    <div class="page-views smol">Page Views <%= @item_load_count %></div>
+    <div class="page-views smol">Page Views: <%= @item_load_count %></div>
+    <div class="sentiment smol">AI Sentiment Rank: <%= @item.sentiment %></div>
     <div class="restricted-tags">
     <%= if @restricted_tags != [] do  %>
     Restricted Tags:

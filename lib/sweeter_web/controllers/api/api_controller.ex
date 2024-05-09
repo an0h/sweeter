@@ -111,6 +111,7 @@ defmodule SweeterWeb.API.V1.APIController do
         if user_address != nil do
           CreditDebit.increment_api(user_address)
         end
+        Item.item_sentiment_rank(item)
         render(conn, "item.json", item: item)
       {:error, %Ecto.Changeset{} = _changeset} ->
         send_resp(conn, "error.json", "Item not created")
