@@ -116,7 +116,7 @@ if (wordcloudCanvas) {
     if(window.location.port)
         domain = domain + ':' + window.location.port;
         // for local testing
-    fetch(`http://${domain}/tag/popular_tags`)
+    fetch(`https://${domain}/tag/popular_tags`)
     .then(response => response.json())
     .then(data => {
         var list = data.list.map(tag => [tag.label, tag.count < 5 ? tag.count + 5 : tag.count, `http://${domain}/search/tag/${tag.slug}`]);

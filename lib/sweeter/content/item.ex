@@ -11,6 +11,7 @@ defmodule Sweeter.Content.Item do
   alias Sweeter.Content.Tag
   alias Sweeter.Profile.Block
   alias Sweeter.Users.User
+  alias Sweeter.Spicy
 
   schema "items" do
     field :body, :string
@@ -134,6 +135,9 @@ defmodule Sweeter.Content.Item do
           Tag.tag_item(item.id, attrs["tag_ids"])
         end
         item_sentiment_rank(item)
+        if item.user.address != nil do
+          Spicy.add_spicy_token(item.user.address, 1)
+        end
         {:ok, item}
       {:error, %Ecto.Changeset{} = changeset} ->
         IO.inspect changeset
@@ -143,7 +147,7 @@ defmodule Sweeter.Content.Item do
   end
 
   def item_sentiment_rank(item) do
-    combined = item.headline <> " " <> item.body
+    combined = to_string(item.headline) <> " " <> to_string(item.body)
     url = "https://classify.all4u.city"
     headers = [{"Content-type", "application/json"}]
     body = Poison.encode!(%{content: combined})
