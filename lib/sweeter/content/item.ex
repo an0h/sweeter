@@ -135,8 +135,13 @@ defmodule Sweeter.Content.Item do
           Tag.tag_item(item.id, attrs["tag_ids"])
         end
         item_sentiment_rank(item)
-        if item.user.address != nil do
-          Spicy.add_spicy_token(item.user.address, 1)
+        case Repo.preload(item, :user) do
+          %Item{user: %User{address: address}} when not is_nil(address) ->
+            IO.puts("write out address")
+            IO.puts(address)
+            Spicy.add_spicy_token(address, 1)
+          _ ->
+            :ok
         end
         {:ok, item}
       {:error, %Ecto.Changeset{} = changeset} ->

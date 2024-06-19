@@ -62,7 +62,7 @@ defmodule Sweeter.Spicy do
     end
   end
 
-  def add_spicy_token(address, value) do
+  def add_spicy_token_new(address, value) do
 
     IO.puts "in add token"
     headers = [
@@ -76,6 +76,30 @@ defmodule Sweeter.Spicy do
 
     response = HTTPoison.get!(url, headers)
 
+    Poison.decode!(response.body)
+  end
+
+  def add_spicy_token(address, value) do
+
+    IO.puts "in add token"
+    headers = [
+      {"accept", "application/json"},
+      {"Content-Type", "application/json"}
+    ]
+
+    body = %{
+      "address" => address,
+      "denom" => "ukarma"
+    }
+    faucet = fetchSpicy4500() <> "/credit"
+
+    response = HTTPoison.post!(faucet, Poison.encode!(body), headers)
+
+    # Access the response status code, headers, and body
+    # status_code = response.status_code
+    # response_headers = response.headers
+    # response_body =
+      IO.inspect response
     Poison.decode!(response.body)
   end
 
