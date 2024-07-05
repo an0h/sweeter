@@ -51,14 +51,14 @@ defmodule Sweeter.Spicy do
           e ->
             IO.puts "e"
             IO.inspect e
-            {:error}
+            {:ok, balance: 0}
         end
       {:ok, %HTTPoison.Response{status_code: 400, body: _body}} ->
         {:ok, balance: 0}
       {:error, %HTTPoison.Error{} = error} ->
         IO.puts "error"
         IO.inspect error
-        {:error}
+        {:ok, balance: 0}
     end
   end
 
@@ -79,7 +79,7 @@ defmodule Sweeter.Spicy do
     Poison.decode!(response.body)
   end
 
-  def add_spicy_token(address, value) do
+  def add_spicy_token(address, _value) do
 
     IO.puts "in add token"
     headers = [
@@ -91,7 +91,7 @@ defmodule Sweeter.Spicy do
       "address" => address,
       "denom" => "ukarma"
     }
-    faucet = fetchSpicy4500() <> "/credit"
+    faucet = fetchSpicy4500()
 
     response = HTTPoison.post!(faucet, Poison.encode!(body), headers)
 
@@ -111,11 +111,14 @@ defmodule Sweeter.Spicy do
       {"Content-Type", "application/json"}
     ]
 
-    url = buildurlSendToken("cosmos1ut70cd0krgtr4pxjvz5jyc2jnh7788gyl8p7mc", address, "1token")
+    url = buildurlSendToken("cosmos1uzv4v9g9xln2qx2vtqhz99yxum33calja5vruz", address, "1token")
 
     IO.puts url
 
-    HTTPoison.get!(url, headers)
+    response = HTTPoison.get!(url, headers)
+
+    IO.puts "after response"
+    IO.inspect response
   end
 
   defp buildurlRegister(email, mnemonic) do
