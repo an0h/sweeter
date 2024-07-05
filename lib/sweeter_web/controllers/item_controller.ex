@@ -102,7 +102,7 @@ defmodule SweeterWeb.ItemController do
       changeset = Content.change_item(%Item{})
       known_tags = Tag.get_all()
       parent = Item.get_parent(item)
-      handle = User.get_handle_from_id(item.id)
+      handle = User.get_handle_from_id(item.user_id)
       case Pow.Plug.current_user(conn) do
         nil ->
           replies = Item.get_replies(String.to_integer(id))
