@@ -40,8 +40,11 @@ defmodule Sweeter.Spicy do
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         case Poison.decode!(body) do
-          %{"balances" => [%{"amount" => amount}]} ->
-            IO.puts amount
+          %{"balances" => [
+            %{"amount" => _, "denom" => "stake"},
+            %{"amount" => amount, "denom" => "token"}
+          ], "pagination" => _} ->
+            IO.inspect amount
             IO.puts 'after amount'
             {:ok, balance: amount}
 
