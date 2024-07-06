@@ -236,9 +236,8 @@ defmodule SweeterWeb.ProfileController do
         else
           profile = User.get_profile(id)
           IO.inspect profile.address
-          IO.inspect profile
           Records.make_record("comment", user.id, id)
-          handle = User.get_handle_from_id(id)
+          handle = User.get_handle_from_id(String.to_integer(id))
           Spicy.take_spicy_token(profile.address)
           conn
           |> render(:censored, handle: handle)

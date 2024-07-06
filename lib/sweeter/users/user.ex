@@ -84,22 +84,26 @@ defmodule Sweeter.Users.User do
   def get_handle_from_id(id) do
     case read_cache_handle(id) do
       {:aborted, {:no_exists, Handles}} ->
-        case Repo.get(User, id) do
-          nil ->
-            "anon"
-          user ->
-            handle = get_handle_or_email(user)
-            cache_handle(id, handle)
-            handle
-        end
+        fetch_user_by_id(id)
 
       {:atomic, []} ->
-        "anon"
+        fetch_user_by_id(id)
 
       {:atomic, [{Handles, _id, handle}]} ->
         handle
 
       handle ->
+        handle
+    end
+  end
+
+  defp fetch_user_by_id(id) do
+    case Repo.get(User, id) do
+      nil ->
+        "anon"
+      user ->
+        handle = get_handle_or_email(user)
+        cache_handle(id, handle)
         handle
     end
   end
